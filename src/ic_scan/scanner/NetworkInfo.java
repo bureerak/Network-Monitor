@@ -30,7 +30,7 @@ public class NetworkInfo {
                     for (byte b : mac) {
                         macAddress.append(String.format("%02X:", b));
                     }
-                    if (macAddress.length() > 0) {
+                    if (!macAddress.isEmpty()) {
                         macAddress.setLength(macAddress.length() - 1); // ลบ ":" สุดท้ายออก
                     }
                     System.out.println("MAC Address: " + macAddress);
