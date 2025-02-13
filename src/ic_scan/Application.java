@@ -1,6 +1,7 @@
 package ic_scan;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +14,11 @@ public class Application extends JFrame implements ActionListener {
     JTextField text1;
 
     public Application() {
-        btn1 = new JButton("Agree");
-        btn2 = new JButton("Decline");
+        btn1 = new JButton("Dark");
+        btn2 = new JButton("Light");
         btn3 = new JButton("Exit");
+        btn1.addActionListener(this);
+        btn2.addActionListener(this);
         btn3.addActionListener(this);
         text1 = new JTextField();
         this.add(btn1);
@@ -40,6 +43,23 @@ public class Application extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.exit(0);
+        if (e.getSource().equals(btn3)){
+            System.exit(0);
+        } else if (e.getSource().equals(btn1)) {
+            try {
+                UIManager.setLookAndFeel(new FlatMacDarkLaf());
+                SwingUtilities.updateComponentTreeUI(this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (e.getSource().equals(btn2)) {
+            try {
+                UIManager.setLookAndFeel(new FlatMacLightLaf());
+                SwingUtilities.updateComponentTreeUI(this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 }
