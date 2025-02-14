@@ -1,4 +1,4 @@
-package ic_scan.exporter;
+package main.exporter;
 
 public class package_info {
 }

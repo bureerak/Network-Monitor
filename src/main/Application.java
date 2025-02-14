@@ -1,4 +1,4 @@
-package ic_scan;
+package main;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;

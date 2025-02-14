@@ -1,4 +1,4 @@
-package ic_scan.notifications;
+package main.notifications;
 
 public class package_info {
 }

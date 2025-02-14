@@ -1,4 +1,4 @@
-package ic_scan.database;
+package main.database;
 
 public class package_info {
 }

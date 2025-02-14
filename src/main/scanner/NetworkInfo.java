@@ -1,4 +1,4 @@
-package ic_scan.scanner;
+package main.scanner;
 
 import java.net.*;
 import java.util.Enumeration;
