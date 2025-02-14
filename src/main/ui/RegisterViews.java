@@ -53,7 +53,7 @@ public class RegisterViews {
         midPane.add(subPane2);
 
         JPanel btmRightPane = new JPanel();
-        btmRightPane.setBorder(new EmptyBorder(7,0,0,4));
+        btmRightPane.setBorder(new EmptyBorder(12,0,0,4));
         btmRightPane.add(btnLogin);
         btmRightPane.add(btnCancel);
 
