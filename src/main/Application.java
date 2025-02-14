@@ -2,6 +2,7 @@ package main;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import main.ui.RegisterViews;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,11 +35,11 @@ public class Application extends JFrame implements ActionListener {
     }
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new FlatMacDarkLaf());
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new Application();
+        new RegisterViews();
     }
 
     @Override

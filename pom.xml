@@ -10,6 +10,11 @@
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>resources</directory> <!--เพิ่ม Directory ไม่ใช่การแทนที่-->
+            </resource>
+        </resources>
     </build>
 
     <properties>
