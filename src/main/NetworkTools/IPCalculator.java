@@ -79,7 +79,7 @@ public class IPCalculator {
         return null;
     }
 
-    private static String toDecimal(String[] binaryIP) {
+    public static String toDecimal(String[] binaryIP) {
         String ipAddress = "";
         for (String s : binaryIP) {
             ipAddress += Integer.parseInt(s, 2) + ".";
@@ -96,6 +96,6 @@ public class IPCalculator {
     }
 
     public static void main(String[] args) {
-        calculate("192.168.11.32", "255.192.128.0");
+        calculate("192.168.11.32", "255.255.192.0");
     }
 }
