@@ -1,7 +1,5 @@
-package NetworkTools;
+package main.NetworkTools;
 
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.io.IOException;
 import java.util.Scanner;
 
