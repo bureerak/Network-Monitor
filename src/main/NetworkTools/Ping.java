@@ -1,4 +1,4 @@
-package NetworkTools;
+package main.NetworkTools;
 
 import java.net.InetAddress;
 import java.io.*;
