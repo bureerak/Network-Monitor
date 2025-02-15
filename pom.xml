@@ -29,6 +29,16 @@
             <artifactId>flatlaf</artifactId>
             <version>3.5.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20250107</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>Network-Monitor</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
