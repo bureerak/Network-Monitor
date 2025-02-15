@@ -1,4 +1,4 @@
-package NetworkTools;
+package main.NetworkTools;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,14 +16,21 @@ public class IPValidator {
     public static boolean isValidSubnetMask(String subnetMask) {
         try {
             InetAddress.getByName(subnetMask);
-            String[] tempMask = subnetMask.split("\\.");
-            for (String mask : tempMask) {
-                if (Integer.parseInt(mask) != 128 && Integer.parseInt(mask) != 192 && Integer.parseInt(mask) != 224 &&
-                Integer.parseInt(mask) != 240 && Integer.parseInt(mask) != 248 && Integer.parseInt(mask) != 252 &&
-                Integer.parseInt(mask) != 254 && Integer.parseInt(mask) != 255 && Integer.parseInt(mask) != 0) {
-                    return false;
+
+            String[] tempSubnet = IPCalculator.toBinary(subnetMask);
+            boolean foundZero = false;
+            for (String i : tempSubnet) {
+                for (char j : i.toCharArray()) {
+                    if (j == '1' && foundZero) {
+                        return false;
+                    }
+
+                    if (j == '0') {
+                        foundZero = true;
+                    }
                 }
             }
+
             return true;
         } catch (UnknownHostException e) {
             try {

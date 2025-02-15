@@ -1,4 +1,4 @@
-package NetworkTools;
+package main.NetworkTools;
 
 public class IPCalculator {
     public static void calculate(String ipAddress, String subnetMask) {
@@ -67,7 +67,7 @@ public class IPCalculator {
         }
     }
 
-    private static String[] toBinary(String ipAddress) {
+    public static String[] toBinary(String ipAddress) {
         if (IPValidator.isValidIP(ipAddress)) {
             String[] octet = ipAddress.split("[.]");
             for (int i = 0; i < octet.length; i++) {
@@ -96,6 +96,6 @@ public class IPCalculator {
     }
 
     public static void main(String[] args) {
-        calculate("192.168.11.32", "255.255.128.0");
+        calculate("192.168.11.32", "255.192.128.0");
     }
 }
