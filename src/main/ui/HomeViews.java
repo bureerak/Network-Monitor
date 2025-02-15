@@ -55,7 +55,7 @@ public class HomeViews extends JInternalFrame {
         bPane.setBorder(new CompoundBorder( new EmptyBorder(7,7,7,7), BorderFactory.createTitledBorder("Network Scanner")));
 
         split = new JSplitPane(JSplitPane.VERTICAL_SPLIT,tPane,bPane);
-        split.setDividerSize(0); split.setDividerLocation(210); split.setEnabled(false);
+        split.setDividerSize(0); split.setDividerLocation(266); split.setEnabled(false);
         add(split);
         setSize(new Dimension(550,600));
         setVisible(true);
