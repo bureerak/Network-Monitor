@@ -19,11 +19,10 @@ public class RegisterViews {
         btnLogin = new JButton("Login");
 
         JLabel welcomeText = new JLabel("== Welcome ==");
-        welcomeText.setFont(new Font("Serif",Font.BOLD,22));
+        welcomeText.setFont(new Font( "Arial",Font.BOLD,22));
         welcomeText.setBorder(new EmptyBorder(8,0,0,0));
 
         panel = new JPanel();
-        panel.setBorder(BorderFactory.createTitledBorder("Login"));
         Border margin = new EmptyBorder(7,7,7,7);
         panel.setBorder(new CompoundBorder(margin,BorderFactory.createTitledBorder("Login")));
         panel.setLayout(new GridLayout(3,1,2,2));
