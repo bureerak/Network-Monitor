@@ -2,8 +2,6 @@ package main;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import main.ui.AuthView;
-import main.ui.ProfileEditorView;
-import main.ui.ToolsDeskPane;
 
 import javax.swing.*;
 
@@ -17,7 +15,7 @@ public class Application {
                 e.printStackTrace();
             }
             new AuthView();
-            new ToolsDeskPane();
+//            new ToolsDeskPane();
         });
     }
 
