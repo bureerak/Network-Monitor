@@ -14,7 +14,7 @@ public class JDBCLogin {
 
     public static boolean loginJDBC(String username, char[] password){
         String sql = "SELECT password FROM users_account WHERE username = ?";
-        try (Connection connection = DriverManager.getConnection(URL,DB_user,DB_pass);) {
+        try (Connection connection = DriverManager.getConnection(URL,DB_user,DB_pass)) {
             System.out.println("Connection Established...");
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,username);
