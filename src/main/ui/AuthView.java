@@ -7,11 +7,10 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Objects;
 
-public class RegisterViews implements ActionListener {
+public class AuthView implements ActionListener, KeyListener {
     JFrame frame;
     JLabel label;
     ImageIcon img;
@@ -19,7 +18,7 @@ public class RegisterViews implements ActionListener {
     JButton btnLogin, btnCancel;
     JTextField userText;
     JPasswordField pass;
-    public RegisterViews(){
+    public AuthView(){
         img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/login.jpg")));
         label = new JLabel(img);
         btnCancel = new JButton("Cancel"); btnCancel.addActionListener(this);
@@ -70,6 +69,11 @@ public class RegisterViews implements ActionListener {
         panel.add(midPane);
         panel.add(bottomPane);
 
+        userText.addKeyListener(this);
+        pass.addKeyListener(this);
+        btnLogin.addKeyListener(this);
+        btnCancel.setFocusable(false);
+
         frame = new JFrame("Network Monitor | login");
         JSplitPane jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, label, panel);
         jsp.setDividerLocation(170);
@@ -77,7 +81,6 @@ public class RegisterViews implements ActionListener {
         jsp.setResizeWeight(0.5);
         jsp.setEnabled(false);
         frame.add(jsp);
-
 
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,13 +94,40 @@ public class RegisterViews implements ActionListener {
         Object src = e.getSource();
         if ( src.equals(btnLogin) ) {
             if ( JDBCLogin.loginJDBC(userText.getText(), pass.getPassword()) ) {
-                new ToolsDeskPane();
-                frame.dispose();
+                SwingUtilities.invokeLater(() -> {
+                    new ToolsDeskPane();
+                    frame.dispose();
+                });
             } else {
                 JOptionPane.showMessageDialog(frame,"login failed", "Alert",JOptionPane.ERROR_MESSAGE);
             }
         } else if ( src.equals(btnCancel) ){
             System.exit(0);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER){
+            btnLogin.requestFocus();
+            if ( JDBCLogin.loginJDBC(userText.getText(), pass.getPassword()) ) {
+                SwingUtilities.invokeLater(() -> {
+                    new ToolsDeskPane();
+                    frame.dispose();
+                });
+            } else {
+                JOptionPane.showMessageDialog(frame,"login failed", "Alert",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
