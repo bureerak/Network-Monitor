@@ -1,24 +1,31 @@
 package main.ui;
 
+import main.database.JDBCLogin;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Objects;
 
-public class RegisterViews {
+public class RegisterViews implements ActionListener {
     JFrame frame;
     JLabel label;
     ImageIcon img;
     JPanel panel;
     JButton btnLogin, btnCancel;
+    JTextField userText;
+    JPasswordField pass;
     public RegisterViews(){
-        img = new ImageIcon(getClass().getResource("/login.jpg"));
+        img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/login.jpg")));
         label = new JLabel(img);
-        btnCancel = new JButton("Cancel");
-        btnLogin = new JButton("Login");
+        btnCancel = new JButton("Cancel"); btnCancel.addActionListener(this);
+        btnLogin = new JButton("Login"); btnLogin.addActionListener(this);
 
-        JLabel welcomeText = new JLabel("== Welcome ==");
+        JLabel welcomeText = new JLabel(" Taravichet at your service ");
         welcomeText.setFont(new Font( "Arial",Font.BOLD,22));
         welcomeText.setBorder(new EmptyBorder(8,0,0,0));
 
@@ -28,9 +35,9 @@ public class RegisterViews {
         panel.setLayout(new GridLayout(3,1,2,2));
 
         JLabel userLabel = new JLabel("Username:");
-        JTextField userText = new JTextField(24);
+        userText = new JTextField(24);
         JLabel passLabel = new JLabel("Password:");
-        JPasswordField pass = new JPasswordField(24);
+        pass = new JPasswordField(24);
 
         JPanel subPane1 = new JPanel();
         JPanel subPane2 = new JPanel();
@@ -77,5 +84,20 @@ public class RegisterViews {
         frame.setSize(new Dimension(420,440));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object src = e.getSource();
+        if ( src.equals(btnLogin) ) {
+            if ( JDBCLogin.loginJDBC(userText.getText(), pass.getPassword()) ) {
+                new ToolsDeskPane();
+                frame.dispose();
+            } else {
+                JOptionPane.showMessageDialog(frame,"login failed", "Alert",JOptionPane.ERROR_MESSAGE);
+            }
+        } else if ( src.equals(btnCancel) ){
+            System.exit(0);
+        }
     }
 }

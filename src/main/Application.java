@@ -2,7 +2,6 @@ package main;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import main.ui.RegisterViews;
-import main.ui.ToolsDeskPane;
 
 import javax.swing.*;
 
@@ -15,7 +14,7 @@ public class Application {
             e.printStackTrace();
         }
         new RegisterViews();
-        new ToolsDeskPane();
+//        new ToolsDeskPane();
     }
 
 }

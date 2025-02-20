@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Objects;
 
 public class HomeViews extends JInternalFrame {
     JSplitPane split;
@@ -15,7 +16,7 @@ public class HomeViews extends JInternalFrame {
         super("Main | Network Monitor",true,false,false,false);
         subUpHalfPane = new JPanel();
 
-        titleImg = new ImageIcon(getClass().getResource("/titleIcon.png"));
+        titleImg = new ImageIcon(Objects.requireNonNull(getClass().getResource("/titleIcon.png")));
         Image scaleImg = titleImg.getImage().getScaledInstance(28,28,Image.SCALE_SMOOTH);
         ImageIcon resizeIcon = new ImageIcon(scaleImg);
         titleIcon = new JLabel(resizeIcon);
