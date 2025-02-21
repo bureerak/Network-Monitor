@@ -18,7 +18,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     ProfileEditorView PEView;
 
     public HomeViews(){
-        super("Main | Network Monitor",true,false,false,false);
+        super("Hub | Network Monitor",true,false,false,false);
         subUpHalfPane = new JPanel();
 
         titleImg = new ImageIcon(Objects.requireNonNull(getClass().getResource("/titleIcon.png")));

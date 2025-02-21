@@ -10,7 +10,7 @@ public class ToolsDeskPane {
     public ToolsDeskPane() {
         desktop = new JDesktopPane();
         HView = new HomeViews();
-        MFrame = new JFrame("Hub | Network Monitor");
+        MFrame = new JFrame("Network Monitor");
 
         desktop.add(HView);
         MFrame.add(desktop);
