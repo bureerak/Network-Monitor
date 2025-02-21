@@ -74,7 +74,7 @@ public class AuthView implements ActionListener, KeyListener {
         btnLogin.addKeyListener(this);
         btnCancel.setFocusable(false);
 
-        frame = new JFrame("Network Monitor | login");
+        frame = new JFrame("Login | Network Monitor");
         JSplitPane jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, label, panel);
         jsp.setDividerLocation(170);
         jsp.setDividerSize(0);
