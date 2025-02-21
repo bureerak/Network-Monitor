@@ -7,16 +7,16 @@ import java.net.URL;
 import org.json.JSONObject;
 
 public class ExternalNetwork {
-    private static String infoIP = null;
-    private static String infoISP = null;
-    private static String infoCountry = null;
-    private static String infoCity = null;
-    private static boolean isInfoLoaded = false;
+    private String infoIP = null;
+    private String infoISP = null;
+    private String infoCountry = null;
+    private String infoCity = null;
+    private boolean isInfoLoaded = false;
 
     /**
      * Prepare a user's external network information such as IP, ISP, COUNTRY, CITY.
      */
-    public static void loadInfo() {
+    public ExternalNetwork() {
         try {
             URL infoURL = new URL("https://ipinfo.io/?token=e6fc17858e851b");
             BufferedReader infoReader = new BufferedReader(new InputStreamReader(infoURL.openStream(), "UTF-8"));
@@ -44,7 +44,7 @@ public class ExternalNetwork {
      * Return an external IP Address.
      * @return IP Address as string if information is loaded, otherwise null.
      */
-    public static String getIP() {
+    public String getIP() {
         return isInfoLoaded ? infoIP : null;
     }
 
@@ -52,7 +52,7 @@ public class ExternalNetwork {
      * Return an external ISP Name.
      * @return ISP as string if information is loaded, otherwise null.
      */
-    public static String getISP() {
+    public String getISP() {
         return isInfoLoaded ? infoISP : null;
     }
 
@@ -60,7 +60,7 @@ public class ExternalNetwork {
      * Return an external country name.
      * @return Country as string if information is loaded, otherwise null.
      */
-    public static String getCountry() {
+    public String getCountry() {
         return isInfoLoaded ? infoCountry : null;
     }
 
@@ -68,7 +68,15 @@ public class ExternalNetwork {
      * Return an external city name.
      * @return City as string if information is loaded, otherwise null.
      */
-    public static String getCity() {
+    public String getCity() {
         return isInfoLoaded ? infoCity : null;
     }
+
+    /*public static void main(String[] args) {
+        ExternalNetwork network = new ExternalNetwork();
+        System.out.println("IP: " + network.getIP());
+        System.out.println("ISP: " + network.getISP());
+        System.out.println("Country: " + network.getCountry());
+        System.out.println("City: " + network.getCity());
+    }*/
 }

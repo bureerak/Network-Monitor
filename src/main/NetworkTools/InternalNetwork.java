@@ -55,4 +55,10 @@ public class InternalNetwork {
             return null;
         }
     }
+
+    /*public static void main(String[] args) {
+        System.out.println("IP: " + getIP());
+        System.out.println("HostName: " + getHostName());
+        System.out.println("MAC Address: " + getMACAddress());
+    }*/
 }

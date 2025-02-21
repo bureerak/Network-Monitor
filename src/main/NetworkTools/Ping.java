@@ -36,4 +36,19 @@ public class Ping {
         }
         return (int) timeUsed;
     }
+
+    /*public static void main(String[] args) {
+        String host = "192.168.3.249";
+        for (int i = 1; i <= 4; i++) {
+            System.out.print("Round " + i + " | ");
+            int result = runOnce(host);
+            if (result == -1) {
+                System.out.println("Timeout");
+            } else if (result == -2) {
+                System.out.println("Host error");
+            } else {
+                System.out.printf(host + ", " + result + " ms.");
+            }
+        }
+    }*/
 }
