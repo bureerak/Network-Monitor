@@ -7,14 +7,18 @@ import java.awt.*;
 
 public class ProfileEditorView extends JInternalFrame{
     JPanel topPanel, lowPanel;
-    JLabel profileLabel;
+    JLabel profileLabel, profileSelect;
     JTextField profileTxt;
-    JButton addProfile;
+    JButton addProfile, delete, select;
+    JComboBox<String> comboBox;
     public ProfileEditorView() {
-        super("Profile Editor | Network Monitor",true,true,false,false);
+        super("Profile Editor | Network Monitor",false,true,false,false);
         profileLabel = new JLabel("Profile Name:");
         topPanel = new JPanel();
         lowPanel = new JPanel();
+        comboBox = new JComboBox<String>();
+
+        comboBox.setPreferredSize(new Dimension(300,30));
 
         topPanel.setBorder(new CompoundBorder(new EmptyBorder(7,7,1,7),BorderFactory.createTitledBorder("Select Profile")));
         lowPanel.setBorder(new CompoundBorder(new EmptyBorder(2,7,7,7),BorderFactory.createTitledBorder("Add Profile")));
@@ -34,6 +38,23 @@ public class ProfileEditorView extends JInternalFrame{
 
         lowPanel.add(addProfileInfo);
         lowPanel.add(submitPane);
+
+        topPanel.setLayout(new GridLayout(2,1));
+        JPanel subUpTop = new JPanel();
+        JPanel subUpDown = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        profileSelect = new JLabel("Profile :");
+        delete = new JButton("Delete");
+        select = new JButton("Select");
+
+        subUpTop.add(profileSelect);
+        subUpTop.add(comboBox);
+        subUpDown.add(delete); subUpDown.add(select);
+        subUpDown.setBorder(new EmptyBorder(0,0,0,18));
+        subUpTop.setBorder(new EmptyBorder(18,0,0,0));
+
+
+        topPanel.add(subUpTop);
+        topPanel.add(subUpDown);
 
         add(topPanel);
         add(lowPanel);

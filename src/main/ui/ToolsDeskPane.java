@@ -17,8 +17,6 @@ public class ToolsDeskPane {
 
         Dimension dm = new Dimension(1280,800);
         MFrame.setSize(dm);
-
-        HView.setLocation((dm.width - HView.getWidth()) / 2 , (dm.height - HView.getHeight()) / 2);
         HView.setVisible(true);
 
         MFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

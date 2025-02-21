@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 import java.util.Objects;
 
 public class HomeViews extends JInternalFrame implements ActionListener {
@@ -76,9 +77,25 @@ public class HomeViews extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(profileEdit) && !PEView.isVisible()){
-            PEView.setVisible(true);
-            getDesktopPane().add(PEView);
+        if (e.getSource().equals(profileEdit)){
+            if (!PEView.isVisible()) {
+                PEView.setVisible(true);
+                getDesktopPane().add(PEView);
+                try {
+                    PEView.setSelected(true);
+                    PEView.toFront();
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                try {
+                    PEView.setSelected(true);
+                    PEView.toFront();
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
         }
     }
 }
