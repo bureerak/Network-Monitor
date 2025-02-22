@@ -55,9 +55,30 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         JPanel myInfo = new JPanel();
         myInfo.setBorder(new CompoundBorder(new EmptyBorder(7,7,7,2),BorderFactory.createTitledBorder("My Information")));
         JPanel monitor = new JPanel();
+        monitor.setLayout(new BorderLayout());
         monitor.setBorder(new CompoundBorder(new EmptyBorder(7,2,7,7),BorderFactory.createTitledBorder("Monitor Information")));
         downHalfPane.add(myInfo);
         downHalfPane.add(monitor);
+
+        JLabel select = new JLabel("Selected Profile: None");
+        JLabel status = new JLabel("Status: None");
+        JLabel interval = new JLabel("Monitor Interval: None");
+
+        JPanel helperPane = new JPanel();
+        helperPane.setLayout(new BoxLayout(helperPane,BoxLayout.Y_AXIS));
+
+        helperPane.add(select);
+        helperPane.add(Box.createRigidArea(new Dimension(0,7)));
+        helperPane.add(status);
+        helperPane.add(Box.createRigidArea(new Dimension(0,7)));
+        helperPane.add(interval);
+        helperPane.setBorder(new EmptyBorder(2,40,0,0));
+
+        monitor.add(new JPanel(), BorderLayout.NORTH);
+        monitor.add(new JPanel(), BorderLayout.WEST);
+        monitor.add(new JPanel(), BorderLayout.EAST);
+        monitor.add(new JPanel(), BorderLayout.SOUTH);
+        monitor.add(helperPane,BorderLayout.CENTER);
 
         tPane.add(upHalfPane);
         tPane.add(downHalfPane);

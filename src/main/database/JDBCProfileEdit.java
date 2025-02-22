@@ -29,7 +29,7 @@ public class JDBCProfileEdit {
      * @return void
      */
     public static ArrayList<String> refresh(ArrayList<String> e) {
-        String sql = "SELECT profile_name FROM profile";
+        String sql = "SELECT profile_name FROM profile WHERE used = 0";
         try ( Connection conn = DBCP.getConnection();
              Statement stm = conn.createStatement(); ) {
             ResultSet res = stm.executeQuery(sql);
@@ -46,6 +46,10 @@ public class JDBCProfileEdit {
         return e;
     }
 
+    /**
+     * Delete profile by name
+     * @param profile name to delete.
+     */
     public static void deleteProfile(String profile) {
         String sql = "DELETE FROM profile WHERE profile_name = ?";
         try (Connection conn = DBCP.getConnection();
