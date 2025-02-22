@@ -13,7 +13,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     JSplitPane split;
     JPanel tPane ,bPane, upHalfPane, downHalfPane, subUpHalfPane;
     JButton profileEdit ,netTools ,netStat ,settings;
-    JLabel title, titleIcon;
+    static JLabel title, titleIcon, select, status, interval;
     ImageIcon titleImg;
     ProfileEditorView PEView;
 
@@ -60,9 +60,9 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         downHalfPane.add(myInfo);
         downHalfPane.add(monitor);
 
-        JLabel select = new JLabel("Selected Profile: None");
-        JLabel status = new JLabel("Status: None");
-        JLabel interval = new JLabel("Monitor Interval: None");
+        select = new JLabel("Selected Profile: None");
+        status = new JLabel("Status: None");
+        interval = new JLabel("Monitor Interval: None");
 
         JPanel helperPane = new JPanel();
         helperPane.setLayout(new BoxLayout(helperPane,BoxLayout.Y_AXIS));
@@ -118,5 +118,9 @@ public class HomeViews extends JInternalFrame implements ActionListener {
             }
 
         }
+    }
+
+    public static void setSelect() {
+        select.setText("Selected Profile: " + ProfileEditorView.getNowSelect());
     }
 }

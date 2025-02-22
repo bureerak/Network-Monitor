@@ -17,12 +17,14 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
     JTextField profileTxt;
     JButton addProfile, delete, select, refresh;
     JComboBox<String> comboBox;
+    private static String nowSelect = null;
+
     public ProfileEditorView() {
         super("Profile Editor | Network Monitor",false,true,false,false);
         profileLabel = new JLabel("Profile Name:");
         topPanel = new JPanel();
         lowPanel = new JPanel();
-        comboBox = new JComboBox<String>();
+        comboBox = new JComboBox<>();
         refresh = new JButton("Refresh");
         comboBox.setMaximumRowCount(4);
 
@@ -54,6 +56,7 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         profileSelect = new JLabel("Profile :");
         delete = new JButton("Delete"); delete.addActionListener(this);
         select = new JButton("Select");
+        select.addActionListener(this);
 
         subUpTop.add(profileSelect);
         subUpTop.add(comboBox);
@@ -85,11 +88,23 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
             JDBCProfileEdit.deleteProfile(comboBox.getSelectedItem().toString());
             viewRefresh();
             System.out.println("Delete Success");
+        } else if (e.getSource().equals(select) && comboBox.getSelectedItem() != null) {
+            boolean canSelect = JDBCProfileEdit.selectProfile(comboBox.getSelectedItem().toString());
+            if (canSelect) {
+                nowSelect = comboBox.getSelectedItem().toString();
+                viewRefresh();
+                System.out.println(nowSelect + " Selected");
+                HomeViews.setSelect();
+                JOptionPane.showMessageDialog(this,"Now Select " + nowSelect,"",JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,"Can't select, please refresh","Something went wrong.",JOptionPane.WARNING_MESSAGE);
+            }
+
         }
     }
 
     private void viewRefresh() {
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<String> resArr = JDBCProfileEdit.refresh(arrayList);
         Iterator<String> iterator = resArr.iterator();
 
@@ -97,5 +112,9 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         while (iterator.hasNext()) {
             comboBox.addItem(iterator.next());
         }
+    }
+
+    public static String getNowSelect(){
+        return  nowSelect;
     }
 }

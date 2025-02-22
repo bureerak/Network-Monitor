@@ -1,9 +1,13 @@
 package main.ui;
 
+import main.database.JDBCProfileEdit;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class ToolsDeskPane {
+public class ToolsDeskPane implements WindowListener {
     JFrame MFrame;
     JDesktopPane desktop;
     HomeViews HView;
@@ -20,7 +24,47 @@ public class ToolsDeskPane {
         HView.setVisible(true);
 
         MFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MFrame.addWindowListener(this);
         MFrame.setLocationRelativeTo(null);
         MFrame.setVisible(true);
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    /**
+     * clear Select from all table then closed
+     * @param e the event to be processed
+     */
+    @Override
+    public void windowClosing(WindowEvent e) {
+        JDBCProfileEdit.unselectProfile();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }
