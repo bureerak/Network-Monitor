@@ -37,8 +37,16 @@ public class InternalNetwork {
      * @return MAC Address as string.
      */
     public static String getMACAddress() {
+        return getMACAddress(InetAddress.getLoopbackAddress());
+    }
+
+    /**
+     * Get an IP Address interface MAC address.
+     * @return MAC Address as string.
+     */
+    public static String getMACAddress(InetAddress address) {
         try {
-            NetworkInterface localInterface = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+            NetworkInterface localInterface = NetworkInterface.getByInetAddress(address);
             byte[] byteMac = localInterface.getHardwareAddress();
 
             StringBuilder macAddress = new StringBuilder();
@@ -50,7 +58,7 @@ public class InternalNetwork {
             }
 
             return macAddress.toString();
-        } catch (UnknownHostException | SocketException e) {
+        } catch (SocketException e) {
             System.out.println(e.getMessage());
             return null;
         }

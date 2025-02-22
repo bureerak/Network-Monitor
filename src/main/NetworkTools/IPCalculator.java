@@ -156,7 +156,7 @@ public class IPCalculator {
         return ipAddress.substring(0, ipAddress.length() - 1);
     }
 
-    private static int calcUsableIP(String[] firstIP, String[] lastIP) {
+    public static int calcUsableIP(String[] firstIP, String[] lastIP) {
         int firstOctet = (Integer.parseInt(lastIP[0], 2) - Integer.parseInt(firstIP[0], 2)) * 256 * 256 * 256;
         int secondOctet = (Integer.parseInt(lastIP[1], 2) - Integer.parseInt(firstIP[1], 2)) * 256 * 256;
         int thirdOctet = (Integer.parseInt(lastIP[2], 2) - Integer.parseInt(firstIP[2], 2)) * 256;

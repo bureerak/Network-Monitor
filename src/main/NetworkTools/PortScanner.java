@@ -1,6 +1,5 @@
 package main.NetworkTools;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -9,10 +8,10 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class PortScanner {
-    private static final int PORT_SCAN_TIMEOUT = 150;
+    private static final int PORT_SCAN_TIMEOUT = 200;
     private static final int PORT_SCAN_THREADS = 20;
 
-    public static ArrayList<int[]> scan(String ip, String port) {
+    public static ArrayList<Integer> scan(String ip, String port) {
         try {
             int startPort = Integer.parseInt(port.substring(0, port.indexOf('-')));
             int endPort = Integer.parseInt(port.substring(port.indexOf('-') + 1));
@@ -27,22 +26,24 @@ public class PortScanner {
         return null;
     }
 
-    private static ArrayList<int[]> doScan(String ip, int startPort, int endPort) {
-        ArrayList<int[]> result = new ArrayList<>();
-        final ExecutorService es = Executors.newFixedThreadPool(PORT_SCAN_THREADS);
-        final List<Future<int[]>> futures = new ArrayList<>();
+    private static ArrayList<Integer> doScan(String ip, int startPort, int endPort) {
+        ArrayList<Integer> results = new ArrayList<>();
+        final ExecutorService scanExecutor = Executors.newFixedThreadPool(PORT_SCAN_THREADS);
+        final List<Future<int[]>> scanList = new ArrayList<>();
         for (int i = startPort; i <= endPort; i++) {
-            futures.add(isPortOpen(es, ip, i));
+            scanList.add(isPortOpen(scanExecutor, ip, i));
         }
-        es.shutdown();
-        for (final Future<int[]> f : futures) {
+        scanExecutor.shutdown();
+        for (final Future<int[]> f : scanList) {
             try {
-                result.add(f.get());
+                if (f.get()[1] == 1) {
+                    results.add(f.get()[0]);
+                }
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         }
-        return result;
+        return results;
     }
 
     private static Future<int[]> isPortOpen(final ExecutorService es, final String ip, final int port) {
@@ -62,23 +63,20 @@ public class PortScanner {
         });
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         long timeUsed =  System.currentTimeMillis();
         int openCount = 0;
-        ArrayList<int[]> results = scan("192.168.3.249", "2280-2289");
+        ArrayList<Integer> results = scan("192.168.3.249", "2280-2289");
         if (results != null) {
             Iterator scanResults = results.iterator();
             while (scanResults.hasNext()) {
-                int[] temp = (int[]) scanResults.next();
-                if (temp[1] == 1) {
-                    openCount++;
-                }
-                System.out.println("Port " + temp[0] + ": " + (temp[1] == 1 ? "Open" : "Close"));
+                int temp = (int) scanResults.next();
+                System.out.println("Port " + temp + " is opened");
             }
             timeUsed = System.currentTimeMillis() - timeUsed;
             System.out.println();
             System.out.println("Total open ports: " + openCount);
             System.out.println("Time Used: " + timeUsed + " ms.");
         }
-    }*/
+    }
 }
