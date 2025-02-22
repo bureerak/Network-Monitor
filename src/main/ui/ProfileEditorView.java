@@ -17,7 +17,9 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
     JTextField profileTxt;
     JButton addProfile, delete, select, refresh;
     JComboBox<String> comboBox;
+
     private static String nowSelect = null;
+    private static int profile_id = 0;
 
     public ProfileEditorView() {
         super("Profile Editor | Network Monitor",false,true,false,false);
@@ -73,6 +75,14 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         add(lowPanel);
         setLayout(new GridLayout(2,1));
         setSize(new Dimension(460,350));
+    }
+
+    public static int getProfile_id() {
+        return profile_id;
+    }
+
+    public static void setProfile_id(int profile_id) {
+        ProfileEditorView.profile_id = profile_id;
     }
 
     @Override

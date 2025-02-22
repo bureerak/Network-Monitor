@@ -70,7 +70,7 @@ public class JDBCProfileEdit {
      * @return boolean if true = can select this profile, false = can't select this profile
      */
     public static boolean selectProfile(String name) {
-        String sql = "SELECT used FROM profile WHERE profile_name = ?";
+        String sql = "SELECT used,profile_id FROM profile WHERE profile_name = ?";
         String sqlSetStatus = "UPDATE profile SET used = 1 WHERE profile_name = ?";
         String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = '" + ProfileEditorView.getNowSelect() + "'";
         try (Connection conn = DBCP.getConnection();
@@ -79,13 +79,17 @@ public class JDBCProfileEdit {
              Statement statement = conn.createStatement()) {
             if (ProfileEditorView.getNowSelect() != null){
                 statement.executeUpdate(sqlUnselect);
+                ProfileEditorView.setProfile_id(0);
                 System.out.println(ProfileEditorView.getNowSelect() + " Unselected");
             }
             preState.setString(1,name);
             ResultSet rs = preState.executeQuery();
             rs.next();
             boolean status = rs.getBoolean("used");
+            int profile_id = rs.getInt("profile_id");
             if (!status) {
+                ProfileEditorView.setProfile_id(profile_id);
+                System.out.println("Current profile id: " + ProfileEditorView.getProfile_id());
                 setStatus.setString(1,name);
                 setStatus.executeUpdate();
                 return true;
