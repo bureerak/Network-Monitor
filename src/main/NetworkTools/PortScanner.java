@@ -11,22 +11,29 @@ public class PortScanner {
     private static final int PORT_SCAN_TIMEOUT = 200;
     private static final int PORT_SCAN_THREADS = 20;
 
-    public static ArrayList<Integer> scan(String ip, String port) {
+    public void scan(String ip, String port, PortDisplay display) {
+        int startPort = 0;
+        int endPort = 0;
         try {
-            int startPort = Integer.parseInt(port.substring(0, port.indexOf('-')));
-            int endPort = Integer.parseInt(port.substring(port.indexOf('-') + 1));
+            if (port.indexOf("-") > 0) {
+                startPort = Integer.parseInt(port.substring(0, port.indexOf('-')));
+                endPort = Integer.parseInt(port.substring(port.indexOf('-') + 1));
+            } else {
+                startPort = Integer.parseInt(port);
+                endPort = Integer.parseInt(port);
+            }
+
             if (IPValidator.isValidIPv4(ip) && IPValidator.isValidPort(startPort, endPort)) {
-                return doScan(ip, startPort, endPort);
+                doScan(ip, startPort, endPort, display);
             } else {
                 System.out.println("Invalid IP");
             }
         } catch (Exception ignored) {
             System.out.println("Invalid port number");
         }
-        return null;
     }
 
-    private static ArrayList<Integer> doScan(String ip, int startPort, int endPort) {
+    private void doScan(String ip, int startPort, int endPort, PortDisplay display) {
         ArrayList<Integer> results = new ArrayList<>();
         final ExecutorService scanExecutor = Executors.newFixedThreadPool(PORT_SCAN_THREADS);
         final List<Future<int[]>> scanList = new ArrayList<>();
@@ -39,20 +46,18 @@ public class PortScanner {
                 if (f.get()[1] == 1) {
                     results.add(f.get()[0]);
                 }
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
+            } catch (InterruptedException | ExecutionException ignored) { }
         }
-        return results;
+        display.setPort(ip, results);
     }
 
-    private static Future<int[]> isPortOpen(final ExecutorService es, final String ip, final int port) {
+    private Future<int[]> isPortOpen(final ExecutorService es, final String ip, final int port) {
         return es.submit(new Callable<int[]>() {
             @Override public int[] call() {
                 int[] result = {port, 0};
                 try {
                     Socket socket = new Socket();
-                    socket.connect(new InetSocketAddress(ip, port), PORT_SCAN_TIMEOUT);
+                    socket.connect(new InetSocketAddress(ip, port), PortScanner.PORT_SCAN_TIMEOUT);
                     socket.close();
                     result[1] = 1;
                 } catch (Exception ignored) {
@@ -61,22 +66,5 @@ public class PortScanner {
                 }
             }
         });
-    }
-
-    public static void main(String[] args) {
-        long timeUsed =  System.currentTimeMillis();
-        int openCount = 0;
-        ArrayList<Integer> results = scan("192.168.3.249", "2280-2289");
-        if (results != null) {
-            Iterator scanResults = results.iterator();
-            while (scanResults.hasNext()) {
-                int temp = (int) scanResults.next();
-                System.out.println("Port " + temp + " is opened");
-            }
-            timeUsed = System.currentTimeMillis() - timeUsed;
-            System.out.println();
-            System.out.println("Total open ports: " + openCount);
-            System.out.println("Time Used: " + timeUsed + " ms.");
-        }
     }
 }

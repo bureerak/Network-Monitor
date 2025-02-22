@@ -1,9 +1,13 @@
 package main.NetworkTools;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InternalNetwork {
     /**
@@ -37,16 +41,8 @@ public class InternalNetwork {
      * @return MAC Address as string.
      */
     public static String getMACAddress() {
-        return getMACAddress(InetAddress.getLoopbackAddress());
-    }
-
-    /**
-     * Get an IP Address interface MAC address.
-     * @return MAC Address as string.
-     */
-    public static String getMACAddress(InetAddress address) {
         try {
-            NetworkInterface localInterface = NetworkInterface.getByInetAddress(address);
+            NetworkInterface localInterface = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
             byte[] byteMac = localInterface.getHardwareAddress();
 
             StringBuilder macAddress = new StringBuilder();
@@ -58,15 +54,39 @@ public class InternalNetwork {
             }
 
             return macAddress.toString();
-        } catch (SocketException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        } catch (IOException ignored) { return null; }
     }
 
-    /*public static void main(String[] args) {
-        System.out.println("IP: " + getIP());
-        System.out.println("HostName: " + getHostName());
-        System.out.println("MAC Address: " + getMACAddress());
-    }*/
+    /**
+     * Get an IP Address interface MAC address.
+     * @return MAC Address as string.
+     */
+    public static String getMACAddress(String ip) {
+        try {
+            if (InetAddress.getByName(ip).equals(InetAddress.getLocalHost())) {
+                return getMACAddress();
+            } else {
+                return getARPMAC(ip);
+            }
+        } catch (IOException ignored) { }
+        return null;
+    }
+
+    private static String getARPMAC(String ip){
+        String systemInput = "";
+        String result = null;
+        try {
+            Runtime.getRuntime().exec("arp -a");
+            Scanner s = new Scanner(Runtime.getRuntime().exec("arp -a " + ip).getInputStream()).useDelimiter("\\A");
+            systemInput = s.next();
+            Pattern macPattern = Pattern.compile("\\s{0,}([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})");
+            Matcher macMatcher = macPattern.matcher(systemInput);
+            if (macMatcher.find()) {
+                result = macMatcher.group().replaceAll("\\s", "").replaceAll("-", ":");
+            } else {
+                return null;
+            }
+        } catch (IOException ignored) { }
+        return result;
+    }
 }
