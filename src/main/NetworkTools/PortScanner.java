@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class PortScanner {
-    private static final int PORT_SCAN_TIMEOUT = 200;
-    private static final int PORT_SCAN_THREADS = 20;
+    private static final int PORT_SCAN_TIMEOUT = 100;
+    private static final int PORT_SCAN_THREADS = 250;
 
     public void scan(String ip, String port, PortDisplay display) {
         int startPort = 0;
@@ -25,9 +25,11 @@ public class PortScanner {
             if (IPValidator.isValidIPv4(ip) && IPValidator.isValidPort(startPort, endPort)) {
                 doScan(ip, startPort, endPort, display);
             } else {
-                System.out.println("Invalid IP");
+                System.out.println("Invalid IP/Port");
             }
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
             System.out.println("Invalid port number");
         }
     }
