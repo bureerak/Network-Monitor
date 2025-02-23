@@ -87,7 +87,11 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(addProfile) && !profileTxt.getText().isEmpty()) {
+        if (e.getSource().equals(addProfile) && !profileTxt.getText().isBlank()) {
+            if (profileTxt.getText().contains(" ")) {
+                JOptionPane.showMessageDialog(this,"White spaces are prohibited.", "",JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
             JDBCProfileEdit.addProfile(profileTxt.getText());
             profileTxt.setText("");
             viewRefresh();
@@ -95,19 +99,26 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         } else if (e.getSource().equals(refresh)) {
             viewRefresh();
         } else if (e.getSource().equals(delete) && comboBox.getSelectedItem() != null) {
-            JDBCProfileEdit.deleteProfile(comboBox.getSelectedItem().toString());
+            String[] name = comboBox.getSelectedItem().toString().split("\\s");
+            if ( name[0].equals(nowSelect)) {
+                nowSelect = null;
+                profile_id = 0;
+                HomeViews.setSelect();
+            }
+            JDBCProfileEdit.deleteProfile(name[0]);
             viewRefresh();
             System.out.println("Delete Success");
         } else if (e.getSource().equals(select) && comboBox.getSelectedItem() != null) {
-            boolean canSelect = JDBCProfileEdit.selectProfile(comboBox.getSelectedItem().toString());
+            String[] name = comboBox.getSelectedItem().toString().split("\\s");
+            boolean canSelect = JDBCProfileEdit.selectProfile(name[0]);
             if (canSelect) {
-                nowSelect = comboBox.getSelectedItem().toString();
+                nowSelect = name[0];
                 viewRefresh();
                 System.out.println(nowSelect + " Selected");
                 HomeViews.setSelect();
-                JOptionPane.showMessageDialog(this,"Now Select " + nowSelect,"",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this,nowSelect + " is currently in use.","",JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this,"Can't select, please refresh","Something went wrong.",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this,"Unavailable profile, please refresh.","Something went wrong",JOptionPane.WARNING_MESSAGE);
             }
 
         }

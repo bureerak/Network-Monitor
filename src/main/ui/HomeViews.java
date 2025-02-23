@@ -122,5 +122,6 @@ public class HomeViews extends JInternalFrame implements ActionListener {
 
     public static void setSelect() {
         select.setText("Selected Profile: " + ProfileEditorView.getNowSelect());
+        select.setToolTipText(ProfileEditorView.getNowSelect());
     }
 }

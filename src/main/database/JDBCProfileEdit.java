@@ -31,12 +31,14 @@ public class JDBCProfileEdit {
      * @return void
      */
     public static ArrayList<String> refresh(ArrayList<String> e) {
-        String sql = "SELECT profile_name FROM profile WHERE used = 0";
+        String sql = "SELECT profile_name, used FROM profile";
         try ( Connection conn = DBCP.getConnection();
              Statement stm = conn.createStatement() ) {
             ResultSet res = stm.executeQuery(sql);
             while (res.next()) {
                 String name = res.getString("profile_name");
+                boolean used = res.getBoolean("used");
+                name = used ? name + " Active" : name + " Idle";
                 e.add(name);
             }
             res.close();
@@ -72,13 +74,14 @@ public class JDBCProfileEdit {
     public static boolean selectProfile(String name) {
         String sql = "SELECT used,profile_id FROM profile WHERE profile_name = ?";
         String sqlSetStatus = "UPDATE profile SET used = 1 WHERE profile_name = ?";
-        String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = '" + ProfileEditorView.getNowSelect() + "'";
+        String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = ?";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement preState = conn.prepareStatement(sql);
              PreparedStatement setStatus = conn.prepareStatement(sqlSetStatus);
-             Statement statement = conn.createStatement()) {
+             PreparedStatement statement = conn.prepareStatement(sqlUnselect)) {
             if (ProfileEditorView.getNowSelect() != null){
-                statement.executeUpdate(sqlUnselect);
+                statement.setString(1,ProfileEditorView.getNowSelect());
+                statement.executeUpdate();
                 ProfileEditorView.setProfile_id(0);
                 System.out.println(ProfileEditorView.getNowSelect() + " Unselected");
             }
@@ -107,10 +110,11 @@ public class JDBCProfileEdit {
      */
     public static void unselectProfile() {
         if (ProfileEditorView.getNowSelect() != null) {
-            String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = '" + ProfileEditorView.getNowSelect() + "'";
+            String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = ?";
             try (Connection conn = DBCP.getConnection();
-                 Statement statement = conn.createStatement()) {
-                statement.executeUpdate(sqlUnselect);
+                 PreparedStatement statement = conn.prepareStatement(sqlUnselect)) {
+                statement.setString(1,ProfileEditorView.getNowSelect());
+                statement.executeUpdate();
                 System.out.println("Clear selected profile Success.");
             } catch (SQLException s) {
                 System.out.println("Internal Error.");
