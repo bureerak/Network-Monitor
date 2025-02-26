@@ -57,6 +57,8 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     @Override
     public void addDevice(String ip, String mac, String hostname) {
         //INSERT TO DATABASE
+        int lactency = getLatency(ip);
+        scanPort(ip);
 
     }
 
