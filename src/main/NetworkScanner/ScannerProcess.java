@@ -9,10 +9,6 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     private static int portScanning = 0;
     String ip;
     String port;
-    ArrayList devices = new ArrayList();
-    ArrayList ports = new ArrayList();
-    ArrayList dataDev;
-    ArrayList dataPort;
 
     public ScannerProcess(String ip, String port) {
         this.ip = ip;
