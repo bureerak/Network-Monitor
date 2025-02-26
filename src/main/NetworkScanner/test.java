@@ -3,7 +3,7 @@ package main.NetworkScanner;
 public class test implements StatusDisplay {
     @Override
     public void setInterval(int interval) {
-        System.out.println("Current interval: " + interval + " minutes.");
+        System.out.println("Current Interval: " + interval + " minutes.");
     }
 
     @Override
@@ -12,7 +12,7 @@ public class test implements StatusDisplay {
     }
 
     public test() {
-        ScannerRunner sr = new ScannerRunner("192.168.3.1-192.168.3.254",this);
+        ScannerRunner sr = new ScannerRunner("192.168.1.1-192.168.1.254", "80, 443, 100-500", 1,this);
     }
 
     public static void main(String[] args) {

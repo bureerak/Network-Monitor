@@ -2,8 +2,7 @@ package main.NetworkTools;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class PortScanner {
@@ -11,21 +10,13 @@ public class PortScanner {
     private static final int PORT_SCAN_THREADS = 250;
 
     public void scan(String ip, String port, PortDisplay display) {
-        int startPort = 0;
-        int endPort = 0;
+        Set<Integer> portList;
+        portList = getPorts(port);
         try {
-            if (port.indexOf("-") > 0) {
-                startPort = Integer.parseInt(port.substring(0, port.indexOf('-')));
-                endPort = Integer.parseInt(port.substring(port.indexOf('-') + 1));
+            if (IPValidator.isValidIPv4(ip) && !portList.isEmpty()) {
+                doScan(ip, portList, display);
             } else {
-                startPort = Integer.parseInt(port);
-                endPort = Integer.parseInt(port);
-            }
-
-            if (IPValidator.isValidIPv4(ip) && IPValidator.isValidPort(startPort, endPort)) {
-                doScan(ip, startPort, endPort, display);
-            } else {
-                System.out.println("Invalid IP/Port");
+                System.out.println("Invalid IP/Port or Port is empty.");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -34,12 +25,13 @@ public class PortScanner {
         }
     }
 
-    private void doScan(String ip, int startPort, int endPort, PortDisplay display) {
+    private void doScan(String ip, Set<Integer> portList, PortDisplay display) {
         ArrayList<Integer> results = new ArrayList<>();
         final ExecutorService scanExecutor = Executors.newFixedThreadPool(PORT_SCAN_THREADS);
         final List<Future<int[]>> scanList = new ArrayList<>();
-        for (int i = startPort; i <= endPort; i++) {
-            scanList.add(isPortOpen(scanExecutor, ip, i));
+        Iterator<Integer> it = portList.iterator();
+        while (it.hasNext()) {
+            scanList.add(isPortOpen(scanExecutor, ip, it.next()));
         }
         scanExecutor.shutdown();
         for (final Future<int[]> f : scanList) {
@@ -67,5 +59,40 @@ public class PortScanner {
                 }
             }
         });
+    }
+
+    private Set<Integer> getPorts(String port) {
+        Set<Integer> portList = new HashSet<>();
+        if (port.contains(",")) {
+            String[] ports = port.split(",");
+            for (String p : ports) {
+                checkPort(p, portList);
+            }
+        } else {
+            checkPort(port, portList);
+        }
+
+        return portList;
+    }
+
+    private void checkPort(String port, Set<Integer> portList) {
+        port = port.strip();
+        if (port.indexOf("-") > 0) {
+            String[] split = port.split("-");
+            int start = Integer.parseInt(split[0]);
+            int end = Integer.parseInt(split[1]);
+            if (IPValidator.isValidPort(start, end)) {
+                for (int i = start; i <= end; i++) {
+                    portList.add(i);
+                }
+            }
+        } else if (! port.isBlank()) {
+            try {
+                int temp = Integer.parseInt(port);
+                if (IPValidator.isValidPort(temp)) {
+                    portList.add(temp);
+                }
+            } catch (Exception ignored) { }
+        }
     }
 }

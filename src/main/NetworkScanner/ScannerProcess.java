@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay {
+    private static int portScanning = 0;
     String ip;
     String port;
     ArrayList devices = new ArrayList();
@@ -21,25 +22,30 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     public void run() {
         DeviceScanner scanner = new DeviceScanner();
         scanner.scan(ip, this);
-
-        Iterator it = devices.iterator();
-        while (it.hasNext()) {
-            ArrayList temp = (ArrayList) it.next();
-            PortScanner portScanner = new PortScanner();
-            portScanner.scan((String)temp.get(0), port, this);
-        }
     }
 
     private int getLatency(String ip) {
         int latency = 0;
         for (int i = 0; i <= 3; i++) {
             int responseTime = Ping.runOnce(ip);
-            if (responseTime >= 0 && i != 0) {
-                latency += responseTime;
+            if (i != 0) {
+                if (responseTime >= 0)
+                    latency += responseTime;
+                else
+                    return -1;
             }
         }
 
-        return (int)(latency / 3);
+        return latency / 3;
+    }
+
+    private void scanPort(String ip) {
+        new Thread(() -> {
+            addScanningPort();
+            PortScanner portScanner = new PortScanner();
+            portScanner.scan(ip, port, this);
+            removeScanningPort();
+        }).start();
     }
 
     @Override
@@ -53,6 +59,8 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         dataDev = null;
         System.gc();
         display_ip();
+
+        scanPort(ip);
     }
 
     @Override
@@ -64,6 +72,18 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         dataPort = null;
         System.gc();
         display_port();
+    }
+
+    public static void addScanningPort() {
+        portScanning++;
+    }
+
+    public static void removeScanningPort() {
+        portScanning--;
+    }
+
+    public static int getScanningPort() {
+        return portScanning;
     }
 
     public void display_ip() {
