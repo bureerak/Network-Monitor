@@ -1,9 +1,7 @@
 package main.NetworkScanner;
 
 import main.NetworkTools.*;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay {
     private static int portScanning = 0;
