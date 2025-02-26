@@ -82,6 +82,7 @@ public class InternalNetwork {
             Matcher macMatcher = macPattern.matcher(systemInput);
             if (macMatcher.find()) {
                 result = macMatcher.group().replaceAll("\\s", "").replaceAll("-", ":");
+                result = result.toUpperCase();
             } else {
                 return null;
             }

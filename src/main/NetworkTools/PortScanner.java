@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 public class PortScanner {
     private static final int PORT_SCAN_TIMEOUT = 100;
-    private static final int PORT_SCAN_THREADS = 250;
+    private static final int PORT_SCAN_THREADS = 100;
 
     public void scan(String ip, String port, PortDisplay display) {
         Set<Integer> portList;

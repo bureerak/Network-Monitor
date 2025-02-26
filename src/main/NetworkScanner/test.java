@@ -12,7 +12,7 @@ public class test implements StatusDisplay {
     }
 
     public test() {
-        ScannerRunner sr = new ScannerRunner("192.168.1.1-192.168.1.254", "80, 443, 100-500", 1,this);
+        ScannerRunner sr = new ScannerRunner("192.168.1.1-192.168.1.254", 1, this);
     }
 
     public static void main(String[] args) {

@@ -4,10 +4,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ScannerRunner {
-    private boolean isScanning = false;
+    private static final String COMMON_PORTS = "7, 19, 20-25, 42-1000, 1025-1985, 2000-2100, 2222, 2302, 2483-2484, 2745, 2967, 3050-3785, 4333-4899, 5000-5999, 6000";
 
     public ScannerRunner(String ip, StatusDisplay display) {
-        this(ip, "1-65535", 5, display);
+        this(ip, 5, display);
+    }
+
+    public ScannerRunner(String ip, int scanInterval, StatusDisplay display) {
+        this(ip, COMMON_PORTS, scanInterval, display);
     }
 
     public ScannerRunner(String ip, String port, int scanInterval, StatusDisplay display) {
@@ -26,7 +30,6 @@ public class ScannerRunner {
     }
 
     public void setScanning(boolean scanning, StatusDisplay display) {
-        isScanning = scanning;
         display.setScanning(scanning);
     }
 }

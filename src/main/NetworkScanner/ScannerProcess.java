@@ -48,32 +48,6 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         }).start();
     }
 
-    @Override
-    public void addDevice(String ip, String mac, String hostname) {
-        dataDev = new ArrayList();
-        dataDev.add(ip);
-        dataDev.add(mac);
-        dataDev.add(hostname);
-        dataDev.add(getLatency(ip));
-        devices.add(dataDev);
-        dataDev = null;
-        System.gc();
-        display_ip();
-
-        scanPort(ip);
-    }
-
-    @Override
-    public void setPort(String ip, ArrayList<Integer> port) {
-        dataPort = new ArrayList();
-        dataPort.add(ip);
-        dataPort.add(port);
-        ports.add(dataPort);
-        dataPort = null;
-        System.gc();
-        display_port();
-    }
-
     public static void addScanningPort() {
         portScanning++;
     }
@@ -86,47 +60,16 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         return portScanning;
     }
 
-    public void display_ip() {
-        System.out.println();
-        System.out.println("+--- IP Information ---+");
-        Iterator dev = devices.iterator();
-        while (dev.hasNext()) {
-            ArrayList temp = ((ArrayList)dev.next());
-            Iterator info = temp.iterator();
-            for (int i = 0; i < temp.size(); i++) {
-                if (i == 0) {
-                    System.out.print("IP Address: " + (String)temp.get(i));
-                } else if (i == 1) {
-                    System.out.print(" | MAC Address: " + (String)temp.get(i));
-                } else if (i == 2) {
-                    System.out.print(" | Hostname: " + (String)temp.get(i));
-                } else if (i == 3) {
-                    System.out.println(" | Latency: " + (int)temp.get(i) + " ms.");
-                }
-            }
-        }
+    @Override
+    public void addDevice(String ip, String mac, String hostname) {
+        //INSERT TO DATABASE
+
     }
 
-    public void display_port() {
-        System.out.println();
-        System.out.println("+--- Port Information ---+");
-        Iterator dev = ports.iterator();
-        while (dev.hasNext()) {
-            ArrayList temp = ((ArrayList)dev.next());
-            Iterator info = temp.iterator();
-            for (int i = 0; i < temp.size(); i++) {
-                if (i == 0) {
-                    System.out.print("IP Address: " + ((String)temp.get(i)).strip());
-                } else if (i == 1) {
-                    System.out.print(" | Port: ");
-                    ArrayList<Integer> temp2 = (ArrayList)temp.get(i);
-                    Iterator<Integer> port = temp2.iterator();
-                    for (int i2 = 0; port.hasNext(); i2++) {
-                        System.out.print(port.next() + " ");
-                    }
-                }
-                System.out.println();
-            }
-        }
+    @Override
+    public void setPort(String ip, ArrayList<Integer> port) {
+       //INSERT TO DATABASE WITH IP IS A KEY
+
     }
+
 }
