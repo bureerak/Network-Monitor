@@ -1,5 +1,5 @@
 package main.ui;
-
+import main.exporter.Print_info;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +27,7 @@ public class NetworkStatistics extends JInternalFrame implements ActionListener 
         item1.add(subitem2);
 
         setJMenuBar(menuBar);
+        //item2.addActionListener(e -> Print_info.print_panel(panel));  ใช้งานได้แล้วจู้ รอpanel อยู่จู๊ ใช้เพื่อ print panel
 
         setSize(new Dimension(600,500));
     }
