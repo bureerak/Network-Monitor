@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.Arrays;
 
 public class JDBCLogin {
+    private static String username;
 
     /**
      *
@@ -24,6 +25,7 @@ public class JDBCLogin {
                 System.out.print(username);
                 System.out.println(" logged in");
                 res.close(); statement.close();
+                JDBCLogin.username = username;
                 return true;
             } else {
                 System.out.println("login failed");
@@ -33,6 +35,26 @@ public class JDBCLogin {
             System.out.println("Internal Error");
         } finally {
             Arrays.fill(password,'\0');
+        }
+        return false;
+    }
+
+    /**
+     * Change password
+     * @param password
+     * @return true if change success.
+     */
+    public static boolean changePass(char[] password) {
+        String sql = "UPDATE users_account SET password = ? WHERE username = ?";
+        try (Connection con = DBCP.getConnection();
+             PreparedStatement pps = con.prepareStatement(sql)) {
+            pps.setString(1,BCrypt.hashpw(String.valueOf(password),BCrypt.gensalt()));
+            pps.setString(2,JDBCLogin.username);
+            pps.executeUpdate();
+            System.out.println("Password : Changed");
+            return true;
+        } catch (SQLException sq) {
+            sq.printStackTrace();
         }
         return false;
     }

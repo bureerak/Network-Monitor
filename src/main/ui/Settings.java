@@ -1,44 +1,46 @@
 package main.ui;
+import main.database.JDBCLogin;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class Settings extends JInternalFrame implements ActionListener {
     private JPanel dbP, msP;
-    private JLabel hostLabel, userLabel, passLabel, miLabel;
+    private JLabel userLabel, passLabel, miLabel;
     private GroupLayout dbLayout, msLayout;
-    private JTextField host, username;
-    private JPasswordField password;
+    private JPasswordField password, username;
     private JComboBox<String> Interval;
     private JButton apply1Btn, apply2Btn;
     public Settings(){
         super("Setting | Network Monitor",false,true,false,false);
 
         dbP = new JPanel();
-        dbP.setBorder(BorderFactory.createTitledBorder("Database Settings"));
+        dbP.setBorder(new CompoundBorder(new EmptyBorder(4,4,2,4),BorderFactory.createTitledBorder("Database Settings")));
         dbLayout = new GroupLayout(dbP);
         dbP.setLayout(dbLayout);
         dbLayout.setAutoCreateGaps(true);
         dbLayout.setAutoCreateContainerGaps(true);
 
-        hostLabel = new JLabel("Host:");
-        host = new JTextField();
-        userLabel = new JLabel("Username:");
-        username = new JTextField();
-        passLabel = new JLabel("Password:");
+        userLabel = new JLabel("New Password:");
+        username = new JPasswordField();
+        passLabel = new JLabel("Retype Password:");
         password = new JPasswordField();
         apply1Btn = new JButton("Apply");
+
+        apply1Btn.addActionListener(this);
 
         dbLayout.setHorizontalGroup(
                 dbLayout.createSequentialGroup()
                         .addGap(30)
                         .addGroup(dbLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(hostLabel)
                                 .addComponent(userLabel)
                                 .addComponent(passLabel))
                         .addGroup(dbLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addComponent(host)
                                 .addComponent(username)
                                 .addComponent(password)
                                 .addComponent(apply1Btn, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
@@ -46,11 +48,7 @@ public class Settings extends JInternalFrame implements ActionListener {
 
         dbLayout.setVerticalGroup(
                 dbLayout.createSequentialGroup()
-                        .addGap(15)
-                        .addGroup(dbLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(hostLabel)
-                                .addComponent(host))
-                        .addGap(6)
+                        .addGap(30)
                         .addGroup(dbLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(userLabel)
                                 .addComponent(username))
@@ -63,15 +61,16 @@ public class Settings extends JInternalFrame implements ActionListener {
                         .addGap(15));
 
         msP = new JPanel();
-        msP.setBorder(BorderFactory.createTitledBorder("Monitoring Settings"));
+        msP.setBorder(new CompoundBorder(new EmptyBorder(2,4,4,4),BorderFactory.createTitledBorder("Monitoring Settings")));
         msLayout = new GroupLayout(msP);
         msP.setLayout(msLayout);
         msLayout.setAutoCreateGaps(true);
         msLayout.setAutoCreateContainerGaps(true);
 
         miLabel = new JLabel("Monitor Interval:");
-        Interval = new JComboBox<>(new String[]{"1 minute", "2 minutes", "3 minutes"});
+        Interval = new JComboBox<>(new String[]{"5 minute", "10 minutes", "15 minutes"});
         apply2Btn = new JButton("Apply");
+        apply2Btn.addActionListener(this);
 
         msLayout.setHorizontalGroup(
                 msLayout.createSequentialGroup()
@@ -101,5 +100,18 @@ public class Settings extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(apply1Btn)) {
+            if (Arrays.equals(username.getPassword(), password.getPassword())) {
+                if (JDBCLogin.changePass(password.getPassword())) {
+                    JOptionPane.showMessageDialog(this,"Password has been successfully changed.","",JOptionPane.INFORMATION_MESSAGE);
+                    username.setText("");
+                    password.setText("");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,"Both passwords should match.","",JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource().equals(apply2Btn)) {
+            HomeViews.setIntervalNumber(Interval.getSelectedItem().toString());
+        }
     }
 }

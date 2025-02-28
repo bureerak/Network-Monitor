@@ -16,6 +16,8 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     static JLabel title, titleIcon, select, status, interval;
     ImageIcon titleImg;
     ProfileEditorView PEView;
+    Settings SettingView;
+    private static int IntervalNumber;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -27,11 +29,14 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         titleIcon = new JLabel(resizeIcon);
 
         PEView = new ProfileEditorView();
+        SettingView = new Settings();
 
         profileEdit = new JButton("Profile Editor");
         netTools = new JButton("Network Tools");
         netStat = new JButton("Network Statistics");
         settings = new JButton("Settings");
+
+        settings.addActionListener(this);
 
         profileEdit.addActionListener(this);
 
@@ -104,24 +109,48 @@ public class HomeViews extends JInternalFrame implements ActionListener {
                 getDesktopPane().add(PEView);
                 try {
                     PEView.setSelected(true);
-                    PEView.toFront();
                 } catch (PropertyVetoException ex) {
                     throw new RuntimeException(ex);
                 }
             } else {
                 try {
                     PEView.setSelected(true);
-                    PEView.toFront();
                 } catch (PropertyVetoException ex) {
                     throw new RuntimeException(ex);
                 }
             }
 
+        } else if (e.getSource().equals(settings)) {
+            if (!SettingView.isVisible()) {
+                SettingView.setVisible(true);
+                getDesktopPane().add(SettingView);
+                try {
+                    SettingView.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                try {
+                    SettingView.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
 
     public static void setSelect() {
         select.setText("Selected Profile: " + ProfileEditorView.getNowSelect());
         select.setToolTipText(ProfileEditorView.getNowSelect());
+    }
+
+    public static void setIntervalNumber(String i) {
+        String[] arr = i.split("\\s");
+        IntervalNumber = Integer.parseInt(arr[0]);
+        interval.setText("Monitor Interval: "+IntervalNumber+" minutes");
+    }
+
+    public static int getIntervalNumber(){
+        return IntervalNumber;
     }
 }
