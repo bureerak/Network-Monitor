@@ -9,14 +9,14 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-public class Settings extends JInternalFrame implements ActionListener {
+public class SettingViews extends JInternalFrame implements ActionListener {
     private JPanel dbP, msP;
     private JLabel userLabel, passLabel, miLabel;
     private GroupLayout dbLayout, msLayout;
     private JPasswordField password, username;
     private JComboBox<String> Interval;
     private JButton apply1Btn, apply2Btn;
-    public Settings(){
+    public SettingViews(){
         super("Setting | Network Monitor",false,true,false,false);
 
         dbP = new JPanel();
@@ -101,14 +101,14 @@ public class Settings extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(apply1Btn)) {
-            if (Arrays.equals(username.getPassword(), password.getPassword())) {
+            if (Arrays.equals(username.getPassword(), password.getPassword()) && !String.valueOf(username.getPassword()).isBlank() ) {
                 if (JDBCLogin.changePass(password.getPassword())) {
                     JOptionPane.showMessageDialog(this,"Password has been successfully changed.","",JOptionPane.INFORMATION_MESSAGE);
                     username.setText("");
                     password.setText("");
                 }
             } else {
-                JOptionPane.showMessageDialog(this,"Both passwords should match.","",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,"Both passwords should match or not be blank.","",JOptionPane.ERROR_MESSAGE);
             }
         } else if (e.getSource().equals(apply2Btn)) {
             HomeViews.setIntervalNumber(Interval.getSelectedItem().toString());

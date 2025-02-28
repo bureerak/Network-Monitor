@@ -16,8 +16,9 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     static JLabel title, titleIcon, select, status, interval;
     ImageIcon titleImg;
     ProfileEditorView PEView;
-    Settings SettingView;
-    private static int IntervalNumber;
+    SettingViews SettingView;
+    NetworkStatisticsViews NSView;
+    private static int IntervalNumber = 5;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -29,7 +30,8 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         titleIcon = new JLabel(resizeIcon);
 
         PEView = new ProfileEditorView();
-        SettingView = new Settings();
+        SettingView = new SettingViews();
+        NSView = new NetworkStatisticsViews();
 
         profileEdit = new JButton("Profile Editor");
         netTools = new JButton("Network Tools");
@@ -37,7 +39,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         settings = new JButton("Settings");
 
         settings.addActionListener(this);
-
+        netStat.addActionListener(this);
         profileEdit.addActionListener(this);
 
         tPane = new JPanel(); tPane.setLayout(new GridLayout(2,1));
@@ -65,9 +67,9 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         downHalfPane.add(myInfo);
         downHalfPane.add(monitor);
 
-        select = new JLabel("Selected Profile: None");
-        status = new JLabel("Status: None");
-        interval = new JLabel("Monitor Interval: None");
+        select = new JLabel("Selected Profile: ~");
+        status = new JLabel("Status: IDLE");
+        interval = new JLabel("Monitor Interval: 5 minutes");
 
         JPanel helperPane = new JPanel();
         helperPane.setLayout(new BoxLayout(helperPane,BoxLayout.Y_AXIS));
@@ -77,7 +79,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         helperPane.add(status);
         helperPane.add(Box.createRigidArea(new Dimension(0,7)));
         helperPane.add(interval);
-        helperPane.setBorder(new EmptyBorder(2,40,0,0));
+        helperPane.setBorder(new EmptyBorder(2,30,0,0));
 
         monitor.add(new JPanel(), BorderLayout.NORTH);
         monitor.add(new JPanel(), BorderLayout.WEST);
@@ -132,6 +134,22 @@ public class HomeViews extends JInternalFrame implements ActionListener {
             } else {
                 try {
                     SettingView.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } else if (e.getSource().equals(netStat)) {
+            if (!NSView.isVisible()) {
+                NSView.setVisible(true);
+                getDesktopPane().add(NSView);
+                try {
+                    NSView.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                try {
+                    NSView.setSelected(true);
                 } catch (PropertyVetoException ex) {
                     throw new RuntimeException(ex);
                 }
