@@ -13,6 +13,7 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         this.port = port;
     }
 
+    @Override
     public void run() {
         DeviceScanner scanner = new DeviceScanner();
         scanner.scan(ip, this);

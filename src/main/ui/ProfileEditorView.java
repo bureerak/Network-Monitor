@@ -100,6 +100,10 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
             viewRefresh();
         } else if (e.getSource().equals(delete) && comboBox.getSelectedItem() != null) {
             String[] name = comboBox.getSelectedItem().toString().split("\\s");
+            if ( name[1].equals("Active") ){
+                JOptionPane.showMessageDialog(this,"This profile is currently in use.");
+                return;
+            }
             if ( name[0].equals(nowSelect)) {
                 nowSelect = null;
                 profile_id = 0;
