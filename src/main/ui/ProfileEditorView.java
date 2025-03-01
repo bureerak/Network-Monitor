@@ -1,6 +1,7 @@
 package main.ui;
 
 import main.database.JDBCProfileEdit;
+import main.database.UserPreference;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -17,9 +18,6 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
     JTextField profileTxt;
     JButton addProfile, delete, select, refresh;
     JComboBox<String> comboBox;
-
-    private static String nowSelect = null;
-    private static int profile_id = 0;
 
     public ProfileEditorView() {
         super("Profile Editor | Network Monitor",false,true,false,false);
@@ -77,14 +75,6 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         setSize(new Dimension(460,350));
     }
 
-    public static int getProfile_id() {
-        return profile_id;
-    }
-
-    public static void setProfile_id(int profile_id) {
-        ProfileEditorView.profile_id = profile_id;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(addProfile) && !profileTxt.getText().isBlank()) {
@@ -104,9 +94,9 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
                 JOptionPane.showMessageDialog(this,"This profile is currently in use.");
                 return;
             }
-            if ( name[0].equals(nowSelect)) {
-                nowSelect = null;
-                profile_id = 0;
+            if ( name[0].equals( UserPreference.getProfile() )) {
+                UserPreference.setProfile("None");
+                UserPreference.setProfileID(0);
                 HomeViews.setSelect();
             }
             JDBCProfileEdit.deleteProfile(name[0]);
@@ -116,11 +106,11 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
             String[] name = comboBox.getSelectedItem().toString().split("\\s");
             boolean canSelect = JDBCProfileEdit.selectProfile(name[0]);
             if (canSelect) {
-                nowSelect = name[0];
+                UserPreference.setProfile(name[0]);
                 viewRefresh();
-                System.out.println(nowSelect + " Selected");
+                System.out.println(UserPreference.getProfile() + " Selected");
                 HomeViews.setSelect();
-                JOptionPane.showMessageDialog(this,nowSelect + " is currently in use.","",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this,UserPreference.getProfile() + " is currently in use.","",JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this,"Unavailable profile, please refresh.","Something went wrong",JOptionPane.WARNING_MESSAGE);
             }
@@ -139,7 +129,4 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         }
     }
 
-    public static String getNowSelect(){
-        return  nowSelect;
-    }
 }

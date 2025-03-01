@@ -1,5 +1,7 @@
 package main.ui;
 
+import main.database.UserPreference;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -18,7 +20,6 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     ProfileEditorView PEView;
     SettingViews SettingView;
     NetworkStatisticsViews NSView;
-    private static int IntervalNumber = 5;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -158,17 +159,14 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     }
 
     public static void setSelect() {
-        select.setText("Selected Profile: " + ProfileEditorView.getNowSelect());
-        select.setToolTipText(ProfileEditorView.getNowSelect());
+        select.setText("Selected Profile: " + UserPreference.getProfile());
+        select.setToolTipText(UserPreference.getProfile());
     }
 
     public static void setIntervalNumber(String i) {
         String[] arr = i.split("\\s");
-        IntervalNumber = Integer.parseInt(arr[0]);
-        interval.setText("Monitor Interval: "+IntervalNumber+" minutes");
+        UserPreference.setInterval( Integer.parseInt(arr[0]) );
+        interval.setText("Monitor Interval: "+UserPreference.getInterval()+" minutes");
     }
 
-    public static int getIntervalNumber(){
-        return IntervalNumber;
-    }
 }

@@ -68,7 +68,7 @@ public class SettingViews extends JInternalFrame implements ActionListener {
         msLayout.setAutoCreateContainerGaps(true);
 
         miLabel = new JLabel("Monitor Interval:");
-        Interval = new JComboBox<>(new String[]{"5 minute", "10 minutes", "15 minutes"});
+        Interval = new JComboBox<>(new String[]{"1 minute","5 minutes", "10 minutes", "15 minutes"});
         apply2Btn = new JButton("Apply");
         apply2Btn.addActionListener(this);
 

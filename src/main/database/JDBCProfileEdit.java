@@ -1,6 +1,5 @@
 package main.database;
 
-import main.ui.ProfileEditorView;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -74,25 +73,18 @@ public class JDBCProfileEdit {
     public static boolean selectProfile(String name) {
         String sql = "SELECT used,profile_id FROM profile WHERE profile_name = ?";
         String sqlSetStatus = "UPDATE profile SET used = 1 WHERE profile_name = ?";
-        String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = ?";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement preState = conn.prepareStatement(sql);
-             PreparedStatement setStatus = conn.prepareStatement(sqlSetStatus);
-             PreparedStatement statement = conn.prepareStatement(sqlUnselect)) {
-            if (ProfileEditorView.getNowSelect() != null){
-                statement.setString(1,ProfileEditorView.getNowSelect());
-                statement.executeUpdate();
-                ProfileEditorView.setProfile_id(0);
-                System.out.println(ProfileEditorView.getNowSelect() + " Unselected");
-            }
+             PreparedStatement setStatus = conn.prepareStatement(sqlSetStatus)) {
+            if ( !UserPreference.getProfile().equals("None") ) { unselectProfile(); }
             preState.setString(1,name);
             ResultSet rs = preState.executeQuery();
             rs.next();
             boolean status = rs.getBoolean("used");
             int profile_id = rs.getInt("profile_id");
             if (!status) {
-                ProfileEditorView.setProfile_id(profile_id);
-                System.out.println("Current profile id: " + ProfileEditorView.getProfile_id());
+                UserPreference.setProfileID(profile_id);
+                System.out.print("Current profile id: " + UserPreference.getProfileID() +" | ");
                 setStatus.setString(1,name);
                 setStatus.executeUpdate();
                 return true;
@@ -109,11 +101,11 @@ public class JDBCProfileEdit {
      * Unselected current profile
      */
     public static void unselectProfile() {
-        if (ProfileEditorView.getNowSelect() != null) {
+        if ( !UserPreference.getProfile().equals("None") ) {
             String sqlUnselect = "UPDATE profile SET used = 0 WHERE profile_name = ?";
             try (Connection conn = DBCP.getConnection();
                  PreparedStatement statement = conn.prepareStatement(sqlUnselect)) {
-                statement.setString(1,ProfileEditorView.getNowSelect());
+                statement.setString(1,UserPreference.getProfile());
                 statement.executeUpdate();
                 System.out.println("Clear selected profile Success.");
             } catch (SQLException s) {
