@@ -60,6 +60,7 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         //INSERT TO DATABASE
         int lactency = getLatency(ip);
         scanPort(ip);
+        System.out.println(ip +" | "+ mac + " | " + hostname);
 
     }
 

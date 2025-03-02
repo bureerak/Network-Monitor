@@ -101,7 +101,7 @@ public class SettingViews extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(apply1Btn)) {
-            if (Arrays.equals(username.getPassword(), password.getPassword()) && !String.valueOf(username.getPassword()).isBlank() ) {
+            if (Arrays.equals(username.getPassword(), password.getPassword()) && !String.valueOf(username.getPassword()).isBlank() && !String.valueOf(username.getPassword()).contains(" ") ) {
                 if (JDBCLogin.changePass(password.getPassword())) {
                     JOptionPane.showMessageDialog(this,"Password has been successfully changed.","",JOptionPane.INFORMATION_MESSAGE);
                     username.setText("");

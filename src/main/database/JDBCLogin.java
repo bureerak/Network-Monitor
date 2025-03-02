@@ -22,7 +22,7 @@ public class JDBCLogin {
             statement.setString(1,username);
             ResultSet res = statement.executeQuery();
             if (  res.next() && BCrypt.checkpw( String.valueOf(password), res.getString("password")) ) {
-                System.out.print(username);
+                System.out.print("* "+username);
                 System.out.println(" logged in");
                 res.close(); statement.close();
                 JDBCLogin.username = username;

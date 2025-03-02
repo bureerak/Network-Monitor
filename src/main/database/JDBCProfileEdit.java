@@ -84,7 +84,7 @@ public class JDBCProfileEdit {
             int profile_id = rs.getInt("profile_id");
             if (!status) {
                 UserPreference.setProfileID(profile_id);
-                System.out.print("Current profile id: " + UserPreference.getProfileID() +" | ");
+                System.out.print("* Current profile id: " + UserPreference.getProfileID() +" | ");
                 setStatus.setString(1,name);
                 setStatus.executeUpdate();
                 return true;
@@ -107,7 +107,7 @@ public class JDBCProfileEdit {
                  PreparedStatement statement = conn.prepareStatement(sqlUnselect)) {
                 statement.setString(1,UserPreference.getProfile());
                 statement.executeUpdate();
-                System.out.println("Clear selected profile Success.");
+                System.out.println("* Clear selected profile Success.");
             } catch (SQLException s) {
                 System.out.println("Internal Error.");
                 s.printStackTrace();
