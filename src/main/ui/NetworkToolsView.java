@@ -21,7 +21,7 @@ public class NetworkToolsView extends JInternalFrame implements ActionListener {
     IpAddress ipAddress;
     public NetworkToolsView() {
         super("Network Tools", false, true, false, false);
-//
+
         infoView = new NetworkInformation();
         internetInfoView = new InternetInformationView();
         nwScannerView = new NetworkScannerView();
@@ -85,7 +85,6 @@ public class NetworkToolsView extends JInternalFrame implements ActionListener {
         setSize(new Dimension(400, 280));
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(nwInf)) {
@@ -137,22 +136,22 @@ public class NetworkToolsView extends JInternalFrame implements ActionListener {
                     throw new RuntimeException(ex);
                 }
             }
-//        } else if (e.getSource().equals(ipCal)) {
-//            if (!ipAddress.isVisible()) {
-//                ipAddress.setVisible(true);
-//                getDesktopPane().add(ipAddress);
-//                try {
-//                    ipAddress.setSelected(true);
-//                } catch (PropertyVetoException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//            } else {
-//                try {
-//                    ipAddress.setSelected(true);
-//                } catch (PropertyVetoException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//            }
+        } else if (e.getSource().equals(ipCal)) {
+            if (!ipAddress.isVisible()) {
+                ipAddress.setVisible(true);
+                getDesktopPane().add(ipAddress);
+                try {
+                    ipAddress.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                try {
+                    ipAddress.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         } else if (e.getSource().equals(nwScn)) {
             nwScannerView.clearTable();
             nwScannerView.setCurrentCount();
