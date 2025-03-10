@@ -71,7 +71,7 @@ public class JDBCProfileEdit {
      * @return boolean if true = can select this profile, false = can't select this profile
      */
     public static boolean selectProfile(String name) {
-        String sql = "SELECT used,profile_id FROM profile WHERE profile_name = ?";
+        String sql = "SELECT profile_id FROM profile WHERE profile_name = ?";
         String sqlSetStatus = "UPDATE profile SET used = 1 WHERE profile_name = ?";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement preState = conn.prepareStatement(sql);
@@ -80,9 +80,8 @@ public class JDBCProfileEdit {
             preState.setString(1,name);
             ResultSet rs = preState.executeQuery();
             rs.next();
-            boolean status = rs.getBoolean("used");
             int profile_id = rs.getInt("profile_id");
-            if (!status) {
+            if (isUsable(name)) {
                 UserPreference.setProfileID(profile_id);
                 System.out.print("* Current profile id: " + UserPreference.getProfileID() +" | ");
                 setStatus.setString(1,name);
@@ -113,5 +112,25 @@ public class JDBCProfileEdit {
                 s.printStackTrace();
             }
         }
+    }
+
+    /**
+     *
+     * @param name
+     * @return true if profile is not occupied else false
+     */
+    public static boolean isUsable(String name) {
+        String sql = "SELECT used FROM profile WHERE profile_name = ?";
+        try ( Connection conn = DBCP.getConnection();
+              PreparedStatement statement = conn.prepareStatement(sql);) {
+            statement.setString(1,name);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            boolean used_state = rs.getBoolean("used");
+            return  !used_state;
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return false;
     }
 }

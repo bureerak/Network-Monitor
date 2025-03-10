@@ -90,8 +90,9 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
             viewRefresh();
         } else if (e.getSource().equals(delete) && comboBox.getSelectedItem() != null) {
             String[] name = comboBox.getSelectedItem().toString().split("\\s");
-            if ( name[1].equals("Active") ){
+            if ( !JDBCProfileEdit.isUsable(name[0]) ){
                 JOptionPane.showMessageDialog(this,"This profile is currently in use.");
+                viewRefresh();
                 return;
             }
             if ( name[0].equals( UserPreference.getProfile() )) {
@@ -112,7 +113,7 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
                 HomeViews.setSelect();
                 JOptionPane.showMessageDialog(this,UserPreference.getProfile() + " is currently in use.","",JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this,"Unavailable profile, please refresh.","Something went wrong",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this,"Something went wrong.","",JOptionPane.ERROR_MESSAGE);
             }
 
         }
