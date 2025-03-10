@@ -20,6 +20,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     ProfileEditorView PEView;
     SettingViews SettingView;
     NetworkStatisticsViews NSView;
+    NetworkToolsView NWToolsView;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -33,6 +34,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         PEView = new ProfileEditorView();
         SettingView = new SettingViews();
         NSView = new NetworkStatisticsViews();
+        NWToolsView = new NetworkToolsView();
 
         profileEdit = new JButton("Profile Editor");
         netTools = new JButton("Network Tools");
@@ -40,6 +42,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         settings = new JButton("Settings");
 
         settings.addActionListener(this);
+        netTools.addActionListener(this);
         netStat.addActionListener(this);
         profileEdit.addActionListener(this);
 
@@ -151,6 +154,24 @@ public class HomeViews extends JInternalFrame implements ActionListener {
             } else {
                 try {
                     NSView.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } else if (e.getSource().equals(netTools)) {
+            if (!NWToolsView.isVisible()) {
+                NWToolsView.setVisible(true);
+                getDesktopPane().add(NWToolsView);
+                try {
+                    NWToolsView.setSelected(true);
+                    NWToolsView.toFront();
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                try {
+                    NWToolsView.setSelected(true);
+                    NWToolsView.toFront();
                 } catch (PropertyVetoException ex) {
                     throw new RuntimeException(ex);
                 }
