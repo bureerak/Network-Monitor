@@ -9,6 +9,7 @@ import java.util.concurrent.*;
 public class DeviceScanner {
     private static final int IP_SCAN_TIMEOUT = 350;
     private static final int IP_SCAN_THREADS = 35;
+    private volatile boolean running = true;
 
     public void scan(String ip, DeviceDisplay display) {
         String startIP = "";
@@ -31,16 +32,33 @@ public class DeviceScanner {
     private void doScan(String[] startIP, String[] endIP, DeviceDisplay display) {
         String currentIP = IPCalculator.toDecimal(startIP);
         int ipRange = IPCalculator.calcUsableIP(startIP, endIP);
+        int scanCount = IPCalculator.calcUsableIP(startIP, endIP);
+        int currentCount = 0;
+        running = true;
 
         final ExecutorService scanExecutor = Executors.newFixedThreadPool(IP_SCAN_THREADS);
         final List<Future<String[]>> scanList = new ArrayList<>();
         for (int i = 0; i < ipRange; i++) {
+            if (!running) {
+                break;
+            }
             scanList.add(isReachable(scanExecutor, currentIP));
             currentIP = DeviceScanner.nextIP(currentIP);
+            currentCount++;
+            int progress = (int) (((double) currentCount / scanCount) * 100);
+            display.updateProgress(progress);
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         scanExecutor.shutdown();
 
         for (final Future<String[]> f : scanList) {
+            if (!running) {
+                break;
+            }
             try {
                 if (Integer.parseInt(f.get()[1]) >= 0) {
                     display.addDevice(f.get()[0], f.get()[2], f.get()[3]);
@@ -93,5 +111,9 @@ public class DeviceScanner {
         }
 
         return ipInt[0] + "." + ipInt[1] + "." + ipInt[2] + "." + ipInt[3];
+    }
+
+    public void stopScan() {
+        running = false;
     }
 }

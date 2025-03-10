@@ -70,4 +70,9 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
 
     }
 
+    @Override
+    public void updateProgress(int scanned) {
+
+    }
+
 }

@@ -129,4 +129,8 @@ public class ScannerProcessOld extends Thread implements DeviceDisplay, PortDisp
             }
         }
     }
+    @Override
+    public void updateProgress(int scanned) {
+
+    }
 }
