@@ -121,4 +121,9 @@ public class PingView extends JInternalFrame implements ActionListener , DeviceD
 
     }
 
+    @Override
+    public void updateProgress(int scanned) {
+
+    }
+
 }
