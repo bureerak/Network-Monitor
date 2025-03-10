@@ -1,0 +1,186 @@
+package main.ui;
+import java.awt.*;
+import javax.swing.*;
+
+public class IpAddress  {
+    private JFrame frame;
+    private JPanel main , panel1,panel2,panel3,panel4, results ,re_ipaddress,re_subnet,re_network,re_broadcast,re_wildcard,re2_ipaddress,re2_subnet,re2_network,re2_broadcast,re2_wildcard ,re_iprange,re2_iprange,pllabel;
+    private JTextField tf_ip, tf_subnet , ipAddressField1,subnetMaskField1,networkField1, wildcardField1 , broadcastField1,ipAddressField2,subnetMaskField2,networkField2,wildcardField2,broadcastField2,iprangeField1,iprangeField2;
+    private JLabel lb_ip, lb_subnet ,iplabel, subnetlabel , networklabel,broadcastlabel,wildcardlabel ;
+
+    private JButton calculate;
+    public IpAddress() {
+        frame = new JFrame("IP Calculator");
+        frame.setSize(400, 515);
+        main = new JPanel();
+        main.setLayout(new BorderLayout());
+        //ส่วนแรก
+        panel1 = new JPanel();
+        panel1.setLayout(new GridLayout(3,1));
+        lb_ip = new JLabel("  IP Address: ");
+        lb_subnet = new JLabel("  Subnet: ");
+        tf_ip = new JTextField(23);
+        tf_subnet = new JTextField(25);
+        panel2 = new JPanel();
+        panel2.setLayout(new FlowLayout());
+        panel3 = new JPanel();
+        panel3.setLayout(new FlowLayout());
+        panel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        calculate = new JButton("Calculate");
+        panel2.add(lb_ip);
+        panel2.add(tf_ip);
+        panel3.add(lb_subnet);
+        panel3.add(tf_subnet);
+        panel4.add(calculate );
+        panel1.add(panel2);
+        panel1.add(panel3);
+        panel1.add(panel4,BorderLayout.EAST);
+
+        //ส่วนสอง
+        results = new JPanel(new GridLayout(6,1));
+        results.setBorder(BorderFactory.createTitledBorder("Results"));
+        re_subnet = new JPanel(new GridLayout(2,1));
+        re_network = new JPanel(new GridLayout(2,1));
+        re_broadcast = new JPanel(new GridLayout(2,1));
+        re_wildcard = new JPanel(new GridLayout(2,1));
+        re_iprange = new JPanel(new GridLayout(2,1));
+
+        re2_ipaddress = new JPanel(new GridLayout(2,1));
+        re2_subnet = new JPanel(new GridLayout(2,1));
+        re2_network = new JPanel(new GridLayout(2,1));
+        re2_broadcast = new JPanel(new GridLayout(2,1));
+        re2_wildcard = new JPanel(new GridLayout(2,1));
+        re2_iprange = new JPanel(new GridLayout(2,1));
+
+        //text field
+        ipAddressField1 = new JTextField();
+        subnetMaskField1 = new JTextField();
+        networkField1 = new JTextField();
+        wildcardField1 = new JTextField();
+        broadcastField1 = new JTextField();
+        iprangeField1 = new JTextField();
+        iprangeField2 = new JTextField();
+
+        ipAddressField2 = new JTextField();
+        subnetMaskField2 = new JTextField();
+        networkField2 = new JTextField();
+        wildcardField2 = new JTextField();
+        broadcastField2 = new JTextField();
+        //settext
+        re2_ipaddress.add(ipAddressField1);
+        re2_ipaddress.add(ipAddressField2);
+        re2_subnet.add(subnetMaskField1);
+        re2_subnet.add(subnetMaskField2);
+        re2_network.add(networkField1);
+        re2_network.add(networkField2);
+        re2_broadcast.add(broadcastField1);
+        re2_broadcast.add(broadcastField2);
+        re2_wildcard.add(wildcardField1);
+        re2_wildcard.add(wildcardField2);
+        re2_iprange.add(iprangeField1);
+        re2_iprange.add(iprangeField2);
+        //label
+        iplabel = new JLabel("    IP Address : ");
+        subnetlabel = new JLabel("    Subnet Mask : ");
+        networklabel = new JLabel("    Network : ");
+        broadcastlabel = new JLabel("    Broadcast : ");
+        wildcardlabel = new JLabel("    Wildcard : ");
+
+        pllabel = new JPanel(new BorderLayout());
+        pllabel.add(iplabel, BorderLayout.NORTH);
+        //ใช้ setLayout สำหรับPanel แต่ละตัวของ result
+        re_ipaddress = new JPanel(new GridBagLayout());//ทำเป็น gridbag gridbag จะทำงานตามแนวแกน x y
+        GridBagConstraints gbc = new GridBagConstraints();//ประกาศตัวที่ใช้สำหรับการปรับแต่งของที่จะใส่ใน gridbag
+        gbc.gridx = 0; // กำหนดว่าใช้ตัวที่ค่า x = 0, โดยที่ค่า y ก็จะเริ่มที่ 0
+        gbc.weightx = 0.1; // กำหนด scale ตามแนวแกน x ของ panel (เช่นจาก 100% -> 10%(0.1))
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL; //กำหนดให้เต็มไปในแนวไหน เช่นอันนี้ไปในแนวนอน
+        re_ipaddress.add(pllabel,gbc); //เพิ่มค่าตัวแรกเข้าไปก็คือ label คำว่า ipaddress : โดยที่ใส่ gbc ที่เราปรับแต่งไว้ไปด้วย
+        //หลังจากใส่ตัวที่ 1 แล้วเราก็จะต้องปรับ gbc ใหม่เพื่อให้มันตรงกับสิ่งที่เราต้องการให้ตัวถัดไปเป็นเช่นขนาด หรือตำแหน่ง
+        gbc.gridx = 1; // ทำการปรับแต่สำหรับตัวต่อไป โดยที่รอบที่ x = 1 นึกภาพตามก็จะเป็น แนวแกน x มี 0 1 2 อันนี้คือสำหรับใส่ 3 ตัวแต่ถ้าเราจะใส่ 2 ตัวใน layout นี้ก็จะเป็น 0 1 รอบนี้เรากำหนดให้มันไปตำแหน่งที่ 1 หรือก็คือขวาของ label
+        gbc.weightx = 1.2; // กำหนดค่า scale ตามแนว x เหมือนเดิมโดยที่รอบที่ให้ 1 ไปหรือก็คือมากสุดเท่าที่จะเป็นไปได้
+        gbc.fill = GridBagConstraints.HORIZONTAL;// กำหนดให้ไปแนวนอน
+        re_ipaddress.add(re2_ipaddress,gbc); // เพิ่่ม panel ของ textfield ที่เป็น grid row 2 ตัวเข้าไป โดยให้ใช้การปรับแต่งจากข้างบน ก็คือจะไปที่ตำแหน่งที่ x = 1 หรือก็คือขวาของ label
+       // re_ipaddress.setBackground(Color.GREEN);  // สำหรับกรณีที่ต้องการปรับสีพื้นหลังเพื่อเช็คขนาดของ panel
+
+        re_subnet = new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.weightx = 0.1;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_subnet.add(subnetlabel,gbc);
+        gbc.gridx = 1;
+        gbc.weightx = 3.1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_subnet.add(re2_subnet,gbc);
+
+        re_network = new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.weightx = 0.1;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_network.add(networklabel,gbc);
+        gbc.gridx = 1;
+        gbc.weightx = 0.75;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_network.add(re2_network,gbc);
+
+        re_broadcast = new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.weightx = 0.1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_broadcast.add(broadcastlabel,gbc);
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_broadcast.add(re2_broadcast,gbc);
+
+        re_wildcard= new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.weightx = 0.1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_wildcard.add(wildcardlabel,gbc);
+        gbc.gridx = 1;
+        gbc.weightx = 0.8;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_wildcard.add(re2_wildcard,gbc);
+
+        //test
+        JPanel re_iprangee = new JPanel(new GridLayout(2, 1)); // GridLayout 2 แถว 2 คอลัมน์ ระยะห่าง 5
+        JLabel iprangelabell = new JLabel("    IP Range:");
+        JLabel usablelabell = new JLabel("    Usable:");
+        re_iprangee.add(iprangelabell);
+        re_iprangee.add(usablelabell);
+
+        re_iprange= new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        re_iprange.add(re_iprangee,gbc);
+        gbc.gridy = 1;
+        gbc.gridx = 1;
+        gbc.weightx = 0.609;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        re_iprange.add(re2_iprange,gbc);
+
+        results.add(re_ipaddress);
+        results.add(re_subnet);
+        results.add(re_network);
+        results.add(re_broadcast);
+        results.add(re_wildcard);
+        results.add(re_iprange);
+
+        main.add(panel1,BorderLayout.NORTH); //ให้ก้อนบนในรูปไปเกาะด้านบน
+        main.add(results);// ให้อยู่ตรงกลางจะได้ยืนได้รอบด้าน
+        frame.add(main);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args) {
+        new IpAddress();
+    }
+}
