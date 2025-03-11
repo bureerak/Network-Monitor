@@ -1,10 +1,20 @@
 package main.ui;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
-public class IpAddress extends JInternalFrame {
+
+import main.NetworkTools.InternalNetwork;
+import main.NetworkTools.IPCalculator;
+
+public class IpAddress extends JInternalFrame implements ActionListener {
     private JPanel main , panel1,panel2,panel3,panel4, results ,re_ipaddress,re_subnet,re_network,re_broadcast,re_wildcard,re2_ipaddress,re2_subnet,re2_network,re2_broadcast,re2_wildcard ,re_iprange,re2_iprange,pllabel;
     private JTextField tf_ip, tf_subnet , ipAddressField1,subnetMaskField1,networkField1, wildcardField1 , broadcastField1,ipAddressField2,subnetMaskField2,networkField2,wildcardField2,broadcastField2,iprangeField1,iprangeField2;
     private JLabel lb_ip, lb_subnet ,iplabel, subnetlabel , networklabel,broadcastlabel,wildcardlabel ;
@@ -211,5 +221,30 @@ public class IpAddress extends JInternalFrame {
         main.add(panel1,BorderLayout.NORTH); //ให้ก้อนบนในรูปไปเกาะด้านบน
         main.add(results);// ให้อยู่ตรงกลางจะได้ยืนได้รอบด้าน
         add(main);
+
+        tf_ip.setText(InternalNetwork.getIP());
+        tf_subnet.setText("255.255.255.0");
+        calculate.addActionListener(this);
+        setLocation(650, 8);
+        }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == calculate) {
+            IPCalculator calc = new IPCalculator(tf_ip.getText(), tf_subnet.getText());
+            ipAddressField1.setText(calc.getIP());
+            ipAddressField2.setText(calc.getBinaryIP());
+            subnetMaskField1.setText(calc.getSubnetMask());
+            subnetMaskField2.setText(calc.getBinarySubnet());
+            networkField1.setText(calc.getNetworkID());
+            networkField2.setText(calc.getBinaryNetwork());
+            broadcastField1.setText(calc.getBroadcastIP());
+            broadcastField2.setText(calc.getBinaryBroadcast());
+            wildcardField1.setText(calc.getWildcardIP());
+            wildcardField2.setText(calc.getBinaryWildcard());
+            iprangeField1.setText(calc.getFirstIP()+"-"+calc.getLastIP());
+            iprangeField2.setText(String.valueOf(calc.getUsableIP()));
+        }
+
     }
+
 }
