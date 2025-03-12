@@ -70,6 +70,13 @@
             <artifactId>HikariCP</artifactId>
             <version>6.2.1</version>
         </dependency>
+
+        <!-- SLF4J API -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
+        </dependency>
     </dependencies>
 
 </project>

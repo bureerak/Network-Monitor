@@ -1,6 +1,7 @@
 package main.ui;
 
 import main.database.JDBCProfileEdit;
+import main.database.UserPreference;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,6 +42,7 @@ public class ToolsDeskPane implements WindowListener {
     @Override
     public void windowClosing(WindowEvent e) {
         JDBCProfileEdit.unselectProfile();
+        UserPreference.setStatus(UserPreference.IDLE);
     }
 
     @Override

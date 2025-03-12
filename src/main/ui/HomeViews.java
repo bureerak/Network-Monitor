@@ -1,5 +1,6 @@
 package main.ui;
 
+import main.NetworkTools.InternalNetwork;
 import main.database.UserPreference;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     ProfileEditorView PEView;
     SettingViews SettingView;
     NetworkStatisticsViews NSView;
-    NetworkToolsView NWToolsView;
+//    NetworkToolsView NWToolsView;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -34,7 +35,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         PEView = new ProfileEditorView();
         SettingView = new SettingViews();
         NSView = new NetworkStatisticsViews();
-        NWToolsView = new NetworkToolsView();
+//        NWToolsView = new NetworkToolsView();
 
         profileEdit = new JButton("Profile Editor");
         netTools = new JButton("Network Tools");
@@ -62,14 +63,35 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         subUpHalfPane.add(profileEdit); subUpHalfPane.add(netTools); subUpHalfPane.add(netStat); subUpHalfPane.add(settings);
         upHalfPane.add(subUpHalfPane);
 
-        downHalfPane = new JPanel(); downHalfPane.setLayout( new GridLayout(1,2) );
-        JPanel myInfo = new JPanel();
+        downHalfPane = new JPanel();
+        downHalfPane.setLayout( new GridLayout(1,2) );
+        JPanel myInfo = new JPanel(new BorderLayout());
         myInfo.setBorder(new CompoundBorder(new EmptyBorder(7,7,7,2),BorderFactory.createTitledBorder("My Information")));
         JPanel monitor = new JPanel();
         monitor.setLayout(new BorderLayout());
         monitor.setBorder(new CompoundBorder(new EmptyBorder(7,2,7,7),BorderFactory.createTitledBorder("Monitor Information")));
         downHalfPane.add(myInfo);
         downHalfPane.add(monitor);
+
+        JPanel InfoPane = new JPanel();
+        InfoPane.setLayout(new BoxLayout(InfoPane,BoxLayout.Y_AXIS));
+
+        JLabel hostName = new JLabel("Hostname: "+InternalNetwork.getHostName());
+        JLabel ip = new JLabel("IP Address: "+InternalNetwork.getIP());
+        JLabel mac = new JLabel("Mac Address: "+InternalNetwork.getMACAddress());
+
+        InfoPane.add(hostName);
+        InfoPane.add(Box.createRigidArea(new Dimension(0,7)));
+        InfoPane.add(ip);
+        InfoPane.add(Box.createRigidArea(new Dimension(0,7)));
+        InfoPane.add(mac);
+        InfoPane.setBorder(new EmptyBorder(5,25,5,5));
+
+        myInfo.add(new JPanel(), BorderLayout.NORTH);
+        myInfo.add(new JPanel(), BorderLayout.WEST);
+        myInfo.add(new JPanel(), BorderLayout.EAST);
+        myInfo.add(new JPanel(), BorderLayout.SOUTH);
+        myInfo.add(InfoPane,BorderLayout.CENTER);
 
         select = new JLabel("Selected Profile: ~");
         status = new JLabel("Status: IDLE");
@@ -159,23 +181,23 @@ public class HomeViews extends JInternalFrame implements ActionListener {
                 }
             }
         } else if (e.getSource().equals(netTools)) {
-            if (!NWToolsView.isVisible()) {
-                NWToolsView.setVisible(true);
-                getDesktopPane().add(NWToolsView);
-                try {
-                    NWToolsView.setSelected(true);
-                    NWToolsView.toFront();
-                } catch (PropertyVetoException ex) {
-                    throw new RuntimeException(ex);
-                }
-            } else {
-                try {
-                    NWToolsView.setSelected(true);
-                    NWToolsView.toFront();
-                } catch (PropertyVetoException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+//            if (!NWToolsView.isVisible()) {
+//                NWToolsView.setVisible(true);
+//                getDesktopPane().add(NWToolsView);
+//                try {
+//                    NWToolsView.setSelected(true);
+//                    NWToolsView.toFront();
+//                } catch (PropertyVetoException ex) {
+//                    throw new RuntimeException(ex);
+//                }
+//            } else {
+//                try {
+//                    NWToolsView.setSelected(true);
+//                    NWToolsView.toFront();
+//                } catch (PropertyVetoException ex) {
+//                    throw new RuntimeException(ex);
+//                }
+//            }
         }
     }
 
@@ -188,6 +210,10 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         String[] arr = i.split("\\s");
         UserPreference.setInterval( Integer.parseInt(arr[0]) );
         interval.setText("Monitor Interval: "+UserPreference.getInterval()+" minutes");
+    }
+
+    public static void setStatus(String s) {
+        status.setText(s);
     }
 
 }

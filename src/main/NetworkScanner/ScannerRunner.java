@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 public class ScannerRunner {
     private static final String COMMON_PORTS = "7, 19, 20-25, 42-1000, 1025-1985, 2000-2100, 2222, 2302, 2483-2484, 2745, 2967, 3050-3785, 4333-4899, 5000-5999, 6000";
-
+    private final Timer timer;
     public ScannerRunner(String ip, StatusDisplay display) {
         this(ip, 5, display);
     }
@@ -16,7 +16,7 @@ public class ScannerRunner {
 
     public ScannerRunner(String ip, String port, int scanInterval, StatusDisplay display) {
         display.setInterval(scanInterval);
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -27,6 +27,13 @@ public class ScannerRunner {
                 setScanning(false, display);
             }
         }, 0, scanInterval * 60000);
+    }
+
+    public void stopRunner() {
+        if (timer != null) {
+            timer.cancel();
+            System.out.println("Runner stopped.");
+        }
     }
 
     public void setScanning(boolean scanning, StatusDisplay display) {

@@ -55,7 +55,7 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         JPanel subUpDown = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         profileSelect = new JLabel("Profile :");
         delete = new JButton("Delete"); delete.addActionListener(this);
-        select = new JButton("Select");
+        select = new JButton("Start");
         select.addActionListener(this);
 
         subUpTop.add(profileSelect);
@@ -111,7 +111,8 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
                 viewRefresh();
                 System.out.println(UserPreference.getProfile() + " Selected");
                 HomeViews.setSelect();
-                JOptionPane.showMessageDialog(this,UserPreference.getProfile() + " is currently in use.","",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this,UserPreference.getProfile() + " now currently in use.","",JOptionPane.INFORMATION_MESSAGE);
+                UserPreference.setStatus(UserPreference.SAVING);
             } else {
                 JOptionPane.showMessageDialog(this,"Something went wrong.","",JOptionPane.ERROR_MESSAGE);
             }

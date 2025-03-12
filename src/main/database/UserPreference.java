@@ -1,10 +1,14 @@
 package main.database;
 
+import main.NetworkScanner.InitializeScan;
+import main.ui.HomeViews;
+
 public class UserPreference {
     private static String Profile;
     private static int ProfileID;
     private static int Interval;
     private static int Status;
+    private static final InitializeScan initializeScan;
 
     public static final int IDLE = 0;
     public static final int READY = 1;
@@ -15,6 +19,7 @@ public class UserPreference {
         ProfileID = 0;
         Interval = 5;
         Status = 0;
+        initializeScan = new InitializeScan();
     }
 
     public static String getProfile() {
@@ -43,6 +48,14 @@ public class UserPreference {
     }
     public static void setStatus(int status) {
         Status = status;
+        initializeScan.notifyStatus(getStatus());
+        if (status == 0) {
+            HomeViews.setStatus("Status: IDLE");
+        } else if (status == 1) {
+            HomeViews.setStatus("Status: Ready");
+        } else {
+            HomeViews.setStatus("Status: Saving");
+        }
     }
 
 }
