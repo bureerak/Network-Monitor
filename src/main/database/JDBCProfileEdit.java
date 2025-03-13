@@ -106,6 +106,7 @@ public class JDBCProfileEdit {
                  PreparedStatement statement = conn.prepareStatement(sqlUnselect)) {
                 statement.setString(1,UserPreference.getProfile());
                 statement.executeUpdate();
+                UserPreference.setStatus(UserPreference.IDLE);
                 System.out.println("* Clear selected profile Success.");
             } catch (SQLException s) {
                 System.out.println("Internal Error.");

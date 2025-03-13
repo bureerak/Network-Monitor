@@ -1,17 +1,16 @@
-package main.database;
+package main.database.graph;
 
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public abstract class GraphModel {
-    private LocalDateTime now;
+    private static LocalDateTime now;
     public void setIntervalDT() {
         now = LocalDateTime.now();
     }
     public LocalDateTime getIntervalDT(){
         return now;
     }
-    public abstract void fetchData();
     public abstract void insertData(ArrayList data);
 }

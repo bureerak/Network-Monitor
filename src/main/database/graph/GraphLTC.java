@@ -1,4 +1,7 @@
-package main.database;
+package main.database.graph;
+
+import main.database.DBCP;
+import main.database.UserPreference;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +10,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Latency extends GraphModel{
-    @Override
-    public void fetchData() {
-
-    }
+public class GraphLTC extends GraphModel {
 
     @Override
     public void insertData(ArrayList data) {
@@ -19,7 +18,7 @@ public class Latency extends GraphModel{
         String sql = "INSERT INTO latency_info ( profile_id , mac , latency , datetime ) VALUE ( ?,?,?,? )";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql)) {
-            stm.setInt(1,UserPreference.getProfileID());
+            stm.setInt(1, UserPreference.getProfileID());
             stm.setString(2, (String) data.get(0));
             stm.setFloat(3, (Float) data.get(1));
             stm.setTimestamp(4, Timestamp.valueOf(now));

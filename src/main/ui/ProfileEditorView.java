@@ -105,7 +105,7 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
             System.out.println("* Delete Success");
         } else if (e.getSource().equals(select) && comboBox.getSelectedItem() != null) {
             String[] name = comboBox.getSelectedItem().toString().split("\\s");
-            boolean canSelect = JDBCProfileEdit.selectProfile(name[0]);
+            boolean canSelect = UserPreference.getProfile().equals(name[0]) ? false : JDBCProfileEdit.selectProfile(name[0]);
             if (canSelect) {
                 UserPreference.setProfile(name[0]);
                 viewRefresh();

@@ -32,7 +32,7 @@ public class ScannerRunner {
     public void stopRunner() {
         if (timer != null) {
             timer.cancel();
-            System.out.println("Runner stopped.");
+            System.out.println("* Runner stopped.");
         }
     }
 
