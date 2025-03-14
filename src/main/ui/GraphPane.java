@@ -6,6 +6,8 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 
 import javax.swing.*;
 
@@ -14,7 +16,6 @@ public class GraphPane {
         LatencyFetch lf = LatencyFetch.getInstance();
         lf.fetch();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
         for (int i = 0; i < lf.getAvg().size(); i++) {
             String dateTime = String.valueOf(lf.getDateTimes().get(i));
             Double avg = lf.getAvg().get(i);
@@ -31,7 +32,8 @@ public class GraphPane {
                 true,
                 false
         );
-
+        CategoryAxis xAxis = chart.getCategoryPlot().getDomainAxis();
+        xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         JFrame frame = new JFrame("Latency Chart");

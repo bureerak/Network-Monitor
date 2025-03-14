@@ -12,9 +12,7 @@ public class OhmLook {
     public static void main(String[] args) {
         LatencyFetch lf = LatencyFetch.getInstance();
         lf.fetch();
-        lf.getAvg();
         System.out.println(lf.getAvg());
-        lf.getDateTimes();
         System.out.println(lf.getDateTimes());
     }
 }
