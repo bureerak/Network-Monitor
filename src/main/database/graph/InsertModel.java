@@ -3,9 +3,8 @@ package main.database.graph;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Objects;
 
-public abstract class GraphModel {
+public abstract class InsertModel {
     private static LocalDateTime now;
     public void setIntervalDT() {
         now = LocalDateTime.now();
@@ -13,5 +12,5 @@ public abstract class GraphModel {
     public LocalDateTime getIntervalDT(){
         return now;
     }
-    public abstract void insertData(ArrayList<Objects> data);
+    public abstract void insertData(ArrayList<Object> data);
 }

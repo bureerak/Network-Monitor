@@ -1,8 +1,8 @@
 package main.NetworkScanner;
 
 import main.NetworkTools.*;
-import main.database.graph.GraphModel;
-import main.database.graph.GraphLTC;
+import main.database.graph.InsertModel;
+import main.database.graph.LatencyInsert;
 
 import java.util.ArrayList;
 
@@ -11,12 +11,12 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     String ip;
     String port;
 
-    private final GraphModel latency;
+    private final InsertModel latency;
 
     public ScannerProcess(String ip, String port) {
         this.ip = ip;
         this.port = port;
-        this.latency = new GraphLTC();
+        this.latency = new LatencyInsert();
         latency.setIntervalDT();
     }
 
@@ -67,7 +67,7 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         //INSERT TO DATABASE
         int latency = getLatency(ip);
         scanPort(ip);
-        ( (GraphLTC) this.latency).insertData( mac,latency );
+        ( (LatencyInsert) this.latency).insertData( mac,latency );
         System.out.println(hostname +" | "+ mac + " | " + ip + " | " + latency + " ms");
 
     }

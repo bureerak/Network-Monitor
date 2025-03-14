@@ -10,10 +10,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class GraphLTC extends GraphModel {
+public class LatencyInsert extends InsertModel {
 
     @Override
-    public void insertData(ArrayList data) {
+    public void insertData(ArrayList<Object> data) {
         LocalDateTime now = getIntervalDT();
         String sql = "INSERT INTO latency_info ( profile_id , mac , latency , datetime ) VALUE ( ?,?,?,? )";
         try (Connection conn = DBCP.getConnection();
@@ -29,7 +29,7 @@ public class GraphLTC extends GraphModel {
     }
 
     public void insertData(String mac,float latency) {
-        ArrayList array = new ArrayList();
+        ArrayList<Object> array = new ArrayList<>();
         array.add(mac); array.add(latency);
         insertData(array);
     }
