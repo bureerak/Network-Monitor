@@ -21,7 +21,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     ProfileEditorView PEView;
     SettingViews SettingView;
     NetworkStatisticsViews NSView;
-//    NetworkToolsView NWToolsView;
+    NetworkToolsView NWToolsView;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -35,7 +35,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         PEView = new ProfileEditorView();
         SettingView = new SettingViews();
         NSView = new NetworkStatisticsViews();
-//        NWToolsView = new NetworkToolsView();
+        NWToolsView = new NetworkToolsView();
 
         profileEdit = new JButton("Profile Editor");
         netTools = new JButton("Network Tools");
@@ -181,23 +181,23 @@ public class HomeViews extends JInternalFrame implements ActionListener {
                 }
             }
         } else if (e.getSource().equals(netTools)) {
-//            if (!NWToolsView.isVisible()) {
-//                NWToolsView.setVisible(true);
-//                getDesktopPane().add(NWToolsView);
-//                try {
-//                    NWToolsView.setSelected(true);
-//                    NWToolsView.toFront();
-//                } catch (PropertyVetoException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//            } else {
-//                try {
-//                    NWToolsView.setSelected(true);
-//                    NWToolsView.toFront();
-//                } catch (PropertyVetoException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//            }
+            if (!NWToolsView.isVisible()) {
+                NWToolsView.setVisible(true);
+                getDesktopPane().add(NWToolsView);
+                try {
+                    NWToolsView.setSelected(true);
+                    NWToolsView.toFront();
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                try {
+                    NWToolsView.setSelected(true);
+                    NWToolsView.toFront();
+                } catch (PropertyVetoException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
 

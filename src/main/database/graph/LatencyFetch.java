@@ -1,17 +1,16 @@
 package main.database.graph;
 
 import main.database.DBCP;
+import main.database.UserPreference;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class LatencyFetch implements DataFetcher {
     private ArrayList<Double> avg;
-    private ArrayList<LocalDateTime> dateTimes;
+    private ArrayList<LocalTime> dateTimes;
     private static LatencyFetch instance;
 
     private LatencyFetch(){
@@ -28,24 +27,30 @@ public class LatencyFetch implements DataFetcher {
     public ArrayList<Double> getAvg(){
         return avg;
     }
-    public ArrayList<LocalDateTime> getDateTimes() {
+    public ArrayList<LocalTime> getDateTimes() {
         return dateTimes;
     }
 
     @Override
     public void fetch() {
-        String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` GROUP BY datetime ORDER BY datetime ASC;";
+        String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE profile_id = ? GROUP BY datetime ORDER BY datetime ASC;";
         try (Connection conn = DBCP.getConnection();
-             Statement stm = conn.createStatement();) {
-            ResultSet rs = stm.executeQuery(sql);
+             PreparedStatement stm = conn.prepareStatement(sql);) {
+            stm.setInt(1, UserPreference.getProfileID());
+            ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 avg.add(rs.getDouble("Latency"));
-                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime());
+                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime().toLocalTime());
             }
             rs.close();
         } catch (SQLException s) {
             s.printStackTrace();
         }
+    }
+
+    @Override
+    public void fetchRange(LocalDateTime start, LocalDateTime stop) {
+
     }
 
 }
