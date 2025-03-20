@@ -1,5 +1,7 @@
 package main.ui;
 
+import main.ui.networktools.*;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;

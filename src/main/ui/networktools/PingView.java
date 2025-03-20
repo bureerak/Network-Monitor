@@ -1,10 +1,9 @@
-package main.ui;
+package main.ui.networktools;
 
 import main.NetworkTools.DeviceDisplay;
 import main.NetworkTools.DeviceScanner;
 import main.NetworkTools.IPCalculator;
 import main.NetworkTools.InternalNetwork;
-import main.NetworkTools.IPValidator;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;

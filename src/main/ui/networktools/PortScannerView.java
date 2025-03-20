@@ -1,4 +1,4 @@
-package main.ui;
+package main.ui.networktools;
 
 import main.NetworkTools.*;
 import javax.swing.*;

@@ -2,6 +2,7 @@ package main.ui;
 
 import main.NetworkTools.InternalNetwork;
 import main.database.UserPreference;
+import main.ui.visualization.GraphPane;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -14,14 +15,15 @@ import java.util.Objects;
 
 public class HomeViews extends JInternalFrame implements ActionListener {
     JSplitPane split;
-    JPanel tPane ,bPane, upHalfPane, downHalfPane, subUpHalfPane;
+    JPanel tPane , upHalfPane, downHalfPane, subUpHalfPane;
     JButton profileEdit ,netTools ,netStat ,settings;
-    static JLabel title, titleIcon, select, status, interval;
     ImageIcon titleImg;
     ProfileEditorView PEView;
     SettingViews SettingView;
     NetworkStatisticsViews NSView;
     NetworkToolsView NWToolsView;
+    static JPanel bPane;
+    static JLabel title, titleIcon, select, status, interval;
 
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
@@ -116,10 +118,8 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         tPane.add(upHalfPane);
         tPane.add(downHalfPane);
 
-        bPane = new JPanel();
-
-        bPane.setBorder(new CompoundBorder( new EmptyBorder(7,7,7,7), BorderFactory.createTitledBorder("Network Scanner")));
-
+        bPane = new JPanel(new BorderLayout());
+        bPane.add(new GraphPane());
         split = new JSplitPane(JSplitPane.VERTICAL_SPLIT,tPane,bPane);
         split.setDividerSize(0); split.setDividerLocation(270); split.setEnabled(false);
         add(split);
@@ -214,6 +214,13 @@ public class HomeViews extends JInternalFrame implements ActionListener {
 
     public static void setStatus(String s) {
         status.setText(s);
+    }
+
+    public static void updateGraph(){
+        bPane.removeAll();
+        bPane.add(new GraphPane());
+        bPane.revalidate();
+        bPane.repaint();
     }
 
 }

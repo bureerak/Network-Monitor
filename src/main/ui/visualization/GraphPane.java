@@ -1,4 +1,4 @@
-package main.ui;
+package main.ui.visualization;
 
 import main.database.graph.LatencyFetch;
 import org.jfree.chart.ChartFactory;
@@ -10,9 +10,11 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class GraphPane {
-    public static void main(String[] args) {
+public class GraphPane extends JScrollPane {
+    public GraphPane() {
+        super();
         LatencyFetch lf = LatencyFetch.getInstance();
         lf.fetch();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -21,7 +23,6 @@ public class GraphPane {
             Double avg = lf.getAvg().get(i);
             dataset.addValue(avg, "Avg Latency", dateTime);
         }
-
         JFreeChart chart = ChartFactory.createLineChart(
                 "Latency Monitor",
                 "DateTime",
@@ -35,11 +36,10 @@ public class GraphPane {
         CategoryAxis xAxis = chart.getCategoryPlot().getDomainAxis();
         xAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-        JFrame frame = new JFrame("Latency Chart");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(chartPanel);
-        frame.pack();
-        frame.setVisible(true);
+        chartPanel.setPreferredSize(new Dimension(510,260));
+        chartPanel.setFont(new Font(null,Font.PLAIN,18));
+        setViewportView(chartPanel);
+        setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        setPreferredSize(new Dimension(510,280));
     }
 }

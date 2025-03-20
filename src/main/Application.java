@@ -1,7 +1,7 @@
 package main;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import main.ui.AuthView;
+import main.ui.LoginView;
 
 import javax.swing.*;
 
@@ -14,7 +14,7 @@ public class Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            new AuthView();
+            new LoginView();
             //new ToolsDeskPane();
         });
     }

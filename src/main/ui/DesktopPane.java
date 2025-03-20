@@ -8,11 +8,11 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class ToolsDeskPane implements WindowListener {
+public class DesktopPane implements WindowListener {
     JFrame MFrame;
     JDesktopPane desktop;
     HomeViews HView;
-    public ToolsDeskPane() {
+    public DesktopPane() {
         desktop = new JDesktopPane();
         HView = new HomeViews();
         MFrame = new JFrame("Network Monitor");
@@ -29,6 +29,7 @@ public class ToolsDeskPane implements WindowListener {
         MFrame.setLocationRelativeTo(null);
         MFrame.setVisible(true);
     }
+
 
     @Override
     public void windowOpened(WindowEvent e) {

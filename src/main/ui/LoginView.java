@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-public class AuthView implements ActionListener, KeyListener {
+public class LoginView implements ActionListener, KeyListener {
     JFrame frame;
     JLabel label;
     ImageIcon img;
@@ -18,7 +18,7 @@ public class AuthView implements ActionListener, KeyListener {
     JButton btnLogin, btnCancel;
     JTextField userText;
     JPasswordField pass;
-    public AuthView(){
+    public LoginView(){
         img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/login.jpg")));
         label = new JLabel(img);
         btnCancel = new JButton("Cancel"); btnCancel.addActionListener(this);
@@ -95,7 +95,7 @@ public class AuthView implements ActionListener, KeyListener {
         if ( src.equals(btnLogin) ) {
             if ( JDBCLogin.loginJDBC(userText.getText(), pass.getPassword()) ) {
                 SwingUtilities.invokeLater(() -> {
-                    new ToolsDeskPane();
+                    new DesktopPane();
                     frame.dispose();
                 });
             } else {
@@ -117,7 +117,7 @@ public class AuthView implements ActionListener, KeyListener {
             btnLogin.requestFocus();
             if ( JDBCLogin.loginJDBC(userText.getText(), pass.getPassword()) ) {
                 SwingUtilities.invokeLater(() -> {
-                    new ToolsDeskPane();
+                    new DesktopPane();
                     frame.dispose();
                 });
             } else {

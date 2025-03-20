@@ -1,4 +1,4 @@
-package main.ui;
+package main.ui.networktools;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
