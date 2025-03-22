@@ -3,7 +3,7 @@ package main.database;
 import main.database.graph.DeviceFetch;
 import main.database.graph.LatencyFetch;
 
-public class OhmLook {
+public class SampleUse {
     /**
      * How to use create by getInstance
      * Avg [1,2,3]
@@ -12,10 +12,10 @@ public class OhmLook {
      */
     public static void main(String[] args) {
         LatencyFetch lf = LatencyFetch.getInstance();
-        lf.fetch();
+        lf.fetch(1);
 
         DeviceFetch df = DeviceFetch.getInstance();
-        df.fetch();
+        df.fetch(1);
 
         System.out.println(df.getDevices());
         System.out.println(df.getTime());

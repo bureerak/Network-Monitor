@@ -1,7 +1,6 @@
 package main.database.graph;
 
 import main.database.DBCP;
-import main.database.UserPreference;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -30,13 +29,13 @@ public class LatencyFetch implements DataFetcher {
     }
 
     @Override
-    public void fetch() {
+    public void fetch(int profile_id) {
         avg = new ArrayList<>();
         dateTimes = new ArrayList<>();
         String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE profile_id = ? GROUP BY datetime ORDER BY datetime ASC;";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql);) {
-            stm.setInt(1, UserPreference.getProfileID());
+            stm.setInt(1, profile_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 avg.add(rs.getDouble("Latency"));

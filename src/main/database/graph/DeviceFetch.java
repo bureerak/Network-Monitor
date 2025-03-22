@@ -1,8 +1,6 @@
 package main.database.graph;
 
 import main.database.DBCP;
-import main.database.UserPreference;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,12 +31,12 @@ public class DeviceFetch implements DataFetcher{
     }
 
     @Override
-    public void fetch() {
+    public void fetch(int profile_id) {
         devices = new ArrayList<>();
         time = new ArrayList<>();
         String sql = "SELECT COUNT(mac) AS Device , datetime FROM device_info WHERE profile_id = ? GROUP BY datetime";
         try (Connection con = DBCP.getConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
-            statement.setInt(1, UserPreference.getProfileID());
+            statement.setInt(1, profile_id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 devices.add(rs.getInt("Device"));

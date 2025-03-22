@@ -119,7 +119,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         tPane.add(downHalfPane);
 
         bPane = new JPanel(new BorderLayout());
-        bPane.add(new GraphPane());
+        bPane.add(new GraphPane(0));
         split = new JSplitPane(JSplitPane.VERTICAL_SPLIT,tPane,bPane);
         split.setDividerSize(0); split.setDividerLocation(270); split.setEnabled(false);
         add(split);
@@ -218,7 +218,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
 
     public static void updateGraph(){
         bPane.removeAll();
-        bPane.add(new GraphPane());
+        bPane.add(new GraphPane(UserPreference.getProfileID()));
         bPane.revalidate();
         bPane.repaint();
     }

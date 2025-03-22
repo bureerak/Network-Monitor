@@ -13,10 +13,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GraphPane extends JScrollPane {
-    public GraphPane() {
+    public GraphPane(int profile_id) {
         super();
         LatencyFetch lf = LatencyFetch.getInstance();
-        lf.fetch();
+        lf.fetch(profile_id);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < lf.getAvg().size(); i++) {
             String dateTime = String.valueOf(lf.getDateTimes().get(i));
