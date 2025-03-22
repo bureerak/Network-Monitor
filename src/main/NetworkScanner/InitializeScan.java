@@ -1,5 +1,7 @@
 package main.NetworkScanner;
 
+import main.NetworkTools.IPCalculator;
+import main.NetworkTools.InternalNetwork;
 import main.database.UserPreference;
 
 public class InitializeScan implements StatusDisplay {
@@ -16,7 +18,8 @@ public class InitializeScan implements StatusDisplay {
 
     private void start() {
         if(sr == null) {
-            sr = new ScannerRunner("192.168.1.1-192.168.1.254", UserPreference.getInterval(), this);
+            IPCalculator ip = new IPCalculator(InternalNetwork.getIP(),"255.255.255.0");
+            sr = new ScannerRunner(ip.getFirstIP()+"-"+ip.getLastIP(), UserPreference.getInterval(), this);
         }
     }
 

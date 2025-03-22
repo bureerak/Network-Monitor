@@ -1,5 +1,6 @@
 package main.database;
 
+import main.database.graph.DeviceFetch;
 import main.database.graph.LatencyFetch;
 
 public class OhmLook {
@@ -12,7 +13,11 @@ public class OhmLook {
     public static void main(String[] args) {
         LatencyFetch lf = LatencyFetch.getInstance();
         lf.fetch();
-        System.out.println(lf.getAvg());
-        System.out.println(lf.getDateTimes());
+
+        DeviceFetch df = DeviceFetch.getInstance();
+        df.fetch();
+
+        System.out.println(df.getDevices());
+        System.out.println(df.getTime());
     }
 }

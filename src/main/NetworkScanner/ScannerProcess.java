@@ -1,6 +1,7 @@
 package main.NetworkScanner;
 
 import main.NetworkTools.*;
+import main.database.graph.DeviceInsert;
 import main.database.graph.InsertModel;
 import main.database.graph.LatencyInsert;
 
@@ -11,12 +12,14 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     String ip;
     String port;
 
-    private final InsertModel latency;
+    private final InsertModel latency , device;
 
     public ScannerProcess(String ip, String port) {
         this.ip = ip;
         this.port = port;
         this.latency = new LatencyInsert();
+        this.device = new DeviceInsert();
+        //Set interval datetime
         latency.setIntervalDT();
     }
 
@@ -65,10 +68,14 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     @Override
     public void addDevice(String ip, String mac, String hostname) {
         //INSERT TO DATABASE
-        int latency = getLatency(ip);
-        scanPort(ip);
-        ( (LatencyInsert) this.latency).insertData( mac,latency );
+
+        //Latency
+        int latency = getLatency(ip); scanPort(ip);
+        ( (LatencyInsert) this.latency ).insertData( mac,latency );
         System.out.println(hostname +" | "+ mac + " | " + ip + " | " + latency + " ms");
+
+        //Device count
+        ( (DeviceInsert) this.device ).insertData(mac);
 
     }
 

@@ -9,13 +9,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class LatencyFetch implements DataFetcher {
-    private ArrayList<Double> avg;
-    private ArrayList<LocalTime> dateTimes;
+    private ArrayList<Double> avg = new ArrayList<>();
+    private ArrayList<LocalTime> dateTimes = new ArrayList<>();
     private static LatencyFetch instance;
 
     private LatencyFetch(){
-        avg = new ArrayList<>();
-        dateTimes = new ArrayList<>();
     }
     public static LatencyFetch getInstance() {
         if (instance == null) {
@@ -33,6 +31,8 @@ public class LatencyFetch implements DataFetcher {
 
     @Override
     public void fetch() {
+        avg = new ArrayList<>();
+        dateTimes = new ArrayList<>();
         String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE profile_id = ? GROUP BY datetime ORDER BY datetime ASC;";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql);) {
