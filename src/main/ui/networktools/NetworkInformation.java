@@ -16,7 +16,7 @@ public class NetworkInformation extends JInternalFrame {
         host = new JLabel("Hostname:");
         hostR = new JLabel(InternalNetwork.getHostName());
         mac = new JLabel("MAC Address:");
-//        macR = new JLabel(InternalNetwork.getMACAddress());
+        macR = new JLabel(InternalNetwork.getMACAddress());
         i = new JPanel();
         i.setLayout(new FlowLayout(FlowLayout.LEFT));
         i.add(ip);
@@ -28,7 +28,7 @@ public class NetworkInformation extends JInternalFrame {
         m = new JPanel();
         m.setLayout(new FlowLayout(FlowLayout.LEFT));
         m.add(mac);
-//        m.add(macR);
+        m.add(macR);
 
         i.setBorder(new EmptyBorder(20, 25, 0, 6));
         h.setBorder(new EmptyBorder(6, 25, 6, 6));
