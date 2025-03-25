@@ -2,7 +2,7 @@ package main.ui;
 
 import main.NetworkTools.InternalNetwork;
 import main.database.UserPreference;
-import main.ui.visualization.GraphPane;
+import main.ui.visualization.LatencyGraph;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -119,7 +119,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         tPane.add(downHalfPane);
 
         bPane = new JPanel(new BorderLayout());
-        bPane.add(new GraphPane(0));
+        bPane.add(new LatencyGraph(0, LatencyGraph.allRange));
         split = new JSplitPane(JSplitPane.VERTICAL_SPLIT,tPane,bPane);
         split.setDividerSize(0); split.setDividerLocation(270); split.setEnabled(false);
         add(split);
@@ -218,7 +218,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
 
     public static void updateGraph(){
         bPane.removeAll();
-        bPane.add(new GraphPane(UserPreference.getProfileID()));
+        bPane.add(new LatencyGraph(UserPreference.getProfileID(), LatencyGraph.allRange));
         bPane.revalidate();
         bPane.repaint();
     }

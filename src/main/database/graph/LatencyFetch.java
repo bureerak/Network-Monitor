@@ -48,8 +48,24 @@ public class LatencyFetch implements DataFetcher {
     }
 
     @Override
-    public void fetchRange(LocalDateTime start, LocalDateTime stop) {
-
+    public void fetchRange(int profile_id, LocalDateTime start, LocalDateTime stop) {
+        avg = new ArrayList<>();
+        dateTimes = new ArrayList<>();
+        String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE datetime BETWEEN ? AND ? AND profile_id = ? GROUP BY datetime ORDER BY datetime ASC";
+        try (Connection conn = DBCP.getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql);) {
+            stm.setTimestamp(1,Timestamp.valueOf(start));
+            stm.setTimestamp(2,Timestamp.valueOf(stop));
+            stm.setInt(3, profile_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                avg.add(rs.getDouble("Latency"));
+                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime().toLocalTime());
+            }
+            rs.close();
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
     }
 
 }

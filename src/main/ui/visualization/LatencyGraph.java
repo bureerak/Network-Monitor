@@ -12,11 +12,13 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import javax.swing.*;
 import java.awt.*;
 
-public class GraphPane extends JScrollPane {
-    public GraphPane(int profile_id) {
+public class LatencyGraph extends JScrollPane {
+    public static final int allRange = 0;
+    public static final int inRange = 1;
+    public LatencyGraph(int profile_id, int range) {
         super();
         LatencyFetch lf = LatencyFetch.getInstance();
-        lf.fetch(profile_id);
+        if (range == 0) {lf.fetch(profile_id);}
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < lf.getAvg().size(); i++) {
             String dateTime = String.valueOf(lf.getDateTimes().get(i));

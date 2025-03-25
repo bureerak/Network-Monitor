@@ -51,7 +51,7 @@ public class DeviceFetch implements DataFetcher{
     }
 
     @Override
-    public void fetchRange(LocalDateTime start, LocalDateTime stop) {
+    public void fetchRange(int profile_id ,LocalDateTime start, LocalDateTime stop) {
 
     }
 }

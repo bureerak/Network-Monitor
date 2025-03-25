@@ -124,14 +124,34 @@ public class JDBCProfileEdit {
         String sql = "SELECT used FROM profile WHERE profile_name = ?";
         try ( Connection conn = DBCP.getConnection();
               PreparedStatement statement = conn.prepareStatement(sql);) {
+            boolean used_state;
             statement.setString(1,name);
             ResultSet rs = statement.executeQuery();
             rs.next();
-            boolean used_state = rs.getBoolean("used");
+            used_state = rs.getBoolean("used");
+            rs.close();
             return  !used_state;
         } catch (SQLException s) {
             s.printStackTrace();
         }
         return false;
+    }
+
+    public static int getID(String name) {
+        String sql = "SELECT profile_id FROM profile WHERE profile_name = ?";
+        try ( Connection conn = DBCP.getConnection();
+              PreparedStatement stm = conn.prepareStatement(sql)) {
+            int id = 0;
+            stm.setString( 1,name );
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("profile_id");
+            }
+            rs.close();
+            return id;
+        } catch (SQLException e) {
+            System.out.println("get ID failed");
+        }
+        return 0;
     }
 }

@@ -1,6 +1,7 @@
 package main.ui;
-import main.exporter.Print_info;
-import main.ui.visualization.GraphPane;
+import main.database.graph.DataFetcher;
+import main.database.graph.LatencyFetch;
+import main.ui.visualization.LatencyGraph;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,8 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
     private JMenuItem item2, subitem1, subitem2, item3;
     private ButtonGroup bg;
     private JRadioButtonMenuItem latency,device;
+    private DataFetcher fetcher;
+    private JPanel sub;
     public NetworkStatisticsViews(){
         super("Network Statistics | Network Monitor",false,true,false,false);
         menuBar = new JMenuBar();
@@ -24,6 +27,8 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         item3.addActionListener(this);
         subitem1 = new JMenuItem("CSV");
         subitem2 = new JMenuItem("JSON");
+        sub = new JPanel(new BorderLayout());
+        add(sub);
 
         menuBar.add(menu1);
         menuBar.add(menu2);
@@ -46,7 +51,6 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         menu2.add(graph);
         menu2.add(item3);
 
-        add(new GraphPane(1));
 
         setJMenuBar(menuBar);
 //        item2.addActionListener(e -> Print_info.print_panel(new JPanel()));
@@ -56,9 +60,17 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        fetcher = LatencyFetch.getInstance(); /// condition Here
         if (e.getSource().equals(item3)) {
-            new NSVOptionView(this);
+            new NSVOptionView(this,fetcher);
         }
+    }
+
+    public void updateGraph(int id){
+        sub.removeAll();
+        sub.add(new LatencyGraph( id, LatencyGraph.inRange ));
+        sub.validate();
+        sub.repaint();
     }
 }
 
