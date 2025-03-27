@@ -1,6 +1,9 @@
 package main.ui;
+import main.database.UserPreference;
 import main.database.graph.DataFetcher;
 import main.database.graph.LatencyFetch;
+import main.exporter.ExportCSV;
+import main.exporter.ExportJSON;
 import main.ui.visualization.LatencyGraph;
 
 import javax.swing.*;
@@ -39,8 +42,10 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
 
         // Graph
         latency = new JRadioButtonMenuItem("Latency/Time");
+        latency.setActionCommand("Latency/Time");
         latency.setSelected(true);
         device = new JRadioButtonMenuItem("Device/Time");
+        device.setActionCommand("Device/Time");
         graph = new JMenu("Graph");
         graph.add(latency);
         graph.add(device);
@@ -54,7 +59,8 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
 
         setJMenuBar(menuBar);
 //        item2.addActionListener(e -> Print_info.print_panel(new JPanel()));
-
+        subitem1.addActionListener(e -> ExportCSV.exportData(UserPreference.getProfileID(), bg.getSelection().getActionCommand()));
+        subitem2.addActionListener(e -> ExportJSON.exportData(UserPreference.getProfileID(), bg.getSelection().getActionCommand()));
         setSize(new Dimension(600,500));
     }
 
@@ -73,4 +79,3 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         sub.repaint();
     }
 }
-
