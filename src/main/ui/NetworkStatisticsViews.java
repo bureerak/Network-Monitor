@@ -74,7 +74,7 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
 
     public void updateGraph(int id){
         sub.removeAll();
-        sub.add(new LatencyGraph( id, LatencyGraph.inRange ));
+        sub.add(new LatencyGraph( id, LatencyGraph.inRange ).getChartPanel());
         sub.validate();
         sub.repaint();
     }

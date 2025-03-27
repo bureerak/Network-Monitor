@@ -1,7 +1,7 @@
 package main.ui.visualization;
 
 
-import main.database.graph.LatencyFetch;
+import main.database.graph.DeviceFetch;
 import org.jfree.chart.*;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -12,23 +12,23 @@ import org.jfree.chart.entity.ChartEntity;
 import javax.swing.*;
 import java.awt.*;
 
-public class LatencyGraph implements ChartMouseListener{
+public class DeviceGraph implements ChartMouseListener{
     public static final int allRange = 0;
     public static final int inRange = 1;
     private DefaultCategoryDataset dataset;
     private ChartPanel chartPanel;
 
-    public LatencyGraph(int profile_id, int range) {
-        LatencyFetch lf = LatencyFetch.getInstance();
+    public DeviceGraph(int profile_id, int range) {
+        DeviceFetch lf = DeviceFetch.getInstance();
         lf.fetch(profile_id);
         dataset = new DefaultCategoryDataset();
-        for (int i = 1; i < lf.getAvg().size();i++){
-            dataset.addValue(lf.getAvg().get(i),"Avg Latency",lf.getDateTimes().get(i).toString());
+        for (int i = 1; i < lf.getDevices().size();i++){
+            dataset.addValue(lf.getDevices().get(i),"Avg Latency",lf.getTime().get(i).toString());
         }
         JFreeChart chart = ChartFactory.createLineChart(
-                "Latency Monitor",
+                "Devices Monitor",
                 "",
-                "Average Latency",
+                "Number of Devices",
                 dataset
         );
 
@@ -42,8 +42,9 @@ public class LatencyGraph implements ChartMouseListener{
 
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
         chart.getCategoryPlot().setRenderer(renderer);
+
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        renderer.setSeriesPaint(0, new Color(54, 133, 223));
+        renderer.setSeriesPaint(0, new Color(236, 140, 67));
         renderer.setSeriesStroke(0, new BasicStroke(1.6f));
         renderer.setDefaultItemLabelsVisible(true);
 
@@ -66,8 +67,8 @@ public class LatencyGraph implements ChartMouseListener{
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Time: " + columnKey + "\nLatency: " + value,
-                        "Latency Details",
+                        "Time: " + columnKey + "\nDeivces: " + value,
+                        "Deivces Details",
                         JOptionPane.PLAIN_MESSAGE,
                         image
                 );
