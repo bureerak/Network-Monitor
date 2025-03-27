@@ -58,18 +58,18 @@ public class LatencyGraph implements ChartMouseListener{
         try {
             if (entity.getClass().equals(CategoryItemEntity.class)) {
                 CategoryItemEntity categoryEntity = (CategoryItemEntity)entity;
-                Comparable columnKey = categoryEntity.getColumnKey();
-                String value = dataset.getValue(categoryEntity.getRowKey(), columnKey).toString();
+                Comparable times = categoryEntity.getColumnKey();
+                String value = dataset.getValue(categoryEntity.getRowKey(), times).toString();
 
-                ImageIcon icon = new ImageIcon("resources/titleIcon.png");
-                ImageIcon image = new ImageIcon(icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                ImageIcon image = new ImageIcon("resources/titleIcon.png");
+                ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Time: " + columnKey + "\nLatency: " + value,
+                        "Time: " + times + "\nLatency: " + value,
                         "Latency Details",
                         JOptionPane.PLAIN_MESSAGE,
-                        image
+                        icon
                 );
             }
         } catch (Exception ex){
