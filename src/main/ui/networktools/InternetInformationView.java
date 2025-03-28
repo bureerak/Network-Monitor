@@ -1,5 +1,7 @@
 package main.ui.networktools;
 
+import main.NetworkTools.ExternalNetwork;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -8,17 +10,19 @@ public class InternetInformationView extends JInternalFrame {
     public InternetInformationView(){
 
         super("Internet Information",false,true,false,false);
+        ExternalNetwork externalNetwork = new ExternalNetwork();
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createCompoundBorder(
                 new TitledBorder("Internet Information"),
-                BorderFactory.createEmptyBorder(10, 30, 10, 10) // ปรับระยะห่างจากขอบ
+                BorderFactory.createEmptyBorder(10, 30, 10, 10)
         ));
 
-        JLabel ipLabel = new JLabel("IP: x.x.x.x");
-        JLabel ispLabel = new JLabel("ISP: xxx");
-        JLabel countryLabel = new JLabel("Country: xxx");
-        JLabel cityLabel = new JLabel("City: xxx");
+        JLabel ipLabel = new JLabel("IP: " + externalNetwork.getIP());
+        JLabel ispLabel = new JLabel("ISP: " + externalNetwork.getISP());
+        JLabel countryLabel = new JLabel("Country: " + externalNetwork.getCountry());
+        JLabel cityLabel = new JLabel("City: " + externalNetwork.getCity());
 
         ipLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         ispLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -26,7 +30,7 @@ public class InternetInformationView extends JInternalFrame {
         cityLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         panel.add(ipLabel);
-        panel.add(Box.createRigidArea(new Dimension(0, 15))); // เพิ่มระยะห่างแนวตั้ง
+        panel.add(Box.createRigidArea(new Dimension(0, 15)));
         panel.add(ispLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 15)));
         panel.add(countryLabel);
