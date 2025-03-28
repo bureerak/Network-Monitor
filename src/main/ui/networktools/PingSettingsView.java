@@ -17,18 +17,18 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
     public PingSettingsView() {
         super("Ping Settings",false,true,false,false);
         fr = new JPanel();
-        pc = new JLabel("Ping Count:");
-        to = new JLabel("Timeout:");
-        times = new JLabel("times.");
-        ms = new JLabel("ms.");
+        pc = new JLabel("    Ping Count:");
+        to = new JLabel("    Timeout:");
+        times = new JLabel("      times.");
+        ms = new JLabel("      ms.");
         pcnum = new SpinnerNumberModel(5, 0, 1000000, 1);
         tonum = new SpinnerNumberModel(100, 0, 1000000, 1);
         pcSpn = new JSpinner(pcnum);
         toSpn = new JSpinner(tonum);
         apply = new JButton("Apply");
-        apply.setPreferredSize(new Dimension(150, 35));
+        apply.addActionListener(this);
         cancel = new JButton("Cancel");
-        cancel.setPreferredSize(new Dimension(150, 35));
+        cancel.addActionListener(this);
 
         fr.setBorder(new CompoundBorder(new EmptyBorder(4,4,2,4),BorderFactory.createTitledBorder("Ping Settings")));
         fr.setLayout(new BorderLayout());
@@ -37,33 +37,26 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
         top.setLayout(topL);
         topL.setHorizontalGroup(
                 topL.createSequentialGroup()
-                        .addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
                         .addGroup(topL.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(pc, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(to, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-                        .addGap(6)
+                                .addComponent(pc, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(to, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
                         .addGroup(topL.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(pcSpn, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(toSpn, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-                        .addGap(6)
+                                .addComponent(pcSpn, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(toSpn, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
                         .addGroup(topL.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addComponent(times, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(ms, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
+                                .addComponent(times, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ms, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
         );
         topL.setVerticalGroup(
                 topL.createSequentialGroup()
-                        .addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
                         .addGroup(topL.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(pc, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(pcSpn, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(times, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-                        .addGap(6)
                         .addGroup(topL.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(to, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(toSpn, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(ms, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
         );
         bot = new JPanel();
         bot.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -79,6 +72,17 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource().equals(cancel)) {
+            dispose();
+        }
     }
+
+    public int getPingCount() {
+        return (int) pcSpn.getValue();
+    }
+
+    public int getTimeout() {
+        return (int) toSpn.getValue();
+    }
+
 }
