@@ -1,5 +1,7 @@
 package main.NetworkTools;
 
+import main.exception.InvalidIPException;
+
 public class IPCalculator {
     private boolean isInputValid =  false;
     private String binaryIP;
@@ -76,7 +78,7 @@ public class IPCalculator {
             this.lastIP = toDecimal(lastIP);
             this.usableIP = calcUsableIP(firstIP, lastIP);
         } else {
-            System.out.println("Invalid IP Address and/or Subnet Mask");
+            throw new InvalidIPException();
         }
     }
 

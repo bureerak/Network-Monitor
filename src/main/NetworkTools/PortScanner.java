@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.*;
+import main.exception.InvalidPortException;
 
 public class PortScanner {
     private static final int PORT_SCAN_TIMEOUT = 100;
@@ -16,12 +17,10 @@ public class PortScanner {
             if (IPValidator.isValidIPv4(ip) && !portList.isEmpty()) {
                 doScan(ip, portList, display);
             } else {
-                System.out.println("Invalid IP/Port or Port is empty.");
+                throw new InvalidPortException("IP/Port or Port is empty!");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage());
-            System.out.println("Invalid port number");
+            throw new InvalidPortException();
         }
     }
 
