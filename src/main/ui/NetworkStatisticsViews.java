@@ -1,9 +1,11 @@
 package main.ui;
 import main.database.UserPreference;
 import main.database.graph.DataFetcher;
+import main.database.graph.DeviceFetch;
 import main.database.graph.LatencyFetch;
 import main.exporter.ExportCSV;
 import main.exporter.ExportJSON;
+import main.ui.visualization.DeviceGraph;
 import main.ui.visualization.LatencyGraph;
 
 import javax.swing.*;
@@ -67,6 +69,11 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
     @Override
     public void actionPerformed(ActionEvent e) {
         fetcher = LatencyFetch.getInstance(); /// condition Here
+        if (bg.getSelection().getActionCommand().equals("Latency/Time")) {
+            fetcher = LatencyFetch.getInstance();
+        } else if (bg.getSelection().getActionCommand().equals("Device/Time")) {
+            fetcher = DeviceFetch.getInstance();
+        }
         if (e.getSource().equals(item3)) {
             new NSVOptionView(this,fetcher);
         }
@@ -74,7 +81,11 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
 
     public void updateGraph(int id){
         sub.removeAll();
-        sub.add(new LatencyGraph( id, LatencyGraph.inRange ).getChartPanel());
+        if (bg.getSelection().getActionCommand().equals("Latency/Time")) {
+            sub.add(new LatencyGraph( id, LatencyGraph.NotFetch).getChartPanel());
+        } else if (bg.getSelection().getActionCommand().equals("Device/Time")) {
+            sub.add(new DeviceGraph( id, DeviceGraph.NotFetch).getChartPanel());
+        }
         sub.validate();
         sub.repaint();
     }

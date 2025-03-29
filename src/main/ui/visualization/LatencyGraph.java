@@ -13,14 +13,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LatencyGraph implements ChartMouseListener{
-    public static final int allRange = 0;
-    public static final int inRange = 1;
+    public static final int Fetch = 0;
+    public static final int NotFetch = 1;
     private DefaultCategoryDataset dataset;
     private ChartPanel chartPanel;
 
-    public LatencyGraph(int profile_id, int range) {
+    public LatencyGraph(int profile_id, int fetch) {
         LatencyFetch lf = LatencyFetch.getInstance();
-        lf.fetch(profile_id);
+        if (fetch == 0) {lf.fetch(profile_id);}
         dataset = new DefaultCategoryDataset();
         for (int i = 1; i < lf.getAvg().size();i++){
             dataset.addValue(lf.getAvg().get(i),"Avg Latency",lf.getDateTimes().get(i).toString());
