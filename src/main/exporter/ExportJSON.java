@@ -20,7 +20,6 @@ public class ExportJSON {
     private static DateTimeFormatter formatter;
 
     public static void exportData(int profile_id, String type) {
-
         if (profile_id == 0) {
             System.out.println("Profile not found!");
             return;
@@ -30,7 +29,7 @@ public class ExportJSON {
         labels = new ArrayList<>();
         filteredLabels = new ArrayList<>();
         filteredValues = new ArrayList<>();
-        formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
         if ("Latency/Time".equalsIgnoreCase(type)) {
             LatencyFetch latencyFetch = LatencyFetch.getInstance();
@@ -42,6 +41,11 @@ public class ExportJSON {
             deviceFetch.fetch(profile_id);
             labels = deviceFetch.getDateTime();
             values = deviceFetch.getDevices();
+        } else if ("Ports/Time".equalsIgnoreCase(type)) {
+            PortFetch portFetch = PortFetch.getInstance();
+            portFetch.fetch(profile_id);
+            labels = portFetch.getDateTime();
+            values = portFetch.getCount();
         } else {
             System.out.println("Invalid type: " + type);
             return;
@@ -69,7 +73,13 @@ public class ExportJSON {
             for (int i = 0; i < filteredLabels.size(); i++) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("time", filteredLabels.get(i).format(formatter));
-                jsonObject.put(type.equals("Latency/Time") ? "Average_latency" : "Device_count", filteredValues.get(i));
+                if ("Latency/Time".equals(type)) {
+                    jsonObject.put("Average_latency", filteredValues.get(i));
+                } else if ("Device/Time".equals(type)) {
+                    jsonObject.put("Device_count", filteredValues.get(i));
+                } else if ("Ports/Time".equals(type)) {
+                    jsonObject.put("Port_count", filteredValues.get(i));
+                }
                 jsonArray.put(jsonObject);
             }
 

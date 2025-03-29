@@ -22,7 +22,6 @@ public class ExportCSV {
     private static String filePath;
 
     public static void exportData(int profile_id, String type) {
-
         if (profile_id == 0) {
             System.out.println("Profile not found!");
             return;
@@ -32,7 +31,7 @@ public class ExportCSV {
         labels = new ArrayList<>();
         filteredLabels = new ArrayList<>();
         filteredValues = new ArrayList<>();
-        formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
         if ("Latency/Time".equals(type)) {
             LatencyFetch latencyFetch = LatencyFetch.getInstance();
@@ -44,6 +43,11 @@ public class ExportCSV {
             deviceFetch.fetch(profile_id);
             labels = deviceFetch.getDateTime();
             values = deviceFetch.getDevices();
+        } else if ("Ports/Time".equals(type)) {
+            PortFetch portFetch = PortFetch.getInstance();
+            portFetch.fetch(profile_id);
+            labels = portFetch.getDateTime();
+            values = portFetch.getCount();
         } else {
             System.out.println("Invalid type: " + type);
             return;
@@ -68,7 +72,13 @@ public class ExportCSV {
             filePath = directory + filename;
 
             try (FileWriter writer = new FileWriter(filePath)) {
-                writer.append(type.equals("Latency/Time") ? "Time,Average Latency\n" : "Time,Device Count\n");
+                if ("Latency/Time".equals(type)) {
+                    writer.append("Time,Average Latency\n");
+                } else if ("Device/Time".equals(type)) {
+                    writer.append("Time,Device Count\n");
+                } else if ("Ports/Time".equals(type)) {
+                    writer.append("Time,Port Count\n");
+                }
 
                 for (int i = 0; i < filteredLabels.size(); i++) {
                     writer.append(filteredLabels.get(i).format(formatter)).append(",")
