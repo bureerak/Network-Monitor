@@ -13,14 +13,13 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
     private JButton apply, cancel;
     private GroupLayout topL;
     private SpinnerNumberModel pcnum, tonum;
-    private PingView pingView;  // Declare a PingView instance
-    private JDesktopPane desktopPane;  // Declare JDesktopPane instance
+    private PingView pingView;
+    private JDesktopPane desktopPane;
 
-    // Constructor: Accept JDesktopPane and PingView as parameters
     public PingSettingsView(JDesktopPane desktopPane, PingView pingView) {
         super("Ping Settings", false, true, false, false);
-        this.desktopPane = desktopPane;  // Assign the passed JDesktopPane
-        this.pingView = pingView;  // Assign the passed PingView
+        this.desktopPane = desktopPane;
+        this.pingView = pingView;
 
         fr = new JPanel();
         pc = new JLabel("    Ping Count:");
@@ -79,25 +78,22 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(cancel)) {
-            dispose(); // Close the settings window without applying
+            dispose();
         } else if (e.getSource().equals(apply)) {
-            // Retrieve the values from the spinners and cast them to int
-            int pingCount = ((Integer) pcSpn.getValue()).intValue(); // Cast to Integer and then to int
-            int timeout = ((Integer) toSpn.getValue()).intValue(); // Same for timeout
-
-            // Pass these values to PingView
+            int pingCount = ((Integer) pcSpn.getValue()).intValue();
+            int timeout = ((Integer) toSpn.getValue()).intValue();
             pingView.setPingCount(pingCount);
             pingView.setTimeout(timeout);
 
-            dispose(); // Close settings window
+            dispose();
         }
     }
 
     public int getPingCount() {
-        return ((Integer) pcSpn.getValue()).intValue();  // Cast to Integer and return int
+        return ((Integer) pcSpn.getValue()).intValue();
     }
 
     public int getTimeout() {
-        return ((Integer) toSpn.getValue()).intValue();  // Cast to Integer and return int
+        return ((Integer) toSpn.getValue()).intValue();
     }
 }

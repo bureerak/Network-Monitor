@@ -23,8 +23,8 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
     private DefaultTableModel tableModel;
     private TableColumn col0, col1, col2;
 
-    private int pingCount = 5; // Default ping count
-    private int timeout = 100; // Default timeout
+    private int pingCount = 5;
+    private int timeout = 100;
     IPCalculator ipCalculator;
 
     public PingView() {
@@ -54,7 +54,7 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         scn = new JPanel();
         scn.setLayout(new FlowLayout(FlowLayout.RIGHT));
         settingsButton = new JButton("Settings");
-        settingsButton.addActionListener(this);  // Open settings window
+        settingsButton.addActionListener(this);
         runButton = new JButton("Run");
         runButton.addActionListener(this);
         scn.add(settingsButton);
