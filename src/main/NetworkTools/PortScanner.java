@@ -20,7 +20,7 @@ public class PortScanner {
                 throw new InvalidPortException("IP/Port or Port is empty!");
             }
         } catch (Exception ex) {
-            throw new InvalidPortException();
+            throw new InvalidPortException("IP/Port or Port is empty!");
         }
     }
 
