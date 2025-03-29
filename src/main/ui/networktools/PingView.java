@@ -21,7 +21,6 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
     private JProgressBar progressBar;
     private GridBagConstraints gbc;
     private DefaultTableModel tableModel;
-    private TableColumn col0, col1, col2;
 
     private int pingCount = 5;
     private int timeout = 100;
@@ -66,7 +65,8 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         top.add(scn, gbc);
 
         progressBar = new JProgressBar();
-        progressBar.setStringPainted(true);
+        progressBar.setPreferredSize(new Dimension(200, 20));
+        progressBar.setForeground(Color.GREEN);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
@@ -84,6 +84,7 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         add(bot, BorderLayout.CENTER);
         setSize(new Dimension(520, 480));
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == settingsButton) {
@@ -97,12 +98,29 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
 
     public void startPinging() {
         String ipAddress = ipField.getText().split("-")[0];
-        for (int i = 0; i < pingCount; i++) {
-            int result = Ping.runOnce(ipAddress, timeout);
-            tableModel.addRow(new Object[]{"*", "Round " + (i + 1), result});
-            progressBar.setValue((i + 1) * 100 / pingCount);
-        }
+
+        SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                for (int i = 0; i < pingCount; i++) {
+                    int result = Ping.runOnce(ipAddress, timeout);
+                    tableModel.addRow(new Object[]{"*", "Round " + (i + 1), result});
+                    int progress = (i + 1) * 100 / pingCount;
+                    publish(progress);
+                }
+                return null;
+            }
+
+            @Override
+            protected void process(java.util.List<Integer> chunks) {
+                int progress = chunks.get(chunks.size() - 1);
+                progressBar.setValue(progress);
+            }
+        };
+
+        worker.execute();
     }
+
     public void setPingCount(int count) {
         this.pingCount = count;
     }
@@ -110,14 +128,12 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
+
     @Override
     public void addDevice(String ip, String mac, String hostname) {
-
     }
 
     @Override
     public void updateProgress(int scanned) {
-
     }
-
 }
