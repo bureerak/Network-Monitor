@@ -80,12 +80,12 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         ( (DeviceInsert) this.device ).insertData(mac);
 
     }
-    public void portData(PortInsert pi, String ip, ArrayList<Integer> port) {
-        pi.insertData(ip,port);
+    public void portData(InsertModel insertModel, String ip, ArrayList<Integer> port) {
+        ((PortInsert)insertModel).insertData(ip,port);
     }
     @Override
     public void setPort(String ip, ArrayList<Integer> port) {
        //INSERT TO DATABASE WITH IP IS A KEY
-        portData((PortInsert) portInsert,ip,port);
+        portData(portInsert,ip,port);
     }
 }
