@@ -4,6 +4,7 @@ import main.NetworkTools.*;
 import main.database.graph.DeviceInsert;
 import main.database.graph.InsertModel;
 import main.database.graph.LatencyInsert;
+import main.database.graph.PortInsert;
 
 import java.util.ArrayList;
 
@@ -12,13 +13,14 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
     String ip;
     String port;
 
-    private final InsertModel latency , device;
+    private final InsertModel latency , device , portInsert;
 
     public ScannerProcess(String ip, String port) {
         this.ip = ip;
         this.port = port;
         this.latency = new LatencyInsert();
         this.device = new DeviceInsert();
+        this.portInsert = new PortInsert();
         //Set interval datetime
         latency.setIntervalDT();
     }
@@ -78,10 +80,12 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
         ( (DeviceInsert) this.device ).insertData(mac);
 
     }
-
+    public void portData(PortInsert pi, String ip, ArrayList<Integer> port) {
+        pi.insertData(ip,port);
+    }
     @Override
     public void setPort(String ip, ArrayList<Integer> port) {
        //INSERT TO DATABASE WITH IP IS A KEY
-
+        portData((PortInsert) portInsert,ip,port);
     }
 }

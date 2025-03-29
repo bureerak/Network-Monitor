@@ -3,6 +3,7 @@ import main.database.UserPreference;
 import main.database.graph.DataFetcher;
 import main.database.graph.DeviceFetch;
 import main.database.graph.LatencyFetch;
+import main.database.graph.PortFetch;
 import main.exporter.ExportCSV;
 import main.exporter.ExportJSON;
 import main.ui.visualization.DeviceGraph;
@@ -18,7 +19,7 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
     private JMenu menu1, menu2, item1, graph;
     private JMenuItem item2, subitem1, subitem2, item3;
     private ButtonGroup bg;
-    private JRadioButtonMenuItem latency,device;
+    private JRadioButtonMenuItem latency,device,port;
     private DataFetcher fetcher;
     private JPanel sub;
     public NetworkStatisticsViews(){
@@ -48,12 +49,16 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         latency.setSelected(true);
         device = new JRadioButtonMenuItem("Device/Time");
         device.setActionCommand("Device/Time");
+        port = new JRadioButtonMenuItem("Ports/Time");
+        port.setActionCommand("Ports/Time");
         graph = new JMenu("Graph");
         graph.add(latency);
         graph.add(device);
+        graph.add(port);
         bg = new ButtonGroup();
         bg.add(latency);
         bg.add(device);
+        bg.add(port);
 
         menu2.add(graph);
         menu2.add(item3);
@@ -73,6 +78,8 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
             fetcher = LatencyFetch.getInstance();
         } else if (bg.getSelection().getActionCommand().equals("Device/Time")) {
             fetcher = DeviceFetch.getInstance();
+        } else if (bg.getSelection().getActionCommand().equals("Ports/Time")) {
+            fetcher = PortFetch.getInstance();
         }
         if (e.getSource().equals(item3)) {
             new NSVOptionView(this,fetcher);
@@ -85,6 +92,8 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
             sub.add(new LatencyGraph( id, LatencyGraph.NotFetch).getChartPanel());
         } else if (bg.getSelection().getActionCommand().equals("Device/Time")) {
             sub.add(new DeviceGraph( id, DeviceGraph.NotFetch).getChartPanel());
+        } else if (bg.getSelection().getActionCommand().equals("Ports/Time")) {
+            /// Graph add
         }
         sub.validate();
         sub.repaint();

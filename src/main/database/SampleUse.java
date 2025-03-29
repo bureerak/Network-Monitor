@@ -2,6 +2,7 @@ package main.database;
 
 import main.database.graph.DeviceFetch;
 import main.database.graph.LatencyFetch;
+import main.database.graph.PortFetch;
 
 public class SampleUse {
     /**
@@ -17,7 +18,10 @@ public class SampleUse {
         DeviceFetch df = DeviceFetch.getInstance();
         df.fetch(1);
 
-        System.out.println(df.getDevices());
-        System.out.println(df.getTime());
+        PortFetch pf = PortFetch.getInstance();
+        pf.fetch(3);
+
+        System.out.println(pf.getCount());
+        System.out.println(pf.getDateTime());
     }
 }

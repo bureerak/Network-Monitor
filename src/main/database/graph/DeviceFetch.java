@@ -4,12 +4,11 @@ import main.database.DBCP;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DeviceFetch implements DataFetcher{
     private ArrayList<Integer> devices  = new ArrayList<>() ;
-    private ArrayList<LocalTime> time  = new ArrayList<>() ;
+    private ArrayList<LocalDateTime> time  = new ArrayList<>() ;
     private static DeviceFetch deviceFetch;
 
     private DeviceFetch(){
@@ -24,7 +23,7 @@ public class DeviceFetch implements DataFetcher{
     public ArrayList<Integer> getDevices(){
         return devices;
     }
-    public ArrayList<LocalTime> getTime(){
+    public ArrayList<LocalDateTime> getDateTime(){
         return time;
     }
 
@@ -38,7 +37,7 @@ public class DeviceFetch implements DataFetcher{
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 devices.add(rs.getInt("Device"));
-                time.add(rs.getTimestamp("datetime").toLocalDateTime().toLocalTime());
+                time.add(rs.getTimestamp("datetime").toLocalDateTime());
             }
             rs.close();
         } catch (SQLException s) {
@@ -60,8 +59,9 @@ public class DeviceFetch implements DataFetcher{
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 devices.add(rs.getInt("Device"));
-                time.add(rs.getTimestamp("datetime").toLocalDateTime().toLocalTime());
+                time.add(rs.getTimestamp("datetime").toLocalDateTime());
             }
+            rs.close();
         } catch (SQLException s) {
             System.out.println(s.getMessage());
         }

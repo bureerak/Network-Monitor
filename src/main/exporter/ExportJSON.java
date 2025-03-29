@@ -5,15 +5,15 @@ import org.json.*;
 
 import java.awt.*;
 import java.io.*;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExportJSON {
     private static List<?> values;
-    private static List<LocalTime> labels;
-    private static List<LocalTime> filteredLabels;
+    private static List<LocalDateTime> labels;
+    private static List<LocalDateTime> filteredLabels;
     private static List<Object> filteredValues;
     private static Frame frame;
     private static FileDialog fileDialog;
@@ -40,7 +40,7 @@ public class ExportJSON {
         } else if ("Device/Time".equalsIgnoreCase(type)) {
             DeviceFetch deviceFetch = DeviceFetch.getInstance();
             deviceFetch.fetch(profile_id);
-            labels = deviceFetch.getTime();
+            labels = deviceFetch.getDateTime();
             values = deviceFetch.getDevices();
         } else {
             System.out.println("Invalid type: " + type);

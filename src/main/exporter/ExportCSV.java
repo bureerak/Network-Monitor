@@ -6,15 +6,15 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExportCSV {
     private static List<?> values;
-    private static List<LocalTime> labels;
-    private static List<LocalTime> filteredLabels;
+    private static List<LocalDateTime> labels;
+    private static List<LocalDateTime> filteredLabels;
     private static List<Object> filteredValues;
     private static Frame frame;
     private static FileDialog fileDialog;
@@ -42,7 +42,7 @@ public class ExportCSV {
         } else if ("Device/Time".equals(type)) {
             DeviceFetch deviceFetch = DeviceFetch.getInstance();
             deviceFetch.fetch(profile_id);
-            labels = deviceFetch.getTime();
+            labels = deviceFetch.getDateTime();
             values = deviceFetch.getDevices();
         } else {
             System.out.println("Invalid type: " + type);

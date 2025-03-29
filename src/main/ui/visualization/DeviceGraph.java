@@ -25,7 +25,7 @@ public class DeviceGraph implements ChartMouseListener{
         }
         dataset = new DefaultCategoryDataset();
         for (int i = 1; i < lf.getDevices().size();i++){
-            dataset.addValue(lf.getDevices().get(i),"Number of Devices",lf.getTime().get(i).toString());
+            dataset.addValue(lf.getDevices().get(i),"Number of Devices",lf.getDateTime().get(i).toString());
         }
         JFreeChart chart = ChartFactory.createLineChart(
                 "Devices Monitor",

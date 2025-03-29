@@ -4,12 +4,11 @@ import main.database.DBCP;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class LatencyFetch implements DataFetcher {
     private ArrayList<Double> avg = new ArrayList<>();
-    private ArrayList<LocalTime> dateTimes = new ArrayList<>();
+    private ArrayList<LocalDateTime> dateTimes = new ArrayList<>();
     private static LatencyFetch instance;
 
     private LatencyFetch(){
@@ -24,7 +23,7 @@ public class LatencyFetch implements DataFetcher {
     public ArrayList<Double> getAvg(){
         return avg;
     }
-    public ArrayList<LocalTime> getDateTimes() {
+    public ArrayList<LocalDateTime> getDateTimes() {
         return dateTimes;
     }
 
@@ -34,12 +33,12 @@ public class LatencyFetch implements DataFetcher {
         dateTimes = new ArrayList<>();
         String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE profile_id = ? GROUP BY datetime ORDER BY datetime ASC;";
         try (Connection conn = DBCP.getConnection();
-             PreparedStatement stm = conn.prepareStatement(sql);) {
+             PreparedStatement stm = conn.prepareStatement(sql)) {
             stm.setInt(1, profile_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 avg.add(rs.getDouble("Latency"));
-                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime().toLocalTime());
+                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime());
             }
             rs.close();
         } catch (SQLException s) {
@@ -53,14 +52,14 @@ public class LatencyFetch implements DataFetcher {
         dateTimes = new ArrayList<>();
         String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE datetime BETWEEN ? AND ? AND profile_id = ? GROUP BY datetime ORDER BY datetime ASC";
         try (Connection conn = DBCP.getConnection();
-             PreparedStatement stm = conn.prepareStatement(sql);) {
+             PreparedStatement stm = conn.prepareStatement(sql)) {
             stm.setTimestamp(1,Timestamp.valueOf(start));
             stm.setTimestamp(2,Timestamp.valueOf(stop));
             stm.setInt(3, profile_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 avg.add(rs.getDouble("Latency"));
-                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime().toLocalTime());
+                dateTimes.add(rs.getTimestamp("datetime").toLocalDateTime());
             }
             rs.close();
         } catch (SQLException s) {
