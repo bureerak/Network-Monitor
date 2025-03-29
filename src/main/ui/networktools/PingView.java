@@ -87,6 +87,7 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         super.setVisible(visible);
         if (visible) {
             progressBar.setValue(0);
+            progressBar.setIndeterminate(false);
             tableModel.setRowCount(0);
         }
     }
@@ -106,7 +107,7 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         String ipAddress = ipField.getText();
 
         tableModel.setRowCount(0);
-        progressBar.setValue(0);
+        progressBar.setIndeterminate(true); // เริ่ม Marquee Mode
 
         SwingWorker<Void, Integer> worker = new SwingWorker<>() {
             @Override
@@ -114,26 +115,15 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
                 for (int i = 0; i < pingCount; i++) {
                     int result = Ping.runOnce(ipAddress, timeout);
                     tableModel.addRow(new Object[]{"*", "Round " + (i + 1), result});
-                    int progress = (i + 1) * 100 / pingCount;
-                    publish(progress);
+                    publish((i + 1) * 100 / pingCount);
                 }
                 return null;
             }
 
             @Override
-            protected void process(java.util.List<Integer> chunks) {
-                progressBar.setValue(chunks.get(chunks.size() - 1));
-            }
-
-            @Override
             protected void done() {
-                table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-                for (int i = 0; i < table.getColumnCount(); i++) {
-                    TableColumn column = table.getColumnModel().getColumn(i);
-                    column.setPreferredWidth(100);
-                }
-                scroll.revalidate();
-                scroll.repaint();
+                progressBar.setIndeterminate(false); // ปิด Marquee Mode
+                progressBar.setValue(100); // ตั้งค่าสำเร็จ
             }
         };
         worker.execute();
