@@ -1,12 +1,10 @@
 package main.ui;
 
 import main.database.JDBCProfileEdit;
-import main.database.UserPreference;
 import main.database.graph.DataFetcher;
 import raven.datetime.DatePicker;
 
 import javax.swing.*;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ public class NSVOptionView {
     DatePicker datePicker;
     JFormattedTextField editor;
     DataFetcher fetcher;
-    public NSVOptionView(NetworkStatisticsViews creater, DataFetcher fetcher){
+    public NSVOptionView(NetworkStatisticsViews Owner, DataFetcher fetcher){
         this.fetcher = fetcher;
         frame = new JPanel();
         arr = new ArrayList<>();
@@ -37,7 +35,7 @@ public class NSVOptionView {
             cb.addItem( it.next() );
         }
         frame.add(cb);
-        int choice = JOptionPane.showConfirmDialog(creater,frame,"Range & Profile",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+        int choice = JOptionPane.showConfirmDialog(Owner,frame,"Range & Profile",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         if (choice == 0) {
             LocalDate[] dates = datePicker.getSelectedDateRange();
             if (dates != null) {
@@ -45,7 +43,7 @@ public class NSVOptionView {
                 int id = JDBCProfileEdit.getID(name[0]);
                 LocalDateTime[] dt = {dates[0].atTime(0, 0, 0),dates[1].atTime(23, 59, 59)};
                 fetcher.fetchRange(id,dt[0],dt[1]);
-                creater.updateGraph(id);
+                Owner.updateGraph(id);
             }
         }
     }
