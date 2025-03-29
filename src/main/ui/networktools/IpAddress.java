@@ -31,7 +31,9 @@ public class IpAddress extends JInternalFrame implements ActionListener {
         panel2 = new JPanel(new BorderLayout());
         panel3 = new JPanel(new BorderLayout());
         panel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         calculate = new JButton("Calculate");
         ipLabelContainer = new JPanel();
         ipLabelContainer.setBorder(new CompoundBorder(new EmptyBorder(0,0,0,13),null));

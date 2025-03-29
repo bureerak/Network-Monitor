@@ -30,7 +30,9 @@ public class PortScannerView extends JInternalFrame implements ActionListener, P
     public PortScannerView() {
         super("Port Scanner", false, true, false, false);
         setLayout(new BorderLayout());
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         top = new JPanel(new BorderLayout());
         top.setBorder(new EmptyBorder(20, 25, 0, 25));
 

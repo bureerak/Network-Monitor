@@ -6,6 +6,7 @@ import main.database.graph.LatencyFetch;
 import main.database.graph.PortFetch;
 import main.exporter.ExportCSV;
 import main.exporter.ExportJSON;
+import main.exporter.Print_info;
 import main.ui.visualization.DeviceGraph;
 import main.ui.visualization.LatencyGraph;
 
@@ -33,6 +34,9 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         item3.addActionListener(this);
         subitem1 = new JMenuItem("CSV");
         subitem2 = new JMenuItem("JSON");
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         sub = new JPanel(new BorderLayout());
         add(sub);
 
@@ -65,7 +69,7 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
 
 
         setJMenuBar(menuBar);
-//        item2.addActionListener(e -> Print_info.print_panel(new JPanel()));
+        item2.addActionListener(e -> Print_info.print_panel(sub));
         subitem1.addActionListener(e -> ExportCSV.exportData(UserPreference.getProfileID(), bg.getSelection().getActionCommand()));
         subitem2.addActionListener(e -> ExportJSON.exportData(UserPreference.getProfileID(), bg.getSelection().getActionCommand()));
         setSize(new Dimension(600,500));

@@ -8,10 +8,11 @@ import java.awt.*;
 
 public class InternetInformationView extends JInternalFrame {
     public InternetInformationView(){
-
         super("Internet Information",false,true,false,false);
         ExternalNetwork externalNetwork = new ExternalNetwork();
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createCompoundBorder(

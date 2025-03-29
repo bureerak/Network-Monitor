@@ -30,6 +30,9 @@ public class NetworkToolsView extends JInternalFrame implements ActionListener {
         pScanner = new PortScannerView();
         pPing = new PingView();
         ipAddress = new IpAddress();
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
 
         nwInf = new JButton("Network Info");
         intInf = new JButton("Internet Info");

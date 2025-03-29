@@ -28,6 +28,9 @@ public class HomeViews extends JInternalFrame implements ActionListener {
     public HomeViews(){
         super("Hub | Network Monitor",true,false,false,false);
         subUpHalfPane = new JPanel();
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
 
         titleImg = new ImageIcon(Objects.requireNonNull(getClass().getResource("/titleIcon.png")));
         Image scaleImg = titleImg.getImage().getScaledInstance(28,28,Image.SCALE_SMOOTH);

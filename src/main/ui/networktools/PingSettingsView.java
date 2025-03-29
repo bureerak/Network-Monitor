@@ -34,7 +34,9 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
         apply.addActionListener(this);
         cancel = new JButton("Cancel");
         cancel.addActionListener(this);
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         fr.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 2, 4), BorderFactory.createTitledBorder("Ping Settings")));
         fr.setLayout(new BorderLayout());
         top = new JPanel();

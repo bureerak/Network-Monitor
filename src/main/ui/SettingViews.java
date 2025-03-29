@@ -31,7 +31,9 @@ public class SettingViews extends JInternalFrame implements ActionListener {
         passLabel = new JLabel("Retype Password:");
         password = new JPasswordField();
         apply1Btn = new JButton("Apply");
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         apply1Btn.addActionListener(this);
 
         dbLayout.setHorizontalGroup(

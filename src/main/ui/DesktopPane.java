@@ -16,7 +16,8 @@ public class DesktopPane implements WindowListener {
         desktop = new JDesktopPane();
         HView = new HomeViews();
         MFrame = new JFrame("Network Monitor");
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        MFrame.setIconImage(icon.getImage());
         desktop.add(HView);
         MFrame.add(desktop);
 

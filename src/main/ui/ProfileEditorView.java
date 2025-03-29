@@ -27,7 +27,9 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         comboBox = new JComboBox<>();
         refresh = new JButton("Refresh");
         comboBox.setMaximumRowCount(4);
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         comboBox.setPreferredSize(new Dimension(300,30));
 
         topPanel.setBorder(new CompoundBorder(new EmptyBorder(7,7,1,7),BorderFactory.createTitledBorder("Select Profile")));

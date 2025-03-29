@@ -40,7 +40,9 @@ public class NetworkInformation extends JInternalFrame {
         frame.add(i, BorderLayout.NORTH);
         frame.add(h, BorderLayout.CENTER);
         frame.add(m, BorderLayout.SOUTH);
-
+        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        setFrameIcon(new ImageIcon(scaledImage));
         setLayout(new BorderLayout());
         add(frame, BorderLayout.CENTER);
         setSize(new Dimension(400,200));
