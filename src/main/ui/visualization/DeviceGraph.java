@@ -13,14 +13,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DeviceGraph implements ChartMouseListener{
-    public static final int allRange = 0;
-    public static final int inRange = 1;
+    public static final int Fetch = 0;
+    public static final int NotFetch = 1;
     private DefaultCategoryDataset dataset;
     private ChartPanel chartPanel;
 
-    public DeviceGraph(int profile_id, int range) {
+    public DeviceGraph(int profile_id, int fetch) {
         DeviceFetch lf = DeviceFetch.getInstance();
-        lf.fetch(profile_id);
+        if (fetch == 0) {
+            lf.fetch(profile_id);
+        }
         dataset = new DefaultCategoryDataset();
         for (int i = 1; i < lf.getDevices().size();i++){
             dataset.addValue(lf.getDevices().get(i),"Avg Latency",lf.getTime().get(i).toString());
