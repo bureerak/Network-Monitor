@@ -1,34 +1,33 @@
 package main.ui.visualization;
 
-
-import main.database.graph.LatencyFetch;
+import main.database.graph.PortFetch;
 import org.jfree.chart.*;
+import org.jfree.chart.entity.CategoryItemEntity;
+import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.chart.entity.CategoryItemEntity;
-import org.jfree.chart.entity.ChartEntity;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LatencyGraph implements ChartMouseListener{
+public class PortsGraph implements ChartMouseListener {
     public static final int Fetch = 0;
     public static final int NotFetch = 1;
     private DefaultCategoryDataset dataset;
     private ChartPanel chartPanel;
 
-    public LatencyGraph(int profile_id, int fetch) {
-        LatencyFetch lf = LatencyFetch.getInstance();
+    public PortsGraph(int profile_id, int fetch) {
+        PortFetch lf = PortFetch.getInstance();
         if (fetch == 0) {lf.fetch(profile_id);}
         dataset = new DefaultCategoryDataset();
-        for (int i = 1; i < lf.getAvg().size();i++){
-            dataset.addValue(lf.getAvg().get(i),"Avg Latency",lf.getDateTimes().get(i).toString());
+        for (int i = 1; i < lf.getCount().size();i++){
+            dataset.addValue(lf.getCount().get(i),"Number of Ports",lf.getDateTime().get(i).toString());
         }
         JFreeChart chart = ChartFactory.createLineChart(
-                "Latency Monitor",
+                "Ports Monitor",
                 "",
-                "Average Latency",
+                "Number of Ports",
                 dataset
         );
 
@@ -43,7 +42,7 @@ public class LatencyGraph implements ChartMouseListener{
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
         chart.getCategoryPlot().setRenderer(renderer);
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        renderer.setSeriesPaint(0, new Color(54, 133, 223));
+        renderer.setSeriesPaint(0, new Color(243, 213, 61));
         renderer.setSeriesStroke(0, new BasicStroke(1.6f));
         renderer.setDefaultItemLabelsVisible(true);
 
@@ -59,7 +58,7 @@ public class LatencyGraph implements ChartMouseListener{
             if (entity.getClass().equals(CategoryItemEntity.class)) {
                 CategoryItemEntity categoryEntity = (CategoryItemEntity)entity;
                 Comparable datetimes = categoryEntity.getColumnKey();
-                String value = dataset.getValue(categoryEntity.getRowKey(), datetimes).toString();
+                String num = dataset.getValue(categoryEntity.getRowKey(), datetimes).toString();
 
                 ImageIcon image = new ImageIcon("resources/titleIcon.png");
                 ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
@@ -67,8 +66,8 @@ public class LatencyGraph implements ChartMouseListener{
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Date: " + times+ "\nLatency: " + value,
-                        "Latency Details",
+                        "Date: " + times+ "\nPort: " + num,
+                        "Number of Ports",
                         JOptionPane.PLAIN_MESSAGE,
                         icon
                 );
@@ -86,5 +85,4 @@ public class LatencyGraph implements ChartMouseListener{
     public ChartPanel getChartPanel() {
         return chartPanel;
     }
-
 }

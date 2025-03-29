@@ -60,16 +60,17 @@ public class DeviceGraph implements ChartMouseListener{
         try {
             if (entity.getClass().equals(CategoryItemEntity.class)) {
                 CategoryItemEntity categoryEntity = (CategoryItemEntity)entity;
-                Comparable times = categoryEntity.getColumnKey();
-                String devices = dataset.getValue(categoryEntity.getRowKey(), times).toString();
+                Comparable datetimes = categoryEntity.getColumnKey();
+                String devices = dataset.getValue(categoryEntity.getRowKey(), datetimes).toString();
 
                 ImageIcon image = new ImageIcon("resources/titleIcon.png");
                 ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                String times = datetimes.toString().replace("T","\nTimes: ").replace("-","/").strip();
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Time: " + times + "\nDeivces: " + devices,
-                        "Deivces Details",
+                        "Date: " + times+ "\nLatency: " + devices,
+                        "Number of Devices",
                         JOptionPane.PLAIN_MESSAGE,
                         icon
                 );
