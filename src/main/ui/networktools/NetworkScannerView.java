@@ -11,9 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NetworkScannerView extends JInternalFrame implements ActionListener , DeviceDisplay {
+public class NetworkScannerView extends JInternalFrame implements ActionListener, DeviceDisplay {
 
-    private JPanel top, bot, ip, scn, blank;
+    private JPanel top, bot, ip, scn;
     private JScrollPane scroll;
     private JTable table;
     private JLabel ipRange;
@@ -32,53 +32,41 @@ public class NetworkScannerView extends JInternalFrame implements ActionListener
         super("Network Scanner", false, true, false, false);
 
         ipCalculator = new IPCalculator(InternalNetwork.getIP(), "255.255.255.0");
-        blank = new JPanel();
 
-        top = new JPanel();
-        top.setLayout(new GridBagLayout());
+        top = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 15, 5, 15);
 
-        ip = new JPanel();
-        ip.setLayout(new FlowLayout(FlowLayout.LEFT));
+        ip = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ipRange = new JLabel("IP Range:");
         ipField = new JTextField(31);
-        ipField.setText(ipCalculator.getFirstIP()+"-"+ipCalculator.getLastIP());
+        ipField.setText(ipCalculator.getFirstIP() + "-" + ipCalculator.getLastIP());
         ip.add(ipRange);
         ip.add(ipField);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 1;
         top.add(ip, gbc);
 
-        scn = new JPanel();
-        scn.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        scn = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         scanButton = new JButton("Scan");
         scanButton.addActionListener(this);
         scn.add(scanButton);
 
-        gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 1;
         top.add(scn, gbc);
 
         progressBar = new JProgressBar();
         progressBar.setPreferredSize(new Dimension(200, 20));
         progressBar.setForeground(Color.GREEN);
-        progressBar.setValue(0);
-        progressBar.setMaximum(100);
 
-        gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
         top.add(progressBar, gbc);
         top.setBorder(new EmptyBorder(20, 15, 20, 15));
 
-        bot = new JPanel();
+        bot = new JPanel(new FlowLayout());
         bot.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 2, 4), BorderFactory.createTitledBorder("Results")));
-        bot.setLayout(new FlowLayout());
 
         String[] columnNames = {"", "IP", "MAC Address", "Hostname"};
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -127,9 +115,11 @@ public class NetworkScannerView extends JInternalFrame implements ActionListener
             }
 
             clearTable();
+            setCurrentCount();
 
             scanner = new DeviceScanner();
 
+            progressBar.setIndeterminate(true);
             ipField.setEditable(false);
             scanButton.setEnabled(false);
 
@@ -138,6 +128,7 @@ public class NetworkScannerView extends JInternalFrame implements ActionListener
                 SwingUtilities.invokeLater(() -> {
                     scanButton.setEnabled(true);
                     ipField.setEditable(true);
+                    progressBar.setIndeterminate(false);
                 });
             }).start();
         }
@@ -154,29 +145,21 @@ public class NetworkScannerView extends JInternalFrame implements ActionListener
             if (tableModel.getRowCount() == 1 && tableModel.getValueAt(0, 1).equals("")) {
                 tableModel.removeRow(0);
             }
-
-            Object[] row = {currentCount + 1, ip, mac, hostname};
+            Object[] row = {currentCount, ip, mac, hostname};
             tableModel.addRow(row);
             currentCount++;
         });
     }
 
-    public void updateProgress(int scanned) {
-        SwingUtilities.invokeLater(() -> progressBar.setValue(scanned));
-    }
-
     @Override
     public void dispose() {
-        if (scanner != null) {
-            scanner.stopScan();
-        }
-        progressBar.setValue(0);
+        progressBar.setIndeterminate(false);
         scanButton.setEnabled(true);
         ipField.setEditable(true);
         super.dispose();
     }
 
     public void setCurrentCount() {
-        this.currentCount = 0;
+        this.currentCount = 1;
     }
 }

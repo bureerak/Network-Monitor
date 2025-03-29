@@ -84,10 +84,4 @@ public class ScannerProcess extends Thread implements DeviceDisplay, PortDisplay
        //INSERT TO DATABASE WITH IP IS A KEY
 
     }
-
-    @Override
-    public void updateProgress(int scanned) {
-
-    }
-
 }

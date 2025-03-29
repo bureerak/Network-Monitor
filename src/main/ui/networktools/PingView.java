@@ -150,8 +150,4 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
     @Override
     public void addDevice(String ip, String mac, String hostname) {
     }
-
-    @Override
-    public void updateProgress(int scanned) {
-    }
 }
