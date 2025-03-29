@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import main.exception.InvalidIPException;
 
 public class DeviceScanner {
     private static final int IP_SCAN_TIMEOUT = 350;
@@ -25,7 +26,7 @@ public class DeviceScanner {
         if (IPValidator.isValidIPv4(startIP) && IPValidator.isValidIPv4(endIP)) {
             doScan(IPCalculator.toBinary(startIP), IPCalculator.toBinary(endIP), display);
         } else {
-            System.out.println("Invalid Input IP");
+            throw new InvalidIPException();
         }
     }
 

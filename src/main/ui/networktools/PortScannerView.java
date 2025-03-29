@@ -1,6 +1,8 @@
 package main.ui.networktools;
 
 import main.NetworkTools.*;
+import main.exception.InvalidPortException;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -80,6 +82,7 @@ public class PortScannerView extends JInternalFrame implements ActionListener, P
         add(bot, BorderLayout.CENTER);
         setSize(new Dimension(550, 500));
         addInternalFrameListener(this);
+
     }
 
     public void setProgressBar(){
@@ -95,13 +98,6 @@ public class PortScannerView extends JInternalFrame implements ActionListener, P
         if (e.getSource() == scanButton) {
             String ip = ipField.getText().trim();
             String port = portField.getText().trim();
-//            portList = PortScanner.getPorts(port);
-
-//            if (IPValidator.isValidIPv4(ip) && !portList.isEmpty()) {
-            if (IPValidator.isValidIPv4(ip)) {
-                JOptionPane.showMessageDialog(this, "Invalid IP Address", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
             scanner = new PortScanner();
             scanButton.setEnabled(false); // Disable the scan button to prevent multiple clicks
@@ -113,7 +109,12 @@ public class PortScannerView extends JInternalFrame implements ActionListener, P
             SwingWorker<Void, Integer> worker = new SwingWorker<>() {
                 @Override
                 protected Void doInBackground() {
-                    scanner.scan(ip, port, PortScannerView.this);
+                    try {
+                        scanner.scan(ip, port, PortScannerView.this);
+                    } catch (InvalidPortException e) {
+                        JOptionPane.showMessageDialog(null,e.getMessage(),"",JOptionPane.ERROR_MESSAGE);
+                        return null;
+                    }
                     currentCount++;
                     int progress = (int) ((currentCount / (double) scanCount) * 100);
                     progressBar.setValue(progress);
@@ -139,9 +140,6 @@ public class PortScannerView extends JInternalFrame implements ActionListener, P
         SwingUtilities.invokeLater(() -> {
             for (int port : ports) {
                 tableModel.addRow(new Object[]{port + " is open."});
-//                currentCount++;
-//                int progress = (int) ((currentCount*0.00000001 / (double) ports.size()*1000000000)*100);
-//                progressBar.setValue(progress);
             }
         });
     }

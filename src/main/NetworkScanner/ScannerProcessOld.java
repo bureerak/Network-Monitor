@@ -1,6 +1,6 @@
 package main.NetworkScanner;
 
-import main.NetworkTools.*;
+/*import main.NetworkTools.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -134,3 +134,4 @@ public class ScannerProcessOld extends Thread implements DeviceDisplay, PortDisp
 
     }
 }
+*/

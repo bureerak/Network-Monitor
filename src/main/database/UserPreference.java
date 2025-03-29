@@ -16,7 +16,7 @@ public class UserPreference {
 
     static {
         Profile = "None";
-        ProfileID = 0;
+        ProfileID = 1;
         Interval = 5;
         Status = 0;
         initializeScan = new InitializeScan();
