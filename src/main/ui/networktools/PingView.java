@@ -1,9 +1,6 @@
 package main.ui.networktools;
 
-import main.NetworkTools.DeviceDisplay;
-import main.NetworkTools.DeviceScanner;
-import main.NetworkTools.IPCalculator;
-import main.NetworkTools.InternalNetwork;
+import main.NetworkTools.*;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -13,8 +10,7 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-public class PingView extends JInternalFrame implements ActionListener , DeviceDisplay {
+public class PingView extends JInternalFrame implements ActionListener, DeviceDisplay {
 
     private JPanel top, bot, ip, scn, blank;
     private JScrollPane scroll;
@@ -27,17 +23,14 @@ public class PingView extends JInternalFrame implements ActionListener , DeviceD
     private DefaultTableModel tableModel;
     private TableColumn col0, col1, col2;
 
-    private int scanCount;
-    private int currentCount;
+    private int pingCount = 5; // Default ping count
+    private int timeout = 100; // Default timeout
     IPCalculator ipCalculator;
-    DeviceScanner scanner;
 
     public PingView() {
         super("Ping", false, true, false, false);
 
         ipCalculator = new IPCalculator(InternalNetwork.getIP(), "255.255.255.0");
-
-        blank = new JPanel();
 
         top = new JPanel();
         top.setLayout(new GridBagLayout());
@@ -49,7 +42,7 @@ public class PingView extends JInternalFrame implements ActionListener , DeviceD
         ip.setLayout(new FlowLayout(FlowLayout.LEFT));
         ipRange = new JLabel("IP Address:");
         ipField = new JTextField(31);
-        ipField.setText(ipCalculator.getFirstIP()+"-"+ipCalculator.getLastIP());
+        ipField.setText(ipCalculator.getFirstIP() + "-" + ipCalculator.getLastIP());
         ip.add(ipRange);
         ip.add(ipField);
 
@@ -60,12 +53,12 @@ public class PingView extends JInternalFrame implements ActionListener , DeviceD
 
         scn = new JPanel();
         scn.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        settingsButton = new JButton("Settings");
+        settingsButton.addActionListener(this);  // Open settings window
         runButton = new JButton("Run");
         runButton.addActionListener(this);
-        settingsButton = new JButton("Settings");
         scn.add(settingsButton);
         scn.add(runButton);
-
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -78,30 +71,12 @@ public class PingView extends JInternalFrame implements ActionListener , DeviceD
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         top.add(progressBar, gbc);
-        top.setBorder(new EmptyBorder(20, 15, 20, 15));
 
         bot = new JPanel();
-        bot.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 2, 4), BorderFactory.createTitledBorder("Results")));
         bot.setLayout(new FlowLayout());
-
-        String[] columnNames = {"", "Round", "Results"};
-        tableModel = new DefaultTableModel(columnNames, 0);
+        tableModel = new DefaultTableModel(new String[]{"", "Round", "Results"}, 0);
         table = new JTable(tableModel);
-        tableModel.addRow(new Object[]{"*", "", "", ""});
-
         scroll = new JScrollPane(table);
-        col0 = table.getColumnModel().getColumn(0);
-        col0.setPreferredWidth(51);
-        col1 = table.getColumnModel().getColumn(1);
-        col1.setPreferredWidth(133);
-        col2 = table.getColumnModel().getColumn(2);
-        col2.setPreferredWidth(133);
-
-        table.setShowGrid(true);
-        table.setGridColor(Color.LIGHT_GRAY);
-        scroll.setPreferredSize(new Dimension(450, 240)); // ป้องกันตารางล้น
-        table.setPreferredScrollableViewportSize(scroll.getPreferredSize());
-
         bot.add(scroll);
 
         setLayout(new BorderLayout());
@@ -109,12 +84,32 @@ public class PingView extends JInternalFrame implements ActionListener , DeviceD
         add(bot, BorderLayout.CENTER);
         setSize(new Dimension(520, 480));
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == settingsButton) {
+            PingSettingsView settingsView = new PingSettingsView(getDesktopPane(), this);
+            getDesktopPane().add(settingsView);
+            settingsView.setVisible(true);
+        } else if (e.getSource() == runButton) {
+            startPinging();
+        }
     }
 
+    public void startPinging() {
+        String ipAddress = ipField.getText().split("-")[0];
+        for (int i = 0; i < pingCount; i++) {
+            int result = Ping.runOnce(ipAddress, timeout);
+            tableModel.addRow(new Object[]{"*", "Round " + (i + 1), result});
+            progressBar.setValue((i + 1) * 100 / pingCount);
+        }
+    }
+    public void setPingCount(int count) {
+        this.pingCount = count;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
     @Override
     public void addDevice(String ip, String mac, String hostname) {
 

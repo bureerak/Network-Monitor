@@ -13,9 +13,15 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
     private JButton apply, cancel;
     private GroupLayout topL;
     private SpinnerNumberModel pcnum, tonum;
+    private PingView pingView;  // Declare a PingView instance
+    private JDesktopPane desktopPane;  // Declare JDesktopPane instance
 
-    public PingSettingsView() {
-        super("Ping Settings",false,true,false,false);
+    // Constructor: Accept JDesktopPane and PingView as parameters
+    public PingSettingsView(JDesktopPane desktopPane, PingView pingView) {
+        super("Ping Settings", false, true, false, false);
+        this.desktopPane = desktopPane;  // Assign the passed JDesktopPane
+        this.pingView = pingView;  // Assign the passed PingView
+
         fr = new JPanel();
         pc = new JLabel("    Ping Count:");
         to = new JLabel("    Timeout:");
@@ -30,7 +36,7 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
         cancel = new JButton("Cancel");
         cancel.addActionListener(this);
 
-        fr.setBorder(new CompoundBorder(new EmptyBorder(4,4,2,4),BorderFactory.createTitledBorder("Ping Settings")));
+        fr.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 2, 4), BorderFactory.createTitledBorder("Ping Settings")));
         fr.setLayout(new BorderLayout());
         top = new JPanel();
         topL = new GroupLayout(top);
@@ -73,16 +79,25 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(cancel)) {
-            dispose();
+            dispose(); // Close the settings window without applying
+        } else if (e.getSource().equals(apply)) {
+            // Retrieve the values from the spinners and cast them to int
+            int pingCount = ((Integer) pcSpn.getValue()).intValue(); // Cast to Integer and then to int
+            int timeout = ((Integer) toSpn.getValue()).intValue(); // Same for timeout
+
+            // Pass these values to PingView
+            pingView.setPingCount(pingCount);
+            pingView.setTimeout(timeout);
+
+            dispose(); // Close settings window
         }
     }
 
     public int getPingCount() {
-        return (int) pcSpn.getValue();
+        return ((Integer) pcSpn.getValue()).intValue();  // Cast to Integer and return int
     }
 
     public int getTimeout() {
-        return (int) toSpn.getValue();
+        return ((Integer) toSpn.getValue()).intValue();  // Cast to Integer and return int
     }
-
 }
