@@ -10,9 +10,10 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 public class PingView extends JInternalFrame implements ActionListener, DeviceDisplay {
 
-    private JPanel top, bot, ip, scn, blank;
+    private JPanel top, bot, ip, scn;
     private JScrollPane scroll;
     private JTable table;
     private JLabel ipRange;
@@ -31,27 +32,23 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
 
         ipCalculator = new IPCalculator(InternalNetwork.getIP(), "255.255.255.0");
 
-        top = new JPanel();
-        top.setLayout(new GridBagLayout());
+        top = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 15, 5, 15);
 
-        ip = new JPanel();
-        ip.setLayout(new FlowLayout(FlowLayout.LEFT));
+        ip = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ipRange = new JLabel("IP Address:");
         ipField = new JTextField(31);
-        ipField.setText(ipCalculator.getFirstIP() + "-" + ipCalculator.getLastIP());
+        ipField.setText(InternalNetwork.getIP());
         ip.add(ipRange);
         ip.add(ipField);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 1;
         top.add(ip, gbc);
 
-        scn = new JPanel();
-        scn.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        scn = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         settingsButton = new JButton("Settings");
         settingsButton.addActionListener(this);
         runButton = new JButton("Run");
@@ -59,25 +56,25 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         scn.add(settingsButton);
         scn.add(runButton);
 
-        gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 1;
         top.add(scn, gbc);
 
         progressBar = new JProgressBar();
         progressBar.setPreferredSize(new Dimension(200, 20));
         progressBar.setForeground(Color.GREEN);
-        gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
         top.add(progressBar, gbc);
 
-        bot = new JPanel();
-        bot.setLayout(new FlowLayout());
-        tableModel = new DefaultTableModel(new String[]{"", "Round", "Results"}, 0);
+        bot = new JPanel(new BorderLayout());
+        tableModel = new DefaultTableModel(new String[]{"", "Round", "Results"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         table = new JTable(tableModel);
         scroll = new JScrollPane(table);
-        bot.add(scroll);
+        bot.add(scroll, BorderLayout.CENTER);
 
         setLayout(new BorderLayout());
         add(top, BorderLayout.NORTH);
@@ -86,20 +83,32 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
     }
 
     @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        if (visible) {
+            progressBar.setValue(0);
+            tableModel.setRowCount(0);
+        }
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == settingsButton) {
+        if (e.getSource().equals(settingsButton)) {
             PingSettingsView settingsView = new PingSettingsView(getDesktopPane(), this);
             getDesktopPane().add(settingsView);
             settingsView.setVisible(true);
-        } else if (e.getSource() == runButton) {
+        } else if (e.getSource().equals(runButton)) {
             startPinging();
         }
     }
 
     public void startPinging() {
-        String ipAddress = ipField.getText().split("-")[0];
+        String ipAddress = ipField.getText();
 
-        SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+        tableModel.setRowCount(0);
+        progressBar.setValue(0);
+
+        SwingWorker<Void, Integer> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
                 for (int i = 0; i < pingCount; i++) {
@@ -113,11 +122,20 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
 
             @Override
             protected void process(java.util.List<Integer> chunks) {
-                int progress = chunks.get(chunks.size() - 1);
-                progressBar.setValue(progress);
+                progressBar.setValue(chunks.get(chunks.size() - 1));
+            }
+
+            @Override
+            protected void done() {
+                table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                for (int i = 0; i < table.getColumnCount(); i++) {
+                    TableColumn column = table.getColumnModel().getColumn(i);
+                    column.setPreferredWidth(100);
+                }
+                scroll.revalidate();
+                scroll.repaint();
             }
         };
-
         worker.execute();
     }
 
