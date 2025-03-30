@@ -9,6 +9,7 @@ import main.exporter.ExportJSON;
 import main.exporter.Print_info;
 import main.ui.visualization.DeviceGraph;
 import main.ui.visualization.LatencyGraph;
+import main.ui.visualization.PortsGraph;
 
 import javax.swing.*;
 import java.awt.*;
@@ -97,7 +98,7 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         } else if (bg.getSelection().getActionCommand().equals("Device/Time")) {
             sub.add(new DeviceGraph( id, DeviceGraph.NotFetch).getChartPanel());
         } else if (bg.getSelection().getActionCommand().equals("Ports/Time")) {
-            /// Graph add
+            sub.add(new PortsGraph(id, PortsGraph.NotFetch).getChartPanel());
         }
         sub.validate();
         sub.repaint();
