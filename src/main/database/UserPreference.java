@@ -54,7 +54,7 @@ public class UserPreference {
         } else if (status == 1) {
             HomeViews.setStatus("Status: Ready");
         } else {
-            HomeViews.setStatus("Status: Saving");
+            HomeViews.setStatus("Status: Monitoring");
         }
     }
 
