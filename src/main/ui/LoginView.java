@@ -24,7 +24,7 @@ public class LoginView implements ActionListener, KeyListener {
         btnCancel = new JButton("Cancel"); btnCancel.addActionListener(this);
         btnLogin = new JButton("Login"); btnLogin.addActionListener(this);
 
-        JLabel welcomeText = new JLabel(" Taravichet at your service ");
+        JLabel welcomeText = new JLabel(" Stay in Control of Your Network ");
         welcomeText.setFont(new Font( "Arial",Font.BOLD,22));
         welcomeText.setBorder(new EmptyBorder(8,0,0,0));
 

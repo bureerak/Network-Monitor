@@ -122,7 +122,7 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         tPane.add(downHalfPane);
 
         bPane = new JPanel(new BorderLayout());
-        bPane.add(new LatencyGraph(1, LatencyGraph.Fetch).getChartPanel());
+        bPane.add(new LatencyGraph(0, LatencyGraph.Fetch).getChartPanel());
         split = new JSplitPane(JSplitPane.VERTICAL_SPLIT,tPane,bPane);
         split.setDividerSize(0); split.setDividerLocation(270); split.setEnabled(false);
         add(split);
