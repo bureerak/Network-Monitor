@@ -69,7 +69,7 @@ public class DeviceGraph implements ChartMouseListener{
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Date: " + times+ "\nLatency: " + devices,
+                        "Date: " + times+ "\nDevices: " + devices,
                         "Number of Devices",
                         JOptionPane.PLAIN_MESSAGE,
                         icon
