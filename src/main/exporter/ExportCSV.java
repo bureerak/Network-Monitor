@@ -35,17 +35,17 @@ public class ExportCSV {
 
         if ("Latency/Time".equals(type)) {
             LatencyFetch latencyFetch = LatencyFetch.getInstance();
-            latencyFetch.fetch(profile_id);
+//            latencyFetch.fetch(profile_id);
             labels = latencyFetch.getDateTimes();
             values = latencyFetch.getAvg();
         } else if ("Device/Time".equals(type)) {
             DeviceFetch deviceFetch = DeviceFetch.getInstance();
-            deviceFetch.fetch(profile_id);
+//            deviceFetch.fetch(profile_id);
             labels = deviceFetch.getDateTime();
             values = deviceFetch.getDevices();
         } else if ("Ports/Time".equals(type)) {
             PortFetch portFetch = PortFetch.getInstance();
-            portFetch.fetch(profile_id);
+//            portFetch.fetch(profile_id);
             labels = portFetch.getDateTime();
             values = portFetch.getCount();
         } else {
