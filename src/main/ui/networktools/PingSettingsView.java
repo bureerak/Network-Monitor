@@ -20,6 +20,7 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
         super("Ping Settings", false, true, false, false);
         this.desktopPane = desktopPane;
         this.pingView = pingView;
+        setLocation(pingView.getLocation());
 
         fr = new JPanel();
         pc = new JLabel("    Ping Count:");
