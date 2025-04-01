@@ -34,7 +34,11 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         item3 = new JMenuItem("Range & Profile");
         item3.addActionListener(this);
         subitem1 = new JMenuItem("CSV");
+        ImageIcon iconCsv = new ImageIcon("resources/csv.png");
+        subitem1.setIcon(iconCsv);
         subitem2 = new JMenuItem("JSON");
+        ImageIcon iconJson = new ImageIcon("resources/json.png");
+        subitem2.setIcon(iconJson);
         ImageIcon icon = new ImageIcon("resources/Icon.jpg");
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
