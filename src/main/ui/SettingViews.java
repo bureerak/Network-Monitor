@@ -111,7 +111,7 @@ public class SettingViews extends JInternalFrame implements ActionListener {
                     password.setText("");
                 }
             } else {
-                JOptionPane.showMessageDialog(this,"Both field should be matched or not to be blanked.","",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,"Both fields should be matched or not blanked.","",JOptionPane.ERROR_MESSAGE);
             }
         } else if (e.getSource().equals(apply2Btn)) {
             HomeViews.setIntervalNumber(Interval.getSelectedItem().toString());
