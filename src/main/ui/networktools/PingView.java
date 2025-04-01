@@ -40,7 +40,7 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
         gbc.insets = new Insets(5, 15, 5, 15);
 
         ip = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ipRange = new JLabel("IP Address:");
+        ipRange = new JLabel("Hostname:");
         ipField = new JTextField(31);
         ipField.setText(InternalNetwork.getIP());
         ip.add(ipRange);
