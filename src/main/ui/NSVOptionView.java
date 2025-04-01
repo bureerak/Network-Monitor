@@ -5,6 +5,7 @@ import main.database.graph.DataFetcher;
 import raven.datetime.DatePicker;
 
 import javax.swing.*;
+import java.sql.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,13 +39,16 @@ public class NSVOptionView {
         int choice = JOptionPane.showConfirmDialog(Owner,frame,"Range & Profile",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         if (choice == 0) {
             LocalDate[] dates = datePicker.getSelectedDateRange();
+            String[] name = cb.getSelectedItem().toString().split("\\s");
+            int id = JDBCProfileEdit.getID(name[0]);
+            LocalDateTime[] dt;
             if (dates != null) {
-                String[] name = cb.getSelectedItem().toString().split("\\s");
-                int id = JDBCProfileEdit.getID(name[0]);
-                LocalDateTime[] dt = {dates[0].atTime(0, 0, 0),dates[1].atTime(23, 59, 59)};
-                fetcher.fetchRange(id,dt[0],dt[1]);
-                Owner.updateGraph(id);
+                dt = new LocalDateTime[]{dates[0].atTime(0, 0, 0), dates[1].atTime(23, 59, 59)};
+            } else {
+                dt = new LocalDateTime[]{LocalDateTime.now().minusDays(3), LocalDateTime.now()};
             }
+            fetcher.fetchRange(id,dt[0],dt[1]);
+            Owner.updateGraph(id);
         }
     }
 }
