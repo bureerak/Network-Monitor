@@ -17,7 +17,7 @@ public class SettingViews extends JInternalFrame implements ActionListener {
     private JComboBox<String> Interval;
     private JButton apply1Btn, apply2Btn;
     public SettingViews(){
-        super("Setting | Network Monitor",false,true,false,false);
+        super("Settings | Network Monitor",false,true,false,false);
 
         dbP = new JPanel();
         dbP.setBorder(new CompoundBorder(new EmptyBorder(4,4,2,4),BorderFactory.createTitledBorder("Database Settings")));
@@ -71,6 +71,7 @@ public class SettingViews extends JInternalFrame implements ActionListener {
 
         miLabel = new JLabel("Monitor Interval:");
         Interval = new JComboBox<>(new String[]{"3 minutes","5 minutes", "10 minutes", "15 minutes"});
+        Interval.setSelectedIndex(1);
         apply2Btn = new JButton("Apply");
         apply2Btn.addActionListener(this);
 

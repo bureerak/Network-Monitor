@@ -28,7 +28,7 @@ public class LatencyGraph implements ChartMouseListener{
         JFreeChart chart = ChartFactory.createLineChart(
                 "Latency Monitor",
                 "",
-                "Average Latency",
+                "Average Latency (ms)",
                 dataset
         );
 
@@ -67,7 +67,7 @@ public class LatencyGraph implements ChartMouseListener{
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Date: " + times+ "\nLatency: " + value,
+                        "Date: " + times+ "\nLatency: " + value + " ms",
                         "Latency Details",
                         JOptionPane.PLAIN_MESSAGE,
                         icon

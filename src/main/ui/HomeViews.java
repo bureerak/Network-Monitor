@@ -98,8 +98,8 @@ public class HomeViews extends JInternalFrame implements ActionListener {
         myInfo.add(new JPanel(), BorderLayout.SOUTH);
         myInfo.add(InfoPane,BorderLayout.CENTER);
 
-        select = new JLabel("Selected Profile: ~");
-        status = new JLabel("Status: IDLE");
+        select = new JLabel("Selected Profile: None");
+        status = new JLabel("Status: Idle");
         interval = new JLabel("Monitor Interval: 5 minutes");
 
         JPanel helperPane = new JPanel();

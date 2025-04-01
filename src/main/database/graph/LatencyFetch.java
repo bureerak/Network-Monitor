@@ -31,7 +31,7 @@ public class LatencyFetch implements DataFetcher {
     public void fetch(int profile_id) {
         avg = new ArrayList<>();
         dateTimes = new ArrayList<>();
-        String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE profile_id = ? GROUP BY datetime ORDER BY datetime ASC;";
+        String sql = "SELECT ROUND(AVG(latency), 2) as Latency,datetime FROM `latency_info` WHERE profile_id = ? GROUP BY datetime ORDER BY datetime ASC;";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql)) {
             stm.setInt(1, profile_id);
@@ -50,7 +50,7 @@ public class LatencyFetch implements DataFetcher {
     public void fetchRange(int profile_id, LocalDateTime start, LocalDateTime stop) {
         avg = new ArrayList<>();
         dateTimes = new ArrayList<>();
-        String sql = "SELECT AVG(latency) as Latency,datetime FROM `latency_info` WHERE datetime BETWEEN ? AND ? AND profile_id = ? GROUP BY datetime ORDER BY datetime ASC";
+        String sql = "SELECT ROUND(AVG(latency), 2) as Latency,datetime FROM `latency_info` WHERE datetime BETWEEN ? AND ? AND profile_id = ? GROUP BY datetime ORDER BY datetime ASC";
         try (Connection conn = DBCP.getConnection();
              PreparedStatement stm = conn.prepareStatement(sql)) {
             stm.setTimestamp(1,Timestamp.valueOf(start));

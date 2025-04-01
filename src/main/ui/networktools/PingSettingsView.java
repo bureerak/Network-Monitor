@@ -26,8 +26,8 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
         to = new JLabel("    Timeout:");
         times = new JLabel("      times.");
         ms = new JLabel("      ms.");
-        pcnum = new SpinnerNumberModel(5, 0, 1000000, 1);
-        tonum = new SpinnerNumberModel(100, 0, 1000000, 1);
+        pcnum = new SpinnerNumberModel(5, 1, 100, 1);
+        tonum = new SpinnerNumberModel(100, 10, 60000, 1);
         pcSpn = new JSpinner(pcnum);
         toSpn = new JSpinner(tonum);
         apply = new JButton("Apply");

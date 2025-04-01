@@ -116,7 +116,7 @@ public class PingView extends JInternalFrame implements ActionListener, DeviceDi
             protected Void doInBackground() throws Exception {
                 for (int i = 0; i < pingCount; i++) {
                     int result = Ping.runOnce(ipAddress, timeout);
-                    tableModel.addRow(new Object[]{"*", "Round " + (i + 1), result});
+                    tableModel.addRow(new Object[]{"*", "Round " + (i + 1), (result + " ms")});
                     publish((i + 1) * 100 / pingCount);
                 }
                 return null;

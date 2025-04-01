@@ -102,7 +102,7 @@ public class LoginView implements ActionListener, KeyListener {
                     frame.dispose();
                 });
             } else {
-                JOptionPane.showMessageDialog(frame,"login failed", "Alert",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame,"Login credentials are incorrect!", "Alert",JOptionPane.ERROR_MESSAGE);
             }
         } else if ( src.equals(btnCancel) ){
             System.exit(0);
@@ -124,7 +124,7 @@ public class LoginView implements ActionListener, KeyListener {
                     frame.dispose();
                 });
             } else {
-                JOptionPane.showMessageDialog(frame,"login failed", "Alert",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame,"Login credentials are incorrect!", "Alert",JOptionPane.ERROR_MESSAGE);
             }
         }
     }
