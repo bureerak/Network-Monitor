@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PortScannerView extends JInternalFrame implements ActionListener, PortDisplay, InternalFrameListener {
     private JPanel top, bot, ipports, scan;
@@ -30,7 +31,7 @@ public class PortScannerView extends JInternalFrame implements ActionListener, P
     public PortScannerView() {
         super("Port Scanner", false, true, false, false);
         setLayout(new BorderLayout());
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         top = new JPanel(new BorderLayout());

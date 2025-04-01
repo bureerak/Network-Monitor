@@ -12,7 +12,10 @@ public class DBCP {
     private static final Dotenv dotenv;
     static {
         HikariConfig config = new HikariConfig();
-        dotenv = Dotenv.load();
+        dotenv = Dotenv.configure()
+                .directory("./")  // หรือระบุ path ที่ชัดเจน
+                .filename(".env") // ชื่อไฟล์
+                .load();
         config.setJdbcUrl(dotenv.get("DB_URL"));
         config.setUsername(dotenv.get("DB_USER"));
         config.setPassword(dotenv.get("DB_PASS"));

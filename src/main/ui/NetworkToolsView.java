@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.Objects;
 
 public class NetworkToolsView extends JInternalFrame implements ActionListener {
     private JPanel top, bot;
@@ -30,7 +31,7 @@ public class NetworkToolsView extends JInternalFrame implements ActionListener {
         pScanner = new PortScannerView();
         pPing = new PingView();
         ipAddress = new IpAddress();
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
 

@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Objects;
 
 public class DesktopPane implements WindowListener {
     JFrame MFrame;
@@ -16,7 +17,7 @@ public class DesktopPane implements WindowListener {
         desktop = new JDesktopPane();
         HView = new HomeViews();
         MFrame = new JFrame("Network Monitor");
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         MFrame.setIconImage(icon.getImage());
         desktop.add(HView);
         MFrame.add(desktop);

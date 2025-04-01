@@ -10,6 +10,7 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class NetworkScannerView extends JInternalFrame implements ActionListener, DeviceDisplay {
 
@@ -30,7 +31,7 @@ public class NetworkScannerView extends JInternalFrame implements ActionListener
 
     public NetworkScannerView() {
         super("Network Scanner", false, true, false, false);
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         ipCalculator = new IPCalculator(InternalNetwork.getIP(), "255.255.255.0");

@@ -80,7 +80,7 @@ public class LoginView implements ActionListener, KeyListener {
         jsp.setDividerSize(0);
         jsp.setResizeWeight(0.5);
         jsp.setEnabled(false);
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         frame.setIconImage(icon.getImage());
 
         frame.add(jsp);

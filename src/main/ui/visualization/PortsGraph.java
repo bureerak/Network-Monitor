@@ -10,6 +10,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class PortsGraph implements ChartMouseListener {
     public static final int Fetch = 0;
@@ -60,7 +61,7 @@ public class PortsGraph implements ChartMouseListener {
                 Comparable datetimes = categoryEntity.getColumnKey();
                 String num = dataset.getValue(categoryEntity.getRowKey(), datetimes).toString();
 
-                ImageIcon image = new ImageIcon("resources/titleIcon.png");
+                ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/titleIcon.png")));
                 ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
                 String times = datetimes.toString().replace("T","\nTimes: ").replace("-","/").strip();
 

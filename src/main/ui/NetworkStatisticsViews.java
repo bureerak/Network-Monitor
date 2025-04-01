@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class NetworkStatisticsViews extends JInternalFrame implements ActionListener {
     private JMenuBar menuBar;
@@ -34,12 +35,12 @@ public class NetworkStatisticsViews extends JInternalFrame implements ActionList
         item3 = new JMenuItem("Range & Profile");
         item3.addActionListener(this);
         subitem1 = new JMenuItem("CSV");
-        ImageIcon iconCsv = new ImageIcon("resources/csv.png");
+        ImageIcon iconCsv = new ImageIcon(getClass().getClassLoader().getResource("csv.png"));
         subitem1.setIcon(iconCsv);
         subitem2 = new JMenuItem("JSON");
-        ImageIcon iconJson = new ImageIcon("resources/json.png");
+        ImageIcon iconJson = new ImageIcon(getClass().getClassLoader().getResource("json.png"));
         subitem2.setIcon(iconJson);
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         sub = new JPanel(new BorderLayout());

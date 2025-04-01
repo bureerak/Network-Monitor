@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Objects;
 
 public class NetworkInformation extends JInternalFrame {
     private JPanel frame, i, h, m;
@@ -40,7 +41,7 @@ public class NetworkInformation extends JInternalFrame {
         frame.add(i, BorderLayout.NORTH);
         frame.add(h, BorderLayout.CENTER);
         frame.add(m, BorderLayout.SOUTH);
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         setLayout(new BorderLayout());

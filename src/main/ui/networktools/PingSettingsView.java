@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class PingSettingsView extends JInternalFrame implements ActionListener {
 
@@ -35,7 +36,7 @@ public class PingSettingsView extends JInternalFrame implements ActionListener {
         apply.addActionListener(this);
         cancel = new JButton("Cancel");
         cancel.addActionListener(this);
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         fr.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 2, 4), BorderFactory.createTitledBorder("Ping Settings")));

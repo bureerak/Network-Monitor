@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class ProfileEditorView extends JInternalFrame implements ActionListener {
     JPanel topPanel, lowPanel;
@@ -27,7 +28,7 @@ public class ProfileEditorView extends JInternalFrame implements ActionListener 
         comboBox = new JComboBox<>();
         refresh = new JButton("Refresh");
         comboBox.setMaximumRowCount(4);
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         comboBox.setPreferredSize(new Dimension(300,30));

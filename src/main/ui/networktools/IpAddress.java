@@ -2,6 +2,7 @@ package main.ui.networktools;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -32,7 +33,7 @@ public class IpAddress extends JInternalFrame implements ActionListener {
         panel2 = new JPanel(new BorderLayout());
         panel3 = new JPanel(new BorderLayout());
         panel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        ImageIcon icon = new ImageIcon("resources/Icon.jpg");
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Icon.jpg")));;
         Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         setFrameIcon(new ImageIcon(scaledImage));
         calculate = new JButton("Calculate");
