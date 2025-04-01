@@ -26,7 +26,7 @@ public class DeviceGraph implements ChartMouseListener{
         }
         dataset = new DefaultCategoryDataset();
         for (int i = 1; i < lf.getDevices().size();i++){
-            dataset.addValue(lf.getDevices().get(i),"Number of Devices",lf.getDateTime().get(i).toString());
+            dataset.addValue(lf.getDevices().get(i),"Number of Devices",lf.getDateTime().get(i));
         }
         JFreeChart chart = ChartFactory.createLineChart(
                 "Devices Monitor",
@@ -37,7 +37,7 @@ public class DeviceGraph implements ChartMouseListener{
 
         chart.getCategoryPlot().getDomainAxis().setVisible(false);
         chart.getTitle().setFont(new Font("Segoe UI", Font.BOLD, 20));
-        chart.getCategoryPlot().getRangeAxis().setLabelFont(new Font("Segoe UI", Font.PLAIN, 14));
+        chart.getCategoryPlot().getRangeAxis().setLabelFont(new Font("Segoe UI", Font.BOLD, 14));
         chart.getPlot().setBackgroundPaint(new Color(255, 255, 255));
         chart.setBackgroundPaint(new Color(246,246,246));
         chart.getCategoryPlot().setRangeGridlinePaint(Color.BLACK);
@@ -66,7 +66,7 @@ public class DeviceGraph implements ChartMouseListener{
 
                 ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/titleIcon.png")));
                 ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-                String times = datetimes.toString().replace("T","\nTimes: ").replace("-","/").strip();
+                String times = datetimes.toString().replace("T","\nTimes: ").replace("-","/");
 
                 JOptionPane.showMessageDialog(
                         null,

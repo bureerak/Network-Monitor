@@ -21,10 +21,12 @@ public class LatencyGraph implements ChartMouseListener{
 
     public LatencyGraph(int profile_id, int fetch) {
         LatencyFetch lf = LatencyFetch.getInstance();
-        if (fetch == 0) {lf.fetch(profile_id);}
+        if (fetch == 0) {
+            lf.fetch(profile_id);
+        }
         dataset = new DefaultCategoryDataset();
         for (int i = 1; i < lf.getAvg().size();i++){
-            dataset.addValue(lf.getAvg().get(i),"Avg Latency",lf.getDateTimes().get(i).toString());
+            dataset.addValue(lf.getAvg().get(i),"Avg Latency",lf.getDateTimes().get(i));
         }
         JFreeChart chart = ChartFactory.createLineChart(
                 "Latency Monitor",
@@ -35,7 +37,7 @@ public class LatencyGraph implements ChartMouseListener{
 
         chart.getCategoryPlot().getDomainAxis().setVisible(false);
         chart.getTitle().setFont(new Font("Segoe UI", Font.BOLD, 20));
-        chart.getCategoryPlot().getRangeAxis().setLabelFont(new Font("Segoe UI", Font.PLAIN, 14));
+        chart.getCategoryPlot().getRangeAxis().setLabelFont(new Font("Segoe UI", Font.BOLD, 14));
         chart.getPlot().setBackgroundPaint(new Color(255, 255, 255));
         chart.setBackgroundPaint(new Color(246,246,246));
         chart.getCategoryPlot().setRangeGridlinePaint(Color.BLACK);
@@ -64,7 +66,7 @@ public class LatencyGraph implements ChartMouseListener{
 
                 ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/titleIcon.png")));
                 ImageIcon icon = new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-                String times = datetimes.toString().replace("T","\nTimes: ").replace("-","/").strip();
+                String times = datetimes.toString().replace("T","\nTimes: ").replace("-","/");
 
                 JOptionPane.showMessageDialog(
                         null,
