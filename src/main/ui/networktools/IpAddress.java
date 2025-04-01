@@ -10,6 +10,7 @@ import javax.swing.border.LineBorder;
 
 import main.NetworkTools.InternalNetwork;
 import main.NetworkTools.IPCalculator;
+import main.exception.InvalidIPException;
 
 public class IpAddress extends JInternalFrame implements ActionListener {
     private JPanel main , panel1,panel2,panel3,panel4, results ,re_ipaddress,re_subnet,re_network,re_broadcast,re_wildcard,re2_ipaddress,re2_subnet,re2_network,re2_broadcast,re2_wildcard ,re2_iprange,resultLabelContainer,iprangeLabelContainer,resultTextFieldContainer,ipLabelContainer,subLabelContainer;
@@ -173,7 +174,14 @@ public class IpAddress extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == calculate) {
-            IPCalculator calc = new IPCalculator(tf_ip.getText(), tf_subnet.getText());
+            IPCalculator calc;
+            try {
+                calc = new IPCalculator(tf_ip.getText(), tf_subnet.getText());
+
+            } catch (InvalidIPException ex) {
+                JOptionPane.showMessageDialog(this,ex.getMessage(),"",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             ipAddressField1.setText(calc.getIP());
             ipAddressField2.setText(calc.getBinaryIP());
             subnetMaskField1.setText(calc.getSubnetMask());
